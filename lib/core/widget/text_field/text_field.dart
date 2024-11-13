@@ -8,7 +8,7 @@ import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:sizer/sizer.dart';
 
 class AppTextField extends StatelessWidget {
-  const AppTextField({super.key, required this.fieldName, this.isPhoneNumber = false, this.hintText = "", this.labelText = "", required this.controller, this.keyboardType = TextInputType.text, this.inputFormatters = const [], this.textInputAction = TextInputAction.next});
+  const AppTextField({super.key, required this.fieldName, this.isPhoneNumber = false, this.hintText = "", this.labelText = "", required this.controller, this.keyboardType = TextInputType.text, this.inputFormatters = const [], this.textInputAction = TextInputAction.next, this.obscureText = false});
   final String fieldName;
   final bool isPhoneNumber;
   final String hintText;
@@ -17,6 +17,7 @@ class AppTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final List<TextInputFormatter> inputFormatters;
   final TextInputAction textInputAction;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,18 @@ class AppTextField extends StatelessWidget {
       keyboardType: isPhoneNumber ? TextInputType.phone : keyboardType,
       style: context.general.textTheme.titleMedium,
       textInputAction: textInputAction,
+      obscureText: obscureText,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Bu alan boş bırakılamaz";
+        }
+        if (isPhoneNumber) {
+          if (value.length < 14) {
+            return "Geçerli bir telefon numarası giriniz";
+          }
+        }
+        return null;
+      },
       decoration: InputDecoration(
         prefix: isPhoneNumber
             ? Row(
