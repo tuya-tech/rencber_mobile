@@ -8,6 +8,7 @@ mixin SplashMixin on State<SplashView> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 5), () {
+      // ignore: use_build_context_synchronously
       context.go(RouterManager.login);
     });
   }
