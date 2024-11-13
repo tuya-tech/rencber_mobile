@@ -9,6 +9,9 @@ class ColorManager {
   static const RED = Color(0xFFFF5352);
   static const BLACK = Color(0xFF000000);
   static const TOASTRCOLOR = Color(0xFF11B95C);
+  static const GREYCOLOR = Color(0xFF616063);
+  static const TEXTGREYCOLOR = Color(0xFF9EA6B7);
+
 
 
 }
