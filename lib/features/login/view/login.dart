@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
@@ -36,7 +38,7 @@ class _LoginViewState extends State<LoginView> with LoginMixin {
             Row(
               children: [
                 Text("Bir üyeliğiniz yok mu?", style: context.general.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
-                InkWell(onTap: () => debugPrint("Kayıt ol"), child: Text(" Kayıt Olun", style: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.GREEN, fontWeight: FontWeight.w600))),
+                InkWell(onTap: () => context.push(RouterManager.register), child: Text(" Kayıt Olun", style: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.GREEN, fontWeight: FontWeight.w600))),
               ],
             ),
           ],

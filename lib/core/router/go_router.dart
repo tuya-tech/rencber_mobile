@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:rencber_mobile/features/error.dart';
 import 'package:rencber_mobile/features/home/view/home.dart';
 import 'package:rencber_mobile/features/login/view/login.dart';
+import 'package:rencber_mobile/features/register/view/phone_code.dart';
+import 'package:rencber_mobile/features/register/view/register.dart';
 import 'package:rencber_mobile/features/splash/view/splash.dart';
 
 class RouterManager {
@@ -10,10 +12,14 @@ class RouterManager {
   static const root = '/';
   static const home = '/home';
   static const login = '/login';
+  static const register = '/register';
+  static const phoneCode = '/phoneCode';
 
   static Widget _splashRoute(BuildContext context, GoRouterState state) => const SplashView();
   static Widget _homeRoute(BuildContext context, GoRouterState state) => const HomeView();
   static Widget _loginRoute(BuildContext context, GoRouterState state) => const LoginView();
+  static Widget _registerRoute(BuildContext context, GoRouterState state) => const RegisterView();
+  static Widget _phoneCodeRoute(BuildContext context, GoRouterState state) => const PhoneCodeView();
   static Widget _errorRoute(BuildContext context, GoRouterState state) => const ErrorView();
 
   final GoRouter _router = GoRouter(
@@ -22,6 +28,8 @@ class RouterManager {
       GoRoute(path: root, builder: _splashRoute),
       GoRoute(path: home, builder: _homeRoute),
       GoRoute(path: login, builder: _loginRoute),
+      GoRoute(path: register, builder: _registerRoute),
+      GoRoute(path: phoneCode, builder: _phoneCodeRoute),
     ],
   );
 
