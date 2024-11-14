@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rencber_mobile/core/widget/navbar/navbar.dart';
 import 'package:rencber_mobile/features/error.dart';
-import 'package:rencber_mobile/features/home/view/home.dart';
 import 'package:rencber_mobile/features/login/view/login.dart';
 import 'package:rencber_mobile/features/register/view/phone_code.dart';
 import 'package:rencber_mobile/features/register/view/register.dart';
@@ -16,7 +16,7 @@ class RouterManager {
   static const phoneCode = '/phoneCode';
 
   static Widget _splashRoute(BuildContext context, GoRouterState state) => const SplashView();
-  static Widget _homeRoute(BuildContext context, GoRouterState state) => const HomeView();
+  static Widget _homeRoute(BuildContext context, GoRouterState state) => const Navbar();
   static Widget _loginRoute(BuildContext context, GoRouterState state) => const LoginView();
   static Widget _registerRoute(BuildContext context, GoRouterState state) => const RegisterView();
   static Widget _phoneCodeRoute(BuildContext context, GoRouterState state) => const PhoneCodeView();
