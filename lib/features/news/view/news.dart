@@ -44,28 +44,30 @@ class _NewsViewState extends State<NewsView> with NewsMixin {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            context.sized.emptySizedHeightBoxLow3x,
-            Padding(padding: context.padding.onlyLeftNormal, child: Text("Gündem", style: context.general.textTheme.titleSmall)),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: context.padding.onlyLeftNormal + context.padding.onlyBottomNormal + context.padding.onlyRightNormal,
-              itemCount: newsList2.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  color: ColorManager.WHITE,
-                  child: ListTile(
-                    title: Text(newsList2[index]["title"]),
-                    subtitle: Text(newsList2[index]["content"]),
-                    //leading: Image.network(newsList[index]["image"]),
-                  ),
-                );
-              },
-            ),
-          ],
+        child: Padding(
+          padding: context.padding.low,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Gündem", style: context.general.textTheme.titleSmall),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: context.padding.onlyBottomNormal,
+                itemCount: newsList2.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: ColorManager.WHITE,
+                    child: ListTile(
+                      title: Text(newsList2[index]["title"]),
+                      subtitle: Text(newsList2[index]["content"]),
+                      //leading: Image.network(newsList[index]["image"]),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
