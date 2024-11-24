@@ -12,6 +12,8 @@ class ColorManager {
   static const GREYCOLOR = Color(0xFF616063);
   static const TEXTGREYCOLOR = Color(0xFF9EA6B7);
   static const APPBARCOLOR = Color(0xFF52725E);
+  static const BLUE = Color(0xFF49A5E6);
+
 
 
 

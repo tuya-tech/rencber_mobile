@@ -33,9 +33,7 @@ class _SliverAppBarCustomState extends State<SliverAppBarCustom> {
           actions: widget.actions ?? [Transform.translate(offset: const Offset(-10, 0), child: SizedBox(width: 10.w, height: 10.w, child: ImageManager.instance.appbarRightLogo))],
           leading: widget.leading,
           title: widget.title,
-          flexibleSpace: FlexibleSpaceBar(
-            background: ImageManager.instance.splashBg,
-          ),
+          flexibleSpace: FlexibleSpaceBar(background: ImageManager.instance.splashBg),
           bottom: PreferredSize(preferredSize: widget.preferredSize, child: widget.appbarChild ?? const SizedBox.shrink()),
         ),
         SliverList(

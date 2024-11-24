@@ -16,8 +16,8 @@ ThemeData appTheme(BuildContext context) {
         titleMedium: GoogleFonts.poppins(fontSize: 15.5.sp, fontWeight: FontWeight.normal), //fontSize 16
         titleSmall: GoogleFonts.poppins(fontSize: 15.5.sp, fontWeight: FontWeight.w600), //fontSize 16
         labelLarge: GoogleFonts.poppins(fontSize: 14.5.sp, fontWeight: FontWeight.w500), //fontSize 14
-        labelMedium: GoogleFonts.poppins(),
-        labelSmall: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+        labelMedium: GoogleFonts.poppins(fontSize: 16.5.sp, fontWeight: FontWeight.bold), //fontSize 20
+        labelSmall: GoogleFonts.poppins(fontSize: 16.5.sp, fontWeight: FontWeight.normal), //fontSize 20
         bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.w500),
         bodyMedium: GoogleFonts.poppins(),
         bodySmall: GoogleFonts.poppins(fontWeight: FontWeight.w600),
