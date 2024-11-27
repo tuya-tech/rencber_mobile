@@ -1,0 +1,36 @@
+import 'package:dio/dio.dart';
+import 'package:rencber_mobile/product/models/base_response.dart';
+import 'package:rencber_mobile/product/models/login/login_response.dart';
+import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
+import 'package:rencber_mobile/product/services/_dio_manager/services_path.dart';
+
+class LoginApiService {
+  LoginApiService._();
+  static final instance = LoginApiService._();
+
+  Future<BaseResponseModel<LoginResponseModel>> post(String phoneNumber) async {
+    try {
+      final response = await DioManager.dio.post(
+        ServicesPath.instance.login,
+        data: {"phone": phoneNumber},
+        options: await DioManager.getOptions(),
+      );
+
+      if (response.statusCode != 200) {
+        return BaseResponseModel<LoginResponseModel>(
+          data: null,
+          message: response.statusMessage,
+          statusCode: response.statusCode,
+        );
+      }
+
+      return BaseResponseModel<LoginResponseModel>(
+        data: LoginResponseModel.fromJson(response.data),
+        message: response.statusMessage,
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      return DioManager.dioError<LoginResponseModel>(e);
+    }
+  }
+}
