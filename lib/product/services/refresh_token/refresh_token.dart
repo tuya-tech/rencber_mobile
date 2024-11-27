@@ -1,35 +1,38 @@
 import 'package:dio/dio.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
+import 'package:rencber_mobile/product/models/login/login_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/services_path.dart';
 
-class ValideCodeApiService {
-  ValideCodeApiService._();
-  static final instance = ValideCodeApiService._();
+class RefreshTokenApiService {
+  RefreshTokenApiService._();
+  static final instance = RefreshTokenApiService._();
 
-  Future<BaseResponseModel<bool>> post(String code, int userId) async {
+  Future<BaseResponseModel<LoginResponseModel>> post(String refreshToken) async {
     try {
       final response = await DioManager.dio.post(
-        ServicesPath.instance.valideCode,
-        data: {"code": code, "userId": userId},
+        ServicesPath.instance.refreshToken,
+        data: {
+          "refreshToken": refreshToken,
+        },
         options: await DioManager.getOptions(),
       );
 
       if (response.statusCode == 200) {
-        return BaseResponseModel<bool>(
-          data: response.data,
+        return BaseResponseModel<LoginResponseModel>(
+          data: LoginResponseModel.fromJson(response.data),
           message: response.statusMessage,
           statusCode: response.statusCode,
         );
       } else {
-        return BaseResponseModel<bool>(
+        return BaseResponseModel<LoginResponseModel>(
           data: null,
           message: response.statusMessage,
           statusCode: response.statusCode,
         );
       }
     } on DioException catch (e) {
-      return DioManager.dioError<bool>(e);
+      return DioManager.dioError<LoginResponseModel>(e);
     }
   }
 }

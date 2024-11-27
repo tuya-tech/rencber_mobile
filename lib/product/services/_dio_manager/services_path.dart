@@ -6,5 +6,7 @@ class ServicesPath {
   final String login = 'auth/login';
   final String register = 'auth/register';
   final String valideCode = 'auth/valide-code';
+  final String refreshToken = 'auth/refresh-token';
+
 
 }

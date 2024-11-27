@@ -147,12 +147,11 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
       appLoading(context, true);
       RegisterRequestModel userData = RegisterRequestModel(phone: phoneController.text, name: nameSurnameController.text, surname: nameSurnameController.text, cityId: 1, districtId: 1, sendAd: checkBoxValue[0], kvkk: checkBoxValue[1], roles: [0]);
       RegisterApiService.instance.post(userData).then((value) {
-        if (value.statusCode == 200) {
+        if (value.statusCode! >= 200 && value.statusCode! < 300) {
           appLoading(context, false);
           context.push(RouterManager.phoneCode);
         } else {
           appLoading(context, false);
-          context.push(RouterManager.phoneCode);
           Toastr.showError("Kayıt Başarısız", context);
         }
       });
