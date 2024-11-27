@@ -13,6 +13,8 @@ import 'package:rencber_mobile/core/widget/dropdown/main_dropdown.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
 import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/features/register/mixin/register_mixin.dart';
+import 'package:rencber_mobile/product/models/register/register_request.dart';
+import 'package:rencber_mobile/product/services/register/register.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -71,12 +73,7 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
               buttonText: "Kayıt Ol",
               rightIconData: Icons.north_east,
               onPressed: () {
-                if (formKey.currentState!.validate() && gender.ext.isNotNullOrNoEmpty && checkBoxValue[1]) {
-                  context.push(RouterManager.phoneCode);
-                } else {
-                  gender.ext.isNullOrEmpty ? Toastr.showError("Lütfen Cinsiyet Seçiniz", context) : null;
-                  checkBoxValue[1] == false ? Toastr.showError("Lütfen Onay Kutucuklarını Işaretleyiniz", context) : null;
-                }
+                onRegister();
               },
             ),
           ],
@@ -103,7 +100,7 @@ class _SelectCityState extends State<SelectCity> with RegisterMixin {
         return null;
       },
       controller: cityController,
-      items: const ["Ankara", "İstanbul", "İzmir", "Antalya"],
+      items: city,
       itemBuilder: (context, item) => Padding(padding: context.padding.low, child: Text(item, style: context.general.textTheme.titleMedium)),
       menuDecoration: BoxDecoration(
         color: ColorManager.WHITE,
@@ -137,11 +134,15 @@ class _SelectCityState extends State<SelectCity> with RegisterMixin {
           borderSide: const BorderSide(color: ColorManager.RED),
         ),
       ),
-      onChanged: (value) {
-        cityController.text = value.toString();
-      },
+      // onChanged: (value) {
+      //   setState(() {
+      //     setCityId(value.toString());
+      //   });
+      // },
       onSelected: (value) {
-        cityController.text = value.toString();
+        setState(() {
+          setCityId(value.toString());
+        });
       },
     );
   }
@@ -164,7 +165,7 @@ class _SelectDistrictState extends State<SelectDistrict> with RegisterMixin {
         return null;
       },
       controller: districtController,
-      items: const ["Ankara", "İstanbul", "İzmir", "Antalya"],
+      items: district,
       itemBuilder: (context, item) => Padding(padding: context.padding.low, child: Text(item, style: context.general.textTheme.titleMedium)),
       menuDecoration: BoxDecoration(
         color: ColorManager.WHITE,
@@ -175,6 +176,7 @@ class _SelectDistrictState extends State<SelectDistrict> with RegisterMixin {
       ),
       textFormFieldstyle: context.general.textTheme.titleMedium,
       textFormFieldDecoration: InputDecoration(
+        //enabled: cityController.text.ext.isNotNullOrNoEmpty,
         hintText: "İlçe Seçiniz",
         suffixIcon: IconManager.instance.customIcon(Icons.keyboard_arrow_down),
         border: OutlineInputBorder(
@@ -198,11 +200,13 @@ class _SelectDistrictState extends State<SelectDistrict> with RegisterMixin {
           borderSide: const BorderSide(color: ColorManager.RED),
         ),
       ),
-      onChanged: (value) {
-        districtController.text = value.toString();
-      },
+      // onChanged: (value) {
+      //   districtController.text = value.toString();
+      // },
       onSelected: (value) {
-        districtController.text = value.toString();
+        setState(() {
+          setDistrictId(value.toString());
+        });
       },
     );
   }
