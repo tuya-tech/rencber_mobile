@@ -7,16 +7,16 @@ import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
-import 'package:rencber_mobile/features/register/mixin/phone_code_mixin.dart';
+import 'package:rencber_mobile/features/valide/mixin/valide_code_mixin.dart';
 
-class PhoneCodeView extends StatefulWidget {
-  const PhoneCodeView({super.key});
+class ValideCodeView extends StatefulWidget {
+  const ValideCodeView({super.key});
 
   @override
-  State<PhoneCodeView> createState() => _PhoneCodeViewState();
+  State<ValideCodeView> createState() => _ValideCodeViewState();
 }
 
-class _PhoneCodeViewState extends State<PhoneCodeView> with PhoneCodeMixin {
+class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +36,7 @@ class _PhoneCodeViewState extends State<PhoneCodeView> with PhoneCodeMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppTextField(fieldName: "phoneCodeNumber", controller: phoneCodeController, labelText: "Sms Kodu", obscureText: true),
+                  AppTextField(fieldName: "valideCodeNumber", controller: valideCodeController, labelText: "Sms Kodu", obscureText: true, maxLength: 6),
                 ],
               ),
             ),
@@ -45,9 +45,7 @@ class _PhoneCodeViewState extends State<PhoneCodeView> with PhoneCodeMixin {
               buttonText: "Giriş Yap",
               rightIconData: Icons.north_east,
               onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  context.go(RouterManager.login);
-                }
+                onValide();
               },
             ),
           ],

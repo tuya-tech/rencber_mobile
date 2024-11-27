@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:rencber_mobile/core/widget/navbar/navbar.dart';
 import 'package:rencber_mobile/features/error.dart';
 import 'package:rencber_mobile/features/login/view/login.dart';
-import 'package:rencber_mobile/features/register/view/phone_code.dart';
 import 'package:rencber_mobile/features/register/view/register.dart';
 import 'package:rencber_mobile/features/splash/view/splash.dart';
+import 'package:rencber_mobile/features/valide/view/valide_code.dart';
 
 class RouterManager {
   RouterManager._();
@@ -19,7 +19,7 @@ class RouterManager {
   static Widget _homeRoute(BuildContext context, GoRouterState state) => const Navbar();
   static Widget _loginRoute(BuildContext context, GoRouterState state) => const LoginView();
   static Widget _registerRoute(BuildContext context, GoRouterState state) => const RegisterView();
-  static Widget _phoneCodeRoute(BuildContext context, GoRouterState state) => const PhoneCodeView();
+  static Widget _phoneCodeRoute(BuildContext context, GoRouterState state) => const ValideCodeView();
   static Widget _errorRoute(BuildContext context, GoRouterState state) => const ErrorView();
 
   final GoRouter _router = GoRouter(

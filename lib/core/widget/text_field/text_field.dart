@@ -8,7 +8,7 @@ import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:sizer/sizer.dart';
 
 class AppTextField extends StatelessWidget {
-  const AppTextField({super.key, required this.fieldName, this.isPhoneNumber = false, this.hintText = "", this.labelText = "", required this.controller, this.keyboardType = TextInputType.text, this.inputFormatters = const [], this.textInputAction = TextInputAction.next, this.obscureText = false});
+  const AppTextField({super.key, required this.fieldName, this.isPhoneNumber = false, this.hintText = "", this.labelText = "", required this.controller, this.keyboardType = TextInputType.text, this.inputFormatters = const [], this.textInputAction = TextInputAction.next, this.obscureText = false, this.maxLength});
   final String fieldName;
   final bool isPhoneNumber;
   final String hintText;
@@ -18,6 +18,7 @@ class AppTextField extends StatelessWidget {
   final List<TextInputFormatter> inputFormatters;
   final TextInputAction textInputAction;
   final bool obscureText;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class AppTextField extends StatelessWidget {
       style: context.general.textTheme.titleMedium,
       textInputAction: textInputAction,
       obscureText: obscureText,
+      maxLength: maxLength,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Bu alan boş bırakılamaz";
