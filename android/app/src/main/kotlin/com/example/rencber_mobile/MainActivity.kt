@@ -1,4 +1,4 @@
-package com.example.rencber_mobile
+package info.rencber
 
 import io.flutter.embedding.android.FlutterActivity
 

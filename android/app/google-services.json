@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "203385799199",
+    "project_id": "rencber-e0029",
+    "storage_bucket": "rencber-e0029.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203385799199:android:2b7e0c06059506b898cb2a",
+        "android_client_info": {
+          "package_name": "info.rencber"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz8VieewDeBe7auAkCK7gANeEZPxv-GnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
