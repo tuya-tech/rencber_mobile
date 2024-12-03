@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/login/login_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -9,13 +10,14 @@ class RefreshTokenApiService {
   static final instance = RefreshTokenApiService._();
 
   Future<BaseResponseModel<LoginResponseModel>> post(String refreshToken) async {
+    debugPrint("refreshToken: $refreshToken");
     try {
       final response = await DioManager.dio.post(
         ServicesPath.instance.refreshToken,
         data: {
           "refreshToken": refreshToken,
         },
-        options: await DioManager.getOptions(),
+        //options: await DioManager.getOptions(),
       );
 
       if (response.statusCode == 200) {

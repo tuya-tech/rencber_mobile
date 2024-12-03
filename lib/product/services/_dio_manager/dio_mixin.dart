@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/services_path.dart';
+import 'package:kartal/kartal.dart';
 
 class DioManager {
   static Dio dio = Dio(
@@ -33,19 +36,18 @@ class DioManager {
   }
 
   static Future<Options> getOptions() async {
-    // var userToken = await SecureStorage.instance.readSecureData("accessToken");
-    // if (userToken.ext.isNotNullOrNoEmpty) {
-    //   return Options(
-    //     headers: {
-    //       "authorization": "Bearer $userToken",
-    //       "crncy": currency,
-    //       "apptype": "mobile",
-    //       "Accept-Language": language,
-    //     },
-    //   );
-    // }
-    return Options(
-      headers: {},
-    );
+    var userToken = await SecureStorage.instance.readSecureData("accessToken");
+    debugPrint('userToken: $userToken');
+    if (userToken.ext.isNotNullOrNoEmpty) {
+      return Options(
+        headers: {
+          "authorization": "Bearer $userToken",
+        },
+      );
+    } else {
+      return Options(
+        headers: {},
+      );
+    }
   }
 }

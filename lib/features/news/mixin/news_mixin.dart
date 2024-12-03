@@ -1,28 +1,19 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: unused_result
+
+import 'dart:core';
+
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rencber_mobile/features/news/view/news.dart';
+import 'package:rencber_mobile/product/models/news/news_response.dart';
 
-mixin NewsMixin on State<NewsView> {
-  List newsList = [
-    {"title": "Haber 1", "content": "Haber 1 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 2", "content": "Haber 2 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 3", "content": "Haber 3 içerik", "image": "https://via.placeholder.com/150"},
-  ];
+import 'package:rencber_mobile/product/provider/news/news_provider.dart';
 
-  List newsList2 = [
-    {"title": "Haber 4", "content": "Haber 4 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 5", "content": "Haber 5 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 6", "content": "Haber 6 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 4", "content": "Haber 4 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 5", "content": "Haber 5 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 6", "content": "Haber 6 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 4", "content": "Haber 4 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 5", "content": "Haber 5 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 6", "content": "Haber 6 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 4", "content": "Haber 4 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 5", "content": "Haber 5 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 6", "content": "Haber 6 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 4", "content": "Haber 4 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 5", "content": "Haber 5 içerik", "image": "https://via.placeholder.com/150"},
-    {"title": "Haber 6", "content": "Haber 6 içerik", "image": "https://via.placeholder.com/150"},
-  ];
+mixin NewsMixin on ConsumerState<NewsView> {
+  (List<NewsResponseModel>, List<NewsResponseModel>) outLineAndNormalData(List<NewsResponseModel> data) {
+    return (data.where((element) => element.outline == true).toList(), data.where((element) => element.outline == false).toList());
+  }
+
+  void refreshProvider() {
+    ref.refresh(newsFutureProvider);
+  }
 }

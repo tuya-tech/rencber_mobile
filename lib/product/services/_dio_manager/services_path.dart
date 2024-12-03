@@ -8,5 +8,10 @@ class ServicesPath {
   final String valideCode = 'auth/valide-code';
   final String refreshToken = 'auth/refresh-token';
 
+  final String news = 'api/news';
+
+  final String weather = 'api/weather';
+
+
 
 }

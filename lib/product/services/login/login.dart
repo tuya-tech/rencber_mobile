@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/login/login_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -13,7 +14,7 @@ class LoginApiService {
       final response = await DioManager.dio.post(
         ServicesPath.instance.login,
         data: {"phone": phoneNumber},
-        options: await DioManager.getOptions(),
+        //options: await DioManager.getOptions(),
       );
 
       if (response.statusCode != 200) {
@@ -30,6 +31,7 @@ class LoginApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
+      debugPrint('LoginApiService post: ${e.message}');
       return DioManager.dioError<LoginResponseModel>(e);
     }
   }
