@@ -6,6 +6,7 @@ import 'package:rencber_mobile/features/advice/view/advice.dart';
 import 'package:rencber_mobile/features/home/view/home.dart';
 import 'package:rencber_mobile/features/menu/view/menu.dart';
 import 'package:rencber_mobile/features/news/view/news.dart';
+import 'package:rencber_mobile/features/profile/view/profile.dart';
 import 'package:sizer/sizer.dart';
 
 class Navbar extends StatefulWidget {
@@ -44,8 +45,7 @@ class NavbarModel {
   NavbarModel._();
   static final instance = NavbarModel._();
 
-  final List<Widget> _usersItems = [MenuView(), const AdviceView(), const HomeView(), const NewsView(), const HomeView()];
-  final List<Widget> _guestItems = [MenuView(), const AdviceView(), const HomeView(), const NewsView(), const HomeView()];
+  final List<Widget> _usersItems = [MenuView(), const AdviceView(), const HomeView(), const NewsView(), const ProfileView()];
 
   List<PersistentBottomNavBarItem> navBarsItems() {
     return [
