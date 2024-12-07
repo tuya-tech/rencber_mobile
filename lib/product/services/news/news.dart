@@ -34,4 +34,30 @@ class NewsApiService {
       return DioManager.dioError<List<NewsResponseModel>>(e);
     }
   }
+
+  Future<BaseResponseModel<NewsResponseModel>> getById(int id) async {
+    try {
+      final response = await DioManager.dio.get(
+        "${ServicesPath.instance.news}/$id",
+        options: await DioManager.getOptions(),
+      );
+
+      if (response.statusCode != 200) {
+        return BaseResponseModel<NewsResponseModel>(
+          data: null,
+          message: response.statusMessage,
+          statusCode: response.statusCode,
+        );
+      }
+
+      return BaseResponseModel<NewsResponseModel>(
+        data: NewsResponseModel.fromJson(response.data),
+        message: response.statusMessage,
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      debugPrint('NewsApiService get: ${e.message}');
+      return DioManager.dioError<NewsResponseModel>(e);
+    }
+  }
 }

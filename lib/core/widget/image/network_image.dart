@@ -28,11 +28,14 @@ class AppNetworkImage {
   }
 
   static Widget appBase64Image({required String? base64Image, required double height, required double width, BoxFit fit = BoxFit.cover}) {
+    if (base64Image == null) {
+      return SizedBox(height: height.w, width: width.w, child: ImageManager.instance.logo);
+    }
     try {
       return ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Image.memory(
-          base64.decode(base64Image ?? ""),
+          base64.decode(base64Image),
           height: height.w,
           width: width.w,
           fit: fit,

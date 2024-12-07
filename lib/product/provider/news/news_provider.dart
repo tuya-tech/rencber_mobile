@@ -8,3 +8,9 @@ final newsFutureProvider = FutureProvider.autoDispose<BaseResponseModel<List<New
     return NewsApiService.instance.get();
   },
 );
+
+final newsIdFutureProvider = FutureProvider.autoDispose.family<BaseResponseModel<NewsResponseModel>, int>(
+  (ref, id) async {
+    return NewsApiService.instance.getById(id);
+  },
+);

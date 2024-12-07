@@ -41,20 +41,20 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                 height: 40.w,
                 width: 100.w,
                 child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+                  //physics: const NeverScrollableScrollPhysics(),
                   padding: context.padding.onlyLeftNormal + context.padding.onlyBottomLow,
                   scrollDirection: Axis.horizontal,
                   itemCount: outLineData.length,
                   itemBuilder: (context, index) {
                     return BlurCard(
-                      onTap: () => context.push(RouterManager.newsDetails, extra: outLineData[index]),
+                      onTap: () => context.push(RouterManager.newsDetails, extra: outLineData[index].id),
                       height: 40,
-                      width: 70,
+                      width: 80,
                       child: Padding(
-                        padding: context.padding.low,
+                        padding: EdgeInsets.only(left: 2.w, right: 1.w, top: 1.w),
                         child: Row(
                           children: [
-                            AppNetworkImage.appBase64Image(base64Image: outLineData[index].image, height: 25, width: 25),
+                            AppNetworkImage.appBase64Image(base64Image: outLineData[index].image, height: 30, width: 30),
                             context.sized.emptySizedWidthBoxLow3x,
                             Expanded(
                               child: Padding(
@@ -98,7 +98,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: modIndex == index ? ColorManager.WHITE : ColorManager.GREYCOLOR),
-                          color: modIndex == index ? ColorManager.WHITE : ColorManager.GREEN,
+                          color: modIndex == index ? ColorManager.WHITE : ColorManager.WHITE,
                         ),
                       );
                     },
@@ -120,36 +120,39 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                   padding: context.padding.onlyBottomNormal,
                   itemCount: normalData.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      color: ColorManager.WHITE,
-                      child: Padding(
-                        padding: context.padding.low,
-                        child: Row(
-                          children: [
-                            AppNetworkImage.appBase64Image(base64Image: normalData[index].image, height: 25, width: 25),
-                            context.sized.emptySizedWidthBoxLow3x,
-                            Expanded(
-                              child: Padding(
-                                padding: context.padding.verticalLow,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(normalData[index].title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleSmall),
-                                    Text(normalData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.BLACK.withOpacity(0.7))),
-                                    context.sized.emptySizedHeightBoxLow,
-                                    Row(
-                                      children: [
-                                        IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.BUTTONBGGREEN),
-                                        context.sized.emptySizedWidthBoxLow,
-                                        Text(AppConstant.dateFormat(context, normalData[index].date), style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
-                                      ],
-                                    ),
-                                  ],
+                    return InkWell(
+                      onTap: () => context.push(RouterManager.newsDetails, extra: normalData[index].id),
+                      child: Card(
+                        color: ColorManager.WHITE,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 2.w, right: 1.w, top: 2.w, bottom: 2.w),
+                          child: Row(
+                            children: [
+                              AppNetworkImage.appBase64Image(base64Image: normalData[index].image, height: 30, width: 30),
+                              context.sized.emptySizedWidthBoxLow3x,
+                              Expanded(
+                                child: Padding(
+                                  padding: context.padding.verticalLow,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(normalData[index].title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleSmall),
+                                      Text(normalData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.BLACK.withOpacity(0.7))),
+                                      context.sized.emptySizedHeightBoxLow,
+                                      Row(
+                                        children: [
+                                          IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.BUTTONBGGREEN),
+                                          context.sized.emptySizedWidthBoxLow,
+                                          Text(AppConstant.dateFormat(context, normalData[index].date), style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
