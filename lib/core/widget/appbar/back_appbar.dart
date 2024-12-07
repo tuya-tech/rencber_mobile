@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rencber_mobile/core/constants/color/color.dart';
 
 class AppBarBackButton extends StatefulWidget implements PreferredSizeWidget {
   const AppBarBackButton({super.key});
@@ -15,7 +14,7 @@ class _AppBarBackButtonState extends State<AppBarBackButton> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: Colors.transparent,
     );
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/constant/constant.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
+import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/card/blur_card.dart';
+import 'package:rencber_mobile/core/widget/image/network_image.dart';
 import 'package:rencber_mobile/features/news/mixin/news_mixin.dart';
 import 'package:rencber_mobile/product/provider/news/news_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
@@ -39,25 +42,19 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                 width: 100.w,
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
-                  padding: context.padding.onlyLeftNormal + context.padding.onlyBottomNormal,
+                  padding: context.padding.onlyLeftNormal + context.padding.onlyBottomLow,
                   scrollDirection: Axis.horizontal,
                   itemCount: outLineData.length,
                   itemBuilder: (context, index) {
                     return BlurCard(
+                      onTap: () => context.push(RouterManager.newsDetails, extra: outLineData[index]),
                       height: 40,
                       width: 70,
                       child: Padding(
                         padding: context.padding.low,
                         child: Row(
                           children: [
-                            Container(
-                              height: 25.w,
-                              width: 25.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: ColorManager.WHITE, width: 1),
-                              ),
-                            ),
+                            AppNetworkImage.appBase64Image(base64Image: outLineData[index].image, height: 25, width: 25),
                             context.sized.emptySizedWidthBoxLow3x,
                             Expanded(
                               child: Padding(
@@ -86,7 +83,28 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                   },
                 ),
               ),
-              SizedBox(height: 10.w),
+              Padding(
+                padding: context.padding.onlyBottomLow,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    outLineData.length > 4 ? 4 : outLineData.length,
+                    (index) {
+                      int modIndex = currentIndex % (outLineData.length > 4 ? 4 : outLineData.length);
+                      return Container(
+                        width: modIndex == index ? 2.w : 1.5.w,
+                        height: 2.3.w,
+                        margin: EdgeInsets.symmetric(vertical: 1.w, horizontal: 1.w),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: modIndex == index ? ColorManager.WHITE : ColorManager.GREYCOLOR),
+                          color: modIndex == index ? ColorManager.WHITE : ColorManager.GREEN,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
           child: Padding(
@@ -108,14 +126,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                         padding: context.padding.low,
                         child: Row(
                           children: [
-                            Container(
-                              height: 25.w,
-                              width: 25.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: ColorManager.BLACK, width: 1),
-                              ),
-                            ),
+                            AppNetworkImage.appBase64Image(base64Image: normalData[index].image, height: 25, width: 25),
                             context.sized.emptySizedWidthBoxLow3x,
                             Expanded(
                               child: Padding(
