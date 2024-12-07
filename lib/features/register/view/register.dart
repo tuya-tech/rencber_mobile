@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
-import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/checkbox/checkbox.dart';
 import 'package:rencber_mobile/core/widget/dropdown/main_dropdown.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
-import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/features/register/mixin/register_mixin.dart';
-import 'package:rencber_mobile/product/models/register/register_request.dart';
-import 'package:rencber_mobile/product/services/register/register.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});

@@ -9,7 +9,7 @@ ThemeData appTheme(BuildContext context) {
         displayLarge: GoogleFonts.poppins(fontWeight: FontWeight.w500),
         displayMedium: GoogleFonts.poppins(),
         displaySmall: GoogleFonts.poppins(fontSize: 23.sp, fontWeight: FontWeight.w600), //fontSize 36
-        headlineLarge: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+        headlineLarge: GoogleFonts.poppins(fontSize: 22.sp, fontWeight: FontWeight.w600), //fontSize 32
         headlineMedium: GoogleFonts.poppins(fontSize: 19.sp, fontWeight: FontWeight.w600), //fontSize 24
         headlineSmall: GoogleFonts.poppins(fontSize: 21.5.sp, fontWeight: FontWeight.w600), //fontSize 32
         titleLarge: GoogleFonts.poppins(fontSize: 17.5.sp, fontWeight: FontWeight.w500), //fontSize 20
@@ -18,8 +18,8 @@ ThemeData appTheme(BuildContext context) {
         labelLarge: GoogleFonts.poppins(fontSize: 14.5.sp, fontWeight: FontWeight.w500), //fontSize 14
         labelMedium: GoogleFonts.poppins(fontSize: 16.5.sp, fontWeight: FontWeight.bold), //fontSize 20
         labelSmall: GoogleFonts.poppins(fontSize: 16.5.sp, fontWeight: FontWeight.normal), //fontSize 20
-        bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-        bodyMedium: GoogleFonts.poppins(),
-        bodySmall: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+        bodyLarge: GoogleFonts.poppins(fontSize: 11.5.sp, fontWeight: FontWeight.w500),
+        bodyMedium: GoogleFonts.poppins(fontSize: 14.5.sp, fontWeight: FontWeight.w600), //fontSize 14
+        bodySmall: GoogleFonts.poppins(fontSize: 14.5.sp, fontWeight: FontWeight.w400),
       ));
 }

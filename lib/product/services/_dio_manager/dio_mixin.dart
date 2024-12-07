@@ -31,7 +31,13 @@ class DioManager {
         errorCode: (e.response?.data as Map<String, dynamic>)['errorCode'],
       );
     } else {
-      throw Exception('Invalid data format');
+      return BaseResponseModel<T>(
+        data: null,
+        message: "",
+        statusCode: 404,
+        errorCode: "",
+      );
+      //throw Exception('Invalid data format');
     }
   }
 
