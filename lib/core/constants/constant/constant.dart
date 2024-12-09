@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 
 class AppConstant {
   static String dateFormat(BuildContext context, String? dateTime) {
-    debugPrint("dateTime: $dateTime");
     dateTime ??= DateTime.now().toString();
     var date = DateTime.parse(dateTime).toLocal();
     return DateFormat("dd MMMM yyyy", context.locale.languageCode).format(date);
+  }
+
+  static String setDateFormat(BuildContext context, String? dateTime) {
+    dateTime ??= DateTime.now().toString();
+    var date = DateTime.parse(dateTime).toLocal();
+    return DateFormat("yyyy-MM-dd", context.locale.languageCode).format(date);
   }
 }

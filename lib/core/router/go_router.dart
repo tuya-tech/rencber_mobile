@@ -4,9 +4,11 @@ import 'package:rencber_mobile/core/widget/navbar/navbar.dart';
 import 'package:rencber_mobile/features/error.dart';
 import 'package:rencber_mobile/features/login/view/login.dart';
 import 'package:rencber_mobile/features/news/view/news_details.dart';
+import 'package:rencber_mobile/features/profile/view/profile_edit.dart';
 import 'package:rencber_mobile/features/register/view/register.dart';
 import 'package:rencber_mobile/features/splash/view/splash.dart';
 import 'package:rencber_mobile/features/valide/view/valide_code.dart';
+import 'package:rencber_mobile/product/models/user/user_response.dart';
 
 class RouterManager {
   RouterManager._();
@@ -16,6 +18,7 @@ class RouterManager {
   static const register = '/register';
   static const phoneCode = '/phoneCode';
   static const newsDetails = '/newsDetails';
+  static const profileEdit = '/profileEdit';
 
   static Widget _splashRoute(BuildContext context, GoRouterState state) => const SplashView();
   static Widget _homeRoute(BuildContext context, GoRouterState state) => const Navbar();
@@ -23,6 +26,8 @@ class RouterManager {
   static Widget _registerRoute(BuildContext context, GoRouterState state) => const RegisterView();
   static Widget _phoneCodeRoute(BuildContext context, GoRouterState state) => const ValideCodeView();
   static Widget _newsDetailsRoute(BuildContext context, GoRouterState state) => NewsDetailsView(id: state.extra as int);
+  static Widget _profileEditRoute(BuildContext context, GoRouterState state) => ProfileEditView(userResponse: state.extra as UserResponseModel);
+
   static Widget _errorRoute(BuildContext context, GoRouterState state) => const ErrorView();
 
   final GoRouter _router = GoRouter(
@@ -34,6 +39,7 @@ class RouterManager {
       GoRoute(path: register, builder: _registerRoute),
       GoRoute(path: phoneCode, builder: _phoneCodeRoute),
       GoRoute(path: newsDetails, builder: _newsDetailsRoute),
+      GoRoute(path: profileEdit, builder: _profileEditRoute),
     ],
   );
 

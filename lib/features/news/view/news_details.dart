@@ -34,7 +34,7 @@ class NewsDetailsView extends ConsumerWidget {
                 width: double.infinity,
                 child: Stack(
                   children: [
-                    AppNetworkImage.appBase64Image(base64Image: newsResponseModel.image, height: 80, width: 100),
+                    AppNetworkImage.appNetworkImage(imageUrl: newsResponseModel.image, height: 80, width: 100),
                     Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(

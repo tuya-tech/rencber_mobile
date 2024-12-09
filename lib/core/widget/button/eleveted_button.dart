@@ -5,17 +5,19 @@ import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:sizer/sizer.dart';
 
 class AppElevetedButton extends StatelessWidget {
-  const AppElevetedButton({super.key, required this.buttonText, required this.onPressed, this.rightIconData, this.leftIconData});
+  const AppElevetedButton({super.key, required this.buttonText, required this.onPressed, this.rightIconData, this.leftIconData, this.buttonwidth = 100, this.buttonHeight = 12});
   final String buttonText;
   final IconData? rightIconData;
   final IconData? leftIconData;
   final void Function()? onPressed;
+  final double buttonwidth;
+  final double buttonHeight;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 12.w,
+      width: buttonwidth.w,
+      height: buttonHeight.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorManager.GREEN,

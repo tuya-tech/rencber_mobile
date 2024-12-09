@@ -12,6 +12,8 @@ class ServicesPath {
 
   final String weather = 'api/weather';
 
+  final String user = 'api/user';
 
-
+  final String city = 'api/city';
+  final String district = 'api/district/city/';
 }

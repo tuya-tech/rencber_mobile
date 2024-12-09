@@ -9,6 +9,7 @@ import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/calendar/calendar.dart';
 import 'package:rencber_mobile/core/widget/card/blur_card.dart';
 import 'package:rencber_mobile/core/widget/icon/appbar_icon.dart';
+import 'package:rencber_mobile/product/models/weather/weather_response.dart';
 import 'package:rencber_mobile/product/provider/home/home_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:sizer/sizer.dart';
@@ -35,102 +36,7 @@ class HomeView extends ConsumerWidget {
               width: 93,
               child: Padding(
                 padding: context.padding.low,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            IconManager.instance.customIcon(Icons.near_me, color: ColorManager.BUTTONBGGREEN, sizeW: 5),
-                            context.sized.emptySizedWidthBoxLow,
-                            Text("${weatherData?.city?.name ?? ""}, ${weatherData?.district?.name ?? ""}", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.WHITE)),
-                          ],
-                        ),
-                        Text(AppConstant.dateFormat(context, weatherData?.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                      ],
-                    ),
-                    context.sized.emptySizedHeightBoxLow,
-                    Padding(
-                      padding: context.padding.horizontalNormal,
-                      child: Row(
-                        children: [
-                          ImageManager.weatherImage(weatherData?.weatherType ?? ""),
-                          context.sized.emptySizedWidthBoxLow3x,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("${weatherData?.temperature ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.WHITE)),
-                              context.sized.emptySizedHeightBoxLow,
-                              Text(weatherData?.weatherType ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            ],
-                          ),
-                          context.sized.emptySizedWidthBoxLow3x,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("En yüksek: ${weatherData?.maxTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                              context.sized.emptySizedHeightBoxLow,
-                              Text("En düşük: ${weatherData?.minTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    context.sized.emptySizedHeightBoxLow3x,
-                    Padding(
-                      padding: context.padding.horizontalLow,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ImageManager.instance.rainFall,
-                              context.sized.emptySizedWidthBoxLow3x,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Yağış Miktarı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                                  Text("${weatherData?.rainFall ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ImageManager.instance.windFall,
-                              context.sized.emptySizedWidthBoxLow3x,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Rüzgar", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                                  Text("${weatherData?.windSpeed ?? ""} km/h", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ImageManager.instance.humanityFall,
-                              context.sized.emptySizedWidthBoxLow3x,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Nem Oranı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                                  Text("%${weatherData?.humidity ?? ""}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                child: HomeWeather(weatherData: weatherData),
               ),
             ),
           ),
@@ -272,6 +178,112 @@ class HomeView extends ConsumerWidget {
       }, loading: () {
         return const Center(child: CircularProgressIndicator());
       }),
+    );
+  }
+}
+
+class HomeWeather extends StatelessWidget {
+  const HomeWeather({super.key, required this.weatherData});
+
+  final WeatherResponseModel? weatherData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                IconManager.instance.customIcon(Icons.near_me, color: ColorManager.BUTTONBGGREEN, sizeW: 5),
+                context.sized.emptySizedWidthBoxLow,
+                Text("${weatherData?.city?.name ?? ""}, ${weatherData?.district?.name ?? ""}", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.WHITE)),
+              ],
+            ),
+            Text(AppConstant.dateFormat(context, weatherData?.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+          ],
+        ),
+        context.sized.emptySizedHeightBoxLow,
+        Padding(
+          padding: context.padding.horizontalNormal,
+          child: Row(
+            children: [
+              ImageManager.weatherImage(weatherData?.weatherType ?? ""),
+              context.sized.emptySizedWidthBoxLow3x,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${weatherData?.temperature ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.WHITE)),
+                  context.sized.emptySizedHeightBoxLow,
+                  Text(weatherData?.weatherType ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                ],
+              ),
+              context.sized.emptySizedWidthBoxLow3x,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("En yüksek: ${weatherData?.maxTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                  context.sized.emptySizedHeightBoxLow,
+                  Text("En düşük: ${weatherData?.minTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                ],
+              )
+            ],
+          ),
+        ),
+        context.sized.emptySizedHeightBoxLow3x,
+        Padding(
+          padding: context.padding.horizontalLow,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ImageManager.instance.rainFall,
+                  context.sized.emptySizedWidthBoxLow3x,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Yağış Miktarı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                      Text("${weatherData?.rainFall ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ImageManager.instance.windFall,
+                  context.sized.emptySizedWidthBoxLow3x,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Rüzgar", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                      Text("${weatherData?.windSpeed ?? ""} km/h", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ImageManager.instance.humanityFall,
+                  context.sized.emptySizedWidthBoxLow3x,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Nem Oranı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                      Text("%${weatherData?.humidity ?? ""}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

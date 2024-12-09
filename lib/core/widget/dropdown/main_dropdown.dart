@@ -5,7 +5,7 @@ class DropDownSearchField extends StatefulWidget {
   const DropDownSearchField(
       {super.key,
       required this.items,
-      required this.controller,
+      this.controller,
       required this.itemBuilder,
       this.textFormFieldvalidator,
       this.textFormFieldDecoration,
@@ -17,8 +17,11 @@ class DropDownSearchField extends StatefulWidget {
       this.menuBgColor,
       this.errorWidget,
       this.menuDecoration,
-      this.textFormscrollPadding});
-  final TextEditingController controller;
+      this.textFormscrollPadding,
+      this.enabled = true,
+      this.focusNode,
+      this.textMode = true});
+  final TextEditingController? controller;
   final String? Function(String?)? textFormFieldvalidator;
   final InputDecoration? textFormFieldDecoration;
   final List<String?> items;
@@ -32,6 +35,9 @@ class DropDownSearchField extends StatefulWidget {
   final Widget? errorWidget;
   final BoxDecoration? menuDecoration;
   final EdgeInsets? textFormscrollPadding;
+  final bool enabled;
+  final FocusNode? focusNode;
+  final bool textMode;
 
   @override
   State<DropDownSearchField> createState() => _DropDownSearchFieldState();
@@ -44,6 +50,20 @@ class _DropDownSearchFieldState extends State<DropDownSearchField> {
   bool _isLoading = false;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = widget.focusNode ?? FocusNode();
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _toggleDropdown();
+        filterItems(widget.controller!.text);
+      }
+    });
+  }
 
   void filterItems(String searchText) {
     setState(() {
@@ -144,6 +164,7 @@ class _DropDownSearchFieldState extends State<DropDownSearchField> {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -152,15 +173,17 @@ class _DropDownSearchFieldState extends State<DropDownSearchField> {
     return CompositedTransformTarget(
       link: _layerLink,
       child: TextFormField(
+        enabled: widget.enabled,
         scrollPadding: widget.textFormscrollPadding ?? const EdgeInsets.all(0),
         controller: widget.controller,
         onTap: () {
           if (widget.onTap != null) widget.onTap!();
           _toggleDropdown();
           setState(() {
-            filterItems(widget.controller.text);
+            widget.textMode == true ? filterItems(widget.controller!.text) : null;
           });
         },
+        focusNode: widget.focusNode,
         onTapOutside: (event) {
           FocusScope.of(context).unfocus();
         },
@@ -178,7 +201,7 @@ class _DropDownSearchFieldState extends State<DropDownSearchField> {
           if (widget.onChanged != null) widget.onChanged!(value);
           setState(() {
             //if (_filteredItems.isEmpty) filterItems(value);
-            filterItems(value);
+            widget.textMode == true ? filterItems(value) : null;
           });
         },
       ),

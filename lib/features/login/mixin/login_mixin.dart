@@ -1,5 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -41,21 +44,27 @@ mixin LoginMixin on State<LoginView> {
     return value.replaceAll(RegExp(r'[()\s-]'), '');
   }
 
-  void onLogin() {
+  void onLogin() async {
     if (formKey.currentState!.validate() && phoneNumberValidation(phoneController.text)) {
       appLoading(context, true);
-      LoginApiService.instance.post(phoneNumberFormatter(phoneController.text)).then((response) {
+      var firebaseToken = Platform.isAndroid
+          ? FirebaseMessaging.instance.getToken()
+          : Platform.isIOS
+              ? FirebaseMessaging.instance.getAPNSToken()
+              : null;
+      var response = await LoginApiService.instance.post(phoneNumberFormatter(phoneController.text));
+      if (response.statusCode == 200 && response.data != null) {
         appLoading(context, false);
-        if (response.statusCode == 200 && response.data != null) {
-          SecureStorage.instance.writeSecureData("accessToken", response.data!.accessToken!);
-          SecureStorage.instance.writeSecureData("refreshToken", response.data!.refreshToken!);
-          SecureStorage.instance.writeSecureData("phone", phoneNumberFormatter(phoneController.text));
-          context.go(RouterManager.home);
-        } else {
-          appLoading(context, false);
-          Toastr.showError("Giriş başarısız", context);
-        }
-      });
+        SecureStorage.instance.writeSecureData("accessToken", response.data!.accessToken!);
+        SecureStorage.instance.writeSecureData("refreshToken", response.data!.refreshToken!);
+        SecureStorage.instance.writeSecureData("phone", phoneNumberFormatter(phoneController.text));
+        SecureStorage.instance.writeSecureData("userId", response.data!.userId.toString());
+        debugPrint(response.data?.userId.toString());
+        context.go(RouterManager.home);
+      } else {
+        appLoading(context, false);
+        Toastr.showError("Giriş başarısız", context);
+      }
     } else {
       Toastr.showError("Lütfen geçerli bir cep telefonu numarası giriniz.", context);
     }

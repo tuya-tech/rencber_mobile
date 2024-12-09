@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -36,5 +38,18 @@ class SecureStorage {
 
   Future<void> deleteAllSearchQueries() async {
     await storage.delete(key: 'key');
+  }
+
+  Future<List<dynamic>> readListSecureData(String key) async {
+    final listEncoded = await storage.read(key: key);
+    if (listEncoded != null) {
+      return jsonDecode(listEncoded) as List;
+    }
+    return [];
+  }
+
+  Future<void> writeListSecureData(String key, List value) async {
+    final listEncoded = jsonEncode(value);
+    await storage.write(key: key, value: listEncoded);
   }
 }

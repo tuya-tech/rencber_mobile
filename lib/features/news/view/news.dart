@@ -22,6 +22,31 @@ class NewsView extends ConsumerStatefulWidget {
 }
 
 class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
+  final ScrollController _scrollController = ScrollController();
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.hasClients) {
+      final double itemWidth = 80.w;
+      final double offset = _scrollController.offset;
+      setState(() {
+        _currentIndex = (offset / itemWidth).round() % 4; // Mod 4 to loop back
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var newsProvider = ref.watch(newsFutureProvider);
@@ -41,6 +66,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                 height: 40.w,
                 width: 100.w,
                 child: ListView.builder(
+                  controller: _scrollController,
                   //physics: const NeverScrollableScrollPhysics(),
                   padding: context.padding.onlyLeftNormal + context.padding.onlyBottomLow,
                   scrollDirection: Axis.horizontal,
@@ -54,7 +80,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                         padding: EdgeInsets.only(left: 2.w, right: 1.w, top: 1.w),
                         child: Row(
                           children: [
-                            AppNetworkImage.appBase64Image(base64Image: outLineData[index].image, height: 30, width: 30),
+                            AppNetworkImage.appNetworkImage(imageUrl: outLineData[index].image, height: 30, width: 30),
                             context.sized.emptySizedWidthBoxLow3x,
                             Expanded(
                               child: Padding(
@@ -88,17 +114,16 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    outLineData.length > 4 ? 4 : outLineData.length,
+                    4, // Always show 4 dots
                     (index) {
-                      int modIndex = currentIndex % (outLineData.length > 4 ? 4 : outLineData.length);
                       return Container(
-                        width: modIndex == index ? 2.w : 1.5.w,
+                        width: _currentIndex == index ? 2.w : 1.5.w,
                         height: 2.3.w,
                         margin: EdgeInsets.symmetric(vertical: 1.w, horizontal: 1.w),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: modIndex == index ? ColorManager.WHITE : ColorManager.GREYCOLOR),
-                          color: modIndex == index ? ColorManager.WHITE : ColorManager.WHITE,
+                          border: Border.all(color: _currentIndex == index ? ColorManager.WHITE : ColorManager.GREYCOLOR),
+                          color: _currentIndex == index ? ColorManager.WHITE : ColorManager.WHITE,
                         ),
                       );
                     },
@@ -128,7 +153,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                           padding: EdgeInsets.only(left: 2.w, right: 1.w, top: 2.w, bottom: 2.w),
                           child: Row(
                             children: [
-                              AppNetworkImage.appBase64Image(base64Image: normalData[index].image, height: 30, width: 30),
+                              AppNetworkImage.appNetworkImage(imageUrl: normalData[index].image, height: 30, width: 30),
                               context.sized.emptySizedWidthBoxLow3x,
                               Expanded(
                                 child: Padding(

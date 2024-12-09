@@ -8,6 +8,7 @@ part of '../../login/login_response.dart';
 
 LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) =>
     LoginResponseModel(
+      userId: (json['userId'] as num?)?.toInt(),
       accessToken: json['accessToken'] as String?,
       refreshToken: json['refreshToken'] as String?,
     );
@@ -21,6 +22,7 @@ Map<String, dynamic> _$LoginResponseModelToJson(LoginResponseModel instance) {
     }
   }
 
+  writeNotNull('userId', instance.userId);
   writeNotNull('accessToken', instance.accessToken);
   writeNotNull('refreshToken', instance.refreshToken);
   return val;
