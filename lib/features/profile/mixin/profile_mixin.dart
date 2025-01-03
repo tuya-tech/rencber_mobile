@@ -23,7 +23,9 @@ mixin ProfileMixin on State<ProfileView> {
       {
         "title": "Bildirim Tercihleri",
         "icon": IconManager.instance.customIcon(Icons.notifications, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
-        "onTap": () {},
+        "onTap": (user) {
+          context.push(RouterManager.notificationSetting, extra: user);
+        },
       },
       {
         "title": "KVKK",

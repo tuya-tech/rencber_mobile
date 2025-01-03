@@ -4,8 +4,9 @@ class ServicesPath {
   final String baseUrl = "http://51.20.142.167:8080/";
 
   final String login = 'auth/login';
+  final String loginRequest = 'auth/login-request';
   final String register = 'auth/register';
-  final String valideCode = 'auth/valide-code';
+  final String valideCode = 'auth/validate-code';
   final String refreshToken = 'auth/refresh-token';
 
   final String news = 'api/news';

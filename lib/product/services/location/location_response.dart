@@ -12,7 +12,7 @@ class LocationApiService {
     try {
       final response = await DioManager.dio.get(
         ServicesPath.instance.city,
-        options: await DioManager.getOptions(),
+        //options: await DioManager.getOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -37,7 +37,7 @@ class LocationApiService {
     try {
       final response = await DioManager.dio.get(
         "${ServicesPath.instance.district}/$cityId",
-        options: await DioManager.getOptions(),
+        //options: await DioManager.getOptions(),
       );
 
       if (response.statusCode == 200) {

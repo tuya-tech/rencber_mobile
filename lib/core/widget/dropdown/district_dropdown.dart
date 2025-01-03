@@ -28,7 +28,7 @@ class _AppDistrictDropdownState extends ConsumerState<AppDistrictDropdown> {
   @override
   Widget build(BuildContext context) {
     var selectedCityId = ref.watch(selectedCityIdProvider) as int;
-    if (widget.selectedCityId != 0) {
+    if (widget.selectedCityId != 0 || selectedCityId != 0) {
       setState(() {
         districtList = ref.watch(districtFutureProvider(selectedCityId != 0 ? selectedCityId : widget.selectedCityId)).asData?.value ?? [];
       });

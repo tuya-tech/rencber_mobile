@@ -53,6 +53,9 @@ class DioManager {
     } else {
       return Options(
         headers: {},
+        validateStatus: (status) {
+          return status! < 500;
+        },
       );
     }
   }

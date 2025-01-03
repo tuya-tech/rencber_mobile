@@ -14,11 +14,9 @@ RegisterRequestModel _$RegisterRequestModelFromJson(
       surname: json['surname'] as String?,
       cityId: (json['cityId'] as num?)?.toInt(),
       districtId: (json['districtId'] as num?)?.toInt(),
+      gender: json['gender'] as String?,
       kvkk: json['kvkk'] as bool?,
       sendAd: json['sendAd'] as bool?,
-      roles: (json['roles'] as List<dynamic>?)
-          ?.map((e) => (e as num).toInt())
-          .toList(),
     );
 
 Map<String, dynamic> _$RegisterRequestModelToJson(
@@ -36,8 +34,8 @@ Map<String, dynamic> _$RegisterRequestModelToJson(
   writeNotNull('surname', instance.surname);
   writeNotNull('cityId', instance.cityId);
   writeNotNull('districtId', instance.districtId);
+  writeNotNull('gender', instance.gender);
   writeNotNull('kvkk', instance.kvkk);
   writeNotNull('sendAd', instance.sendAd);
-  writeNotNull('roles', instance.roles);
   return val;
 }

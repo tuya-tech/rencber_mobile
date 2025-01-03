@@ -21,98 +21,6 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
   int cityId = 0;
   int districtId = 0;
 
-  var city = [
-    "Adana",
-    "Adıyaman",
-    "Afyonkarahisar",
-    "Ağrı",
-    "Amasya",
-    "Ankara",
-    "Antalya",
-    "Artvin",
-    "Aydın",
-    "Balıkesir",
-    "Bilecik",
-    "Bingöl",
-    "Bitlis",
-    "Bolu",
-    "Burdur",
-    "Bursa",
-    "Çanakkale",
-    "Çankırı",
-    "Çorum",
-    "Denizli",
-    "Diyarbakır",
-    "Edirne",
-    "Elazığ",
-    "Erzincan",
-    "Erzurum",
-    "Eskişehir",
-    "Gaziantep",
-    "Giresun",
-    "Gümüşhane",
-    "Hakkari",
-    "Hatay",
-    "Isparta",
-    "Mersin",
-    "İstanbul",
-    "İzmir",
-    "Kars",
-    "Kastamonu",
-    "Kayseri",
-    "Kırklareli",
-    "Kırşehir",
-    "Kocaeli",
-    "Konya",
-    "Kütahya",
-  ];
-
-  var district = [
-    "Adana",
-    "Adıyaman",
-    "Afyonkarahisar",
-    "Ağrı",
-    "Amasya",
-    "Ankara",
-    "Antalya",
-    "Artvin",
-    "Aydın",
-    "Balıkesir",
-    "Bilecik",
-    "Bingöl",
-    "Bitlis",
-    "Bolu",
-    "Burdur",
-    "Bursa",
-    "Çanakkale",
-    "Çankırı",
-    "Çorum",
-    "Denizli",
-    "Diyarbakır",
-    "Edirne",
-    "Elazığ",
-    "Erzincan",
-    "Erzurum",
-    "Eskişehir",
-    "Gaziantep",
-    "Giresun",
-    "Gümüşhane",
-    "Hakkari",
-    "Hatay",
-    "Isparta",
-    "Mersin",
-    "İstanbul",
-    "İzmir",
-    "Kars",
-    "Kastamonu",
-    "Kayseri",
-    "Kırklareli",
-    "Kırşehir",
-    "Kocaeli",
-    "Konya",
-    "Kütahya",
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -123,38 +31,43 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
   }
 
   void setGender(String value) {
-    gender = value;
+    switch (value) {
+      case "Erkek":
+        gender = "MALE";
+      case "Kadın":
+        gender = "FEMALE";
+      case "MALE":
+        gender = "Erkek";
+      case "FEMALE":
+        gender = "Kadın";
+      default:
+        gender = "";
+    }
   }
 
   void setChechBoxValue(List<bool> value) {
     checkBoxValue = value;
   }
 
-  void setCityId(String value) {
-    cityController.text = value;
-    cityId = city.indexOf(value);
-    debugPrint("CityId: $cityId");
-    debugPrint("cityController: ${cityController.text}");
+  String phoneNumberFormatter(String value) {
+    return value.replaceAll(RegExp(r'[()\s-]'), '');
   }
 
-  void setDistrictId(String value) {
-    districtController.text = value;
-    districtId = district.indexOf(value);
-  }
-
-  void onRegister() {
+  void onRegister() async {
+    debugPrint("cityId: $cityId, districtId: $districtId");
+    debugPrint(gender.toString());
+    debugPrint(phoneNumberFormatter(phoneController.text));
     if (formKey.currentState!.validate() && gender.ext.isNotNullOrNoEmpty && checkBoxValue[1]) {
       appLoading(context, true);
-      RegisterRequestModel userData = RegisterRequestModel(phone: phoneController.text, name: nameSurnameController.text, surname: nameSurnameController.text, cityId: 1, districtId: 1, sendAd: checkBoxValue[0], kvkk: checkBoxValue[1], roles: [0]);
-      RegisterApiService.instance.post(userData).then((value) {
-        if (value.statusCode! >= 200 && value.statusCode! < 300) {
-          appLoading(context, false);
-          context.push(RouterManager.phoneCode);
-        } else {
-          appLoading(context, false);
-          Toastr.showError("Kayıt Başarısız", context);
-        }
-      });
+      RegisterRequestModel userData = RegisterRequestModel(phone: phoneNumberFormatter(phoneController.text), name: nameSurnameController.text, surname: nameSurnameController.text, cityId: cityId, districtId: districtId, gender: gender, sendAd: checkBoxValue[0], kvkk: checkBoxValue[1]);
+      var response = await RegisterApiService.instance.post(userData);
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        appLoading(context, false);
+        context.push(RouterManager.phoneCode, extra: phoneController.text);
+      } else {
+        appLoading(context, false);
+        Toastr.showError(response.data.code ?? "", context);
+      }
     } else {
       gender.ext.isNullOrEmpty ? Toastr.showError("Lütfen Cinsiyet Seçiniz", context) : null;
       checkBoxValue[1] == false ? Toastr.showError("Lütfen Onay Kutucuklarını Işaretleyiniz", context) : null;

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
-import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
 import 'package:rencber_mobile/features/login/mixin/login_mixin.dart';
@@ -21,7 +20,7 @@ class _LoginViewState extends State<LoginView> with LoginMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.BGCOLOR,
-      appBar: const AppBarBackButton(),
+      appBar: AppBar(backgroundColor: Colors.transparent),
       body: Padding(
         padding: context.padding.horizontalNormal,
         child: Column(

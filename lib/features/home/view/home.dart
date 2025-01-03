@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
-import 'package:rencber_mobile/core/constants/constant/constant.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
@@ -202,7 +201,7 @@ class HomeWeather extends StatelessWidget {
                 Text("${weatherData?.city?.name ?? ""}, ${weatherData?.district?.name ?? ""}", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.WHITE)),
               ],
             ),
-            Text(AppConstant.dateFormat(context, weatherData?.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+            //Text(AppConstant.dateFormat(context, weatherData?.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
           ],
         ),
         context.sized.emptySizedHeightBoxLow,

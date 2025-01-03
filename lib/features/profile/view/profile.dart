@@ -99,7 +99,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${user?.name} ${user?.surname}", style: context.general.textTheme.labelMedium),
+                        SizedBox(width: 50.w, child: Text("${user?.name} ${user?.surname}", style: context.general.textTheme.labelMedium)),
                         Text("${user?.phone}", style: context.general.textTheme.titleMedium),
                       ],
                     )

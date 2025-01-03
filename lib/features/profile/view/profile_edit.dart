@@ -47,12 +47,6 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditView> with ProfileE
               AppGender(genderController: genderController, labelText: "Cinsiyet*"),
               //AppCustomTextField(fieldName: "gender", controller: genderController, hintText: "Erkek", labelText: "Cinsiyet*"),
               context.sized.emptySizedHeightBoxLow3x,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  AppElevetedButton(buttonwidth: 26, buttonHeight: 9, buttonText: "Kaydet", onPressed: () => onLoginInfo(context, ref)),
-                ],
-              ),
               Text("Kişisel Bilgiler", style: context.general.textTheme.headlineMedium),
               context.sized.emptySizedHeightBoxLow,
               AppDatePicker(controller: dateTimeController, name: "dateTime", hintText: "--,--,----", labelText: "Doğum Tarihi*", initialValue: AppConstant.dateFormat(context, widget.userResponse.birthday)),

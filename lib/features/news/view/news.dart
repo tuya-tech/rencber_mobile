@@ -95,7 +95,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                                       children: [
                                         IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.BUTTONBGGREEN),
                                         context.sized.emptySizedWidthBoxLow,
-                                        Text(AppConstant.dateFormat(context, outLineData[index].date), style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                                        Text(AppConstant.dateFormat(context, outLineData[index].date) ?? "", style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
                                       ],
                                     ),
                                   ],
@@ -169,7 +169,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                                         children: [
                                           IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.BUTTONBGGREEN),
                                           context.sized.emptySizedWidthBoxLow,
-                                          Text(AppConstant.dateFormat(context, normalData[index].date), style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                                          Text(AppConstant.dateFormat(context, normalData[index].date) ?? "", style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
                                         ],
                                       ),
                                     ],

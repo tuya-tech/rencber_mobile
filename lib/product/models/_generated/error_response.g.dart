@@ -6,17 +6,16 @@ part of '../error_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ErrorResponseModel<T> _$ErrorResponseModelFromJson<T>(
-        Map<String, dynamic> json) =>
-    ErrorResponseModel<T>(
+ErrorResponseModel _$ErrorResponseModelFromJson(Map<String, dynamic> json) =>
+    ErrorResponseModel(
       code: json['code'] as String?,
       parameters: (json['parameters'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      validationErrors: json['validationErrors'] as String?,
     );
 
-Map<String, dynamic> _$ErrorResponseModelToJson<T>(
-    ErrorResponseModel<T> instance) {
+Map<String, dynamic> _$ErrorResponseModelToJson(ErrorResponseModel instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -27,5 +26,6 @@ Map<String, dynamic> _$ErrorResponseModelToJson<T>(
 
   writeNotNull('code', instance.code);
   writeNotNull('parameters', instance.parameters);
+  writeNotNull('validationErrors', instance.validationErrors);
   return val;
 }

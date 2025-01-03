@@ -20,7 +20,7 @@ mixin SplashMixin on State<SplashView> {
     var accessToken = await SecureStorage.instance.readSecureData("accessToken");
     var refreshToken = await SecureStorage.instance.readSecureData("refreshToken");
     var phone = await SecureStorage.instance.readSecureData("phone");
-
+    debugPrint("accessToken: $accessToken");
     if (accessToken.ext.isNullOrEmpty && refreshToken.ext.isNullOrEmpty && phone.ext.isNullOrEmpty) {
       context.go(RouterManager.login);
     } else {

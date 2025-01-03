@@ -17,7 +17,7 @@ class WeatherResponseModel {
   final int? maxTemperature;
   final int? windSpeed;
   final int? humidity;
-  final String? date;
+  final int? date;
   final int? rainFall;
   final String? weatherType;
 

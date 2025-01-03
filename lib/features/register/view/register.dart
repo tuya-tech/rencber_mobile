@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/checkbox/checkbox.dart';
-import 'package:rencber_mobile/core/widget/dropdown/custom_dropdown.dart';
+import 'package:rencber_mobile/core/widget/dropdown/city_dropdown.dart';
+import 'package:rencber_mobile/core/widget/dropdown/district_dropdown.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
 import 'package:rencber_mobile/features/register/mixin/register_mixin.dart';
+import 'package:rencber_mobile/product/provider/location/location_provider.dart';
 
-class RegisterView extends StatefulWidget {
+class RegisterView extends ConsumerStatefulWidget {
   const RegisterView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  ConsumerState<RegisterView> createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> with RegisterMixin {
+class _RegisterViewState extends ConsumerState<RegisterView> with RegisterMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,24 +48,31 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                     context.sized.emptySizedHeightBoxLow3x,
                     Row(children: [
                       Expanded(
-                        child: AppCustomDropdown(
-                            hintText: "İl Seçiniz",
-                            controller: cityController,
-                            items: city,
-                            onSelected: (value) {
-                              setCityId(value.toString());
-                            }),
+                        child: AppCityDropdown(
+                          hintText: "İl Seçiniz",
+                          controller: cityController,
+                          onSelected: (value, cityId) {
+                            setState(() {
+                              cityController.text = value;
+                              districtController.clear();
+                              this.cityId = cityId;
+                              ref.read(selectedCityIdProvider.notifier).notify(cityId);
+                            });
+                          },
+                        ),
                       ),
                       context.sized.emptySizedWidthBoxLow3x,
                       Expanded(
-                        child: AppCustomDropdown(
-                            hintText: "İlçe Seçiniz",
-                            controller: districtController,
-                            items: district,
-                            onSelected: (value) {
-                              setDistrictId(value.toString());
-                            }),
-                      ),
+                          child: AppDistrictDropdown(
+                        hintText: "İlçe Seçiniz",
+                        controller: districtController,
+                        onSelected: (value, districtId) {
+                          setState(() {
+                            districtController.text = value;
+                            this.districtId = districtId;
+                          });
+                        },
+                      ))
                     ]),
                     context.sized.emptySizedHeightBoxLow3x,
                     Text("Cinsiyetiniz", style: context.general.textTheme.titleLarge),

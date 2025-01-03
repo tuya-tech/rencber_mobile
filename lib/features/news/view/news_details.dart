@@ -70,7 +70,7 @@ class NewsDetailsView extends ConsumerWidget {
                       children: [
                         IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.WHITE),
                         context.sized.emptySizedWidthBoxLow,
-                        Text(AppConstant.dateFormat(context, newsResponseModel.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text(AppConstant.dateFormat(context, newsResponseModel.date) ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                       ],
                     ),
                   ],

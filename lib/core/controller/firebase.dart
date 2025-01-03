@@ -1,65 +1,93 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rencber_mobile/firebase_options.dart';
 
 class FirebaseInit {
-  static void initFcm() async {
-    await FirebaseMessaging.instance.setAutoInitEnabled(true);
-    await FirebaseMessaging.instance.requestPermission(alert: true, badge: true, provisional: false, sound: true);
-    //await saveDeviceToken();
+  static final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
+  static final Set<String> _processedMessageIds = {};
+  static const String _channelId = 'high_importance_channel';
+  static const String _channelName = 'High Importance Notifications';
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      await onMessageForeground(message);
-    });
+  /// Initialize Firebase Cloud Messaging
+  static Future<void> initFcm() async {
+    try {
+      debugPrint('Initializing Firebase...');
+      var iosToken = await FirebaseMessaging.instance.getToken();
+      debugPrint('APNS Token: $iosToken');
+      await _configureFcmPermissions();
+      await _initializeLocalNotifications();
 
-    FirebaseMessaging.onBackgroundMessage(backgroundNotification);
+      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: false,
+        badge: false,
+        sound: false,
+      );
+
+      FirebaseMessaging.onMessage.listen((message) async {
+        if (message.notification != null && !_processedMessageIds.contains(message.messageId)) {
+          debugPrint('Handling a message: ${message.messageId}');
+          _processedMessageIds.add(message.messageId ?? '');
+          await notification(message);
+        }
+      });
+
+      FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
+    } catch (e) {
+      debugPrint('Error initializing Firebase: $e');
+      //Sentry.captureException(e);
+    }
   }
 
-  static Future<void> onMessageForeground(RemoteMessage message) async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var android = const AndroidInitializationSettings("@mipmap/ic_launcher");
-    var ios = const DarwinInitializationSettings();
-    await flutterLocalNotificationsPlugin.initialize(InitializationSettings(android: android, iOS: ios));
-    var androidPlatform = const AndroidNotificationDetails('rencber_mobile', 'rencber_mobile_channel', importance: Importance.high, priority: Priority.high);
-    var iosPlatform = const DarwinNotificationDetails(presentAlert: true, presentSound: true, sound: "default");
-    var platform = NotificationDetails(android: androidPlatform, iOS: iosPlatform);
-    await flutterLocalNotificationsPlugin.show(message.messageId.hashCode, message.notification?.title ?? "", message.notification?.body ?? "", platform);
+  static Future<void> _configureFcmPermissions() async {
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      provisional: false,
+      sound: true,
+    );
+  }
+
+  static Future<void> _initializeLocalNotifications() async {
+    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const iosSettings = DarwinInitializationSettings();
+
+    await _notificationsPlugin.initialize(
+      const InitializationSettings(android: androidSettings, iOS: iosSettings),
+    );
   }
 
   @pragma('vm:entry-point')
-  static Future<void> backgroundNotification(RemoteMessage message) async {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var android = const AndroidInitializationSettings("@mipmap/ic_launcher");
-    var ios = const DarwinInitializationSettings();
-    await flutterLocalNotificationsPlugin.initialize(InitializationSettings(android: android, iOS: ios));
-    var androidPlatform = const AndroidNotificationDetails('rencber_mobile', 'rencber_mobile_channel', importance: Importance.high, priority: Priority.high);
-    var iosPlatform = const DarwinNotificationDetails(presentAlert: true, presentSound: true, sound: "default");
-    var platform = NotificationDetails(android: androidPlatform, iOS: iosPlatform);
-    await flutterLocalNotificationsPlugin.show(message.messageId.hashCode, message.notification?.title ?? "", message.notification?.body ?? "", platform);
+  static Future<void> notification(RemoteMessage message) async {
+    if (message.notification == null || message.messageId == null) return;
+
+    const androidPlatform = AndroidNotificationDetails(
+      _channelId,
+      _channelName,
+      importance: Importance.high,
+      priority: Priority.high,
+      enableLights: true,
+      playSound: true,
+      showWhen: true,
+    );
+
+    const iosPlatform = DarwinNotificationDetails(presentAlert: true, presentSound: true, sound: "default");
+
+    const platform = NotificationDetails(android: androidPlatform, iOS: iosPlatform);
+
+    await _notificationsPlugin.show(
+      message.messageId.hashCode,
+      message.notification?.title ?? "",
+      message.notification?.body ?? "",
+      platform,
+    );
   }
 
-  // static Future<void> saveDeviceToken() async {
-  //   await Future.delayed(const Duration(seconds: 1));
-  //   var fcmToken = Platform.isAndroid ? await FirebaseMessaging.instance.getToken() : await FirebaseMessaging.instance.getAPNSToken();
-  //   var deviceId = await FlutterUdid.udid;
-  //   var platform = Platform.isAndroid ? "android" : "ios";
-  //   await SecureStorage.instance.writeSecureData("fcmToken", fcmToken ?? "");
-  //   await SecureStorage.instance.writeSecureData("deviceId", deviceId);
-  //   await NotificationService.instance.postNotificationInfo(fcmToken ?? "", deviceId, platform);
-
-  //   // var isFcmToken = await SecureStorage.instance.readSecureData("fcmToken");
-  //   // if (isFcmToken.ext.isNullOrEmpty) {
-  //   //   await Future.delayed(const Duration(seconds: 1));
-  //   //   var fcmToken = Platform.isAndroid ? await FirebaseMessaging.instance.getToken() : await FirebaseMessaging.instance.getAPNSToken();
-  //   //   var deviceId = await FlutterUdid.udid;
-  //   //   var platform = Platform.isAndroid ? "android" : "ios";
-  //   //   await SecureStorage.instance.writeSecureData("fcmToken", fcmToken ?? "");
-  //   //   await SecureStorage.instance.writeSecureData("deviceId", deviceId);
-  //   //   await NotificationService.instance.postNotificationInfo(fcmToken ?? "", deviceId, platform);
-  //   // } else {
-  //   //   return;
-  //   // }
-  // }
+  @pragma('vm:entry-point')
+  static Future<void> _backgroundMessageHandler(RemoteMessage message) async {
+    if (!_processedMessageIds.contains(message.messageId)) {
+      debugPrint('Handling a background message: ${message.messageId}');
+      _processedMessageIds.add(message.messageId ?? '');
+    }
+  }
 }

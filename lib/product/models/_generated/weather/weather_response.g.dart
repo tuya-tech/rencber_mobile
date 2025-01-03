@@ -26,7 +26,7 @@ WeatherResponseModel _$WeatherResponseModelFromJson(
       maxTemperature: (json['maxTemperature'] as num?)?.toInt(),
       windSpeed: (json['windSpeed'] as num?)?.toInt(),
       humidity: (json['humidity'] as num?)?.toInt(),
-      date: json['date'] as String?,
+      date: (json['date'] as num?)?.toInt(),
       rainFall: (json['rainFall'] as num?)?.toInt(),
       weatherType: json['weatherType'] as String?,
     );

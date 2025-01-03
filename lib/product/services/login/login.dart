@@ -9,11 +9,30 @@ class LoginApiService {
   LoginApiService._();
   static final instance = LoginApiService._();
 
-  Future<BaseResponseModel<LoginResponseModel>> post(String phoneNumber) async {
+  Future<BaseResponseModel<bool>> loginRequest(String phoneNumber) async {
+    try {
+      final response = await DioManager.dio.post(
+        ServicesPath.instance.loginRequest,
+        data: {"phone": phoneNumber},
+        //options: await DioManager.getOptions(),
+      );
+
+      return BaseResponseModel<bool>(
+        data: response.data != null,
+        message: response.statusMessage,
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      debugPrint('LoginApiService post: ${e.message}');
+      return DioManager.dioError<bool>(e);
+    }
+  }
+
+  Future<BaseResponseModel<LoginResponseModel>> login(String phoneNumber, String phoneCode) async {
     try {
       final response = await DioManager.dio.post(
         ServicesPath.instance.login,
-        data: {"phone": phoneNumber},
+        data: {"phone": phoneNumber, "code": phoneCode},
         //options: await DioManager.getOptions(),
       );
 

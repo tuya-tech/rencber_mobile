@@ -34,6 +34,7 @@ class RefreshTokenApiService {
         );
       }
     } on DioException catch (e) {
+      debugPrint("RefreshTokenApiService: $e");
       return DioManager.dioError<LoginResponseModel>(e);
     }
   }

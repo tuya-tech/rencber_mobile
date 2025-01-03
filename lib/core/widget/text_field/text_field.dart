@@ -4,11 +4,13 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:kartal/kartal.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:sizer/sizer.dart';
 
-class AppTextField extends StatelessWidget {
-  const AppTextField({super.key, required this.fieldName, this.isPhoneNumber = false, this.hintText = "", this.labelText = "", required this.controller, this.keyboardType = TextInputType.text, this.inputFormatters = const [], this.textInputAction = TextInputAction.next, this.obscureText = false, this.maxLength});
+class AppTextField extends StatefulWidget {
+  const AppTextField(
+      {super.key, required this.fieldName, this.isPhoneNumber = false, this.hintText = "", this.labelText = "", required this.controller, this.keyboardType = TextInputType.text, this.inputFormatters = const [], this.textInputAction = TextInputAction.next, this.obscureText = false, this.maxLength});
   final String fieldName;
   final bool isPhoneNumber;
   final String hintText;
@@ -21,21 +23,34 @@ class AppTextField extends StatelessWidget {
   final int? maxLength;
 
   @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  late bool obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    obscureText = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
-      name: fieldName,
-      controller: controller,
-      inputFormatters: isPhoneNumber ? [MaskTextInputFormatter(mask: '(###) ### ## ##')] : inputFormatters,
-      keyboardType: isPhoneNumber ? TextInputType.phone : keyboardType,
+      name: widget.fieldName,
+      controller: widget.controller,
+      inputFormatters: widget.isPhoneNumber ? [MaskTextInputFormatter(mask: '(###) ### ## ##')] : widget.inputFormatters,
+      keyboardType: widget.isPhoneNumber ? TextInputType.phone : widget.keyboardType,
       style: context.general.textTheme.titleMedium,
-      textInputAction: textInputAction,
+      textInputAction: widget.textInputAction,
       obscureText: obscureText,
-      maxLength: maxLength,
+      maxLength: widget.maxLength,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Bu alan boş bırakılamaz";
         }
-        if (isPhoneNumber) {
+        if (widget.isPhoneNumber) {
           if (value.length < 14) {
             return "Geçerli bir telefon numarası giriniz";
           }
@@ -43,14 +58,21 @@ class AppTextField extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-        prefix: isPhoneNumber
+        prefix: widget.isPhoneNumber
             ? Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [ImageManager.instance.trFlag, context.sized.emptySizedWidthBoxLow, SizedBox(width: 2.w, height: 6.w, child: const VerticalDivider(color: ColorManager.GREEN)), const Text("+90 ")],
               )
             : null,
-        labelText: labelText,
-        hintText: hintText,
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () => setState(() => obscureText = !obscureText),
+                icon: IconManager.instance.customIcon(obscureText ? Icons.visibility_off : Icons.visibility),
+              )
+            : null,
+        labelText: widget.labelText,
+        hintText: widget.hintText,
         labelStyle: context.general.textTheme.labelLarge,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(

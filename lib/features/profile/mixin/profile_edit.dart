@@ -63,6 +63,8 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
     phoneController.text = widget.userResponse.phone ?? "";
     genderController.text = genderByEng(widget.userResponse.gender ?? "");
     dateTimeController.text = widget.userResponse.birthday ?? "";
+    debugPrint("birthday: ${widget.userResponse.birthday}");
+    debugPrint("birthday: ${dateTimeController.text}");
     mailController.text = widget.userResponse.email ?? "";
     cityDistrictController.text = "${widget.userResponse.city?.name} / ${widget.userResponse.district?.name}";
     cityController.text = widget.userResponse.city?.name ?? "";
@@ -87,43 +89,15 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
     }
   }
 
-  void onLoginInfo(BuildContext context, WidgetRef ref) async {
-    if (nameController.text.ext.isNotNullOrNoEmpty && phoneController.text.ext.isNotNullOrNoEmpty && genderController.text.ext.isNotNullOrNoEmpty) {
-      appLoading(context, true);
-      var userId = await SecureStorage.instance.readSecureData("userId");
-      var response = await UserApiService.instance.post(UserRequestModel(
-        id: int.tryParse(userId ?? "0") ?? 0,
-        phone: phoneController.text,
-        name: nameController.text.split(" ")[0],
-        surname: nameController.text.split(" ")[1],
-        cityId: selectedCityId,
-        districtId: selectedDistrictId,
-        gender: genderByEng(genderController.text),
-        sendAd: widget.userResponse.sendAd,
-        birthday: AppConstant.setDateFormat(context, dateTimeController.text),
-        detailAddress: addressController.text,
-        email: mailController.text,
-      ));
-      if (response.data != null && response.statusCode == 200) {
-        appLoading(context, false);
-        ref.refresh(userIdFutureProvider);
-      } else {
-        appLoading(context, false);
-        Toastr.showError(response.message.toString(), context);
-      }
-    } else {
-      if (nameController.text.ext.isNotNullOrNoEmpty) {
-        Toastr.showError("Ad Soyad Boş Bırakılamaz", context);
-      } else if (phoneController.text.ext.isNotNullOrNoEmpty) {
-        Toastr.showError("Telefon Numarası Boş Bırakılamaz", context);
-      } else if (genderController.text.ext.isNotNullOrNoEmpty) {
-        Toastr.showError("Cinsiyet Boş Bırakılamaz", context);
-      }
-    }
-  }
-
   void onMyInfo(BuildContext context, WidgetRef ref) async {
-    if (dateTimeController.text.ext.isNotNullOrNoEmpty && mailController.text.ext.isNotNullOrNoEmpty && cityDistrictController.text.ext.isNotNullOrNoEmpty && addressController.text.ext.isNotNullOrNoEmpty) {
+    debugPrint("asdas");
+    if (nameController.text.ext.isNotNullOrNoEmpty &&
+        phoneController.text.ext.isNotNullOrNoEmpty &&
+        genderController.text.ext.isNotNullOrNoEmpty &&
+        dateTimeController.text.ext.isNotNullOrNoEmpty &&
+        mailController.text.ext.isNotNullOrNoEmpty &&
+        cityDistrictController.text.ext.isNotNullOrNoEmpty &&
+        addressController.text.ext.isNotNullOrNoEmpty) {
       appLoading(context, true);
       var userId = await SecureStorage.instance.readSecureData("userId");
       var response = await UserApiService.instance.post(UserRequestModel(
@@ -147,13 +121,19 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
         Toastr.showError(response.message.toString(), context);
       }
     } else {
-      if (dateTimeController.text.ext.isNotNullOrNoEmpty) {
+      if (nameController.text.ext.isNullOrEmpty) {
+        Toastr.showError("Ad Soyad Boş Bırakılamaz", context);
+      } else if (phoneController.text.ext.isNullOrEmpty) {
+        Toastr.showError("Telefon Numarası Boş Bırakılamaz", context);
+      } else if (genderController.text.ext.isNullOrEmpty) {
+        Toastr.showError("Cinsiyet Boş Bırakılamaz", context);
+      } else if (dateTimeController.text.ext.isNullOrEmpty) {
         Toastr.showError("Doğum Tarihi Giriniz ", context);
-      } else if (phoneController.text.ext.isNotNullOrNoEmpty) {
+      } else if (mailController.text.ext.isNullOrEmpty) {
         Toastr.showError("E-Posta Giriniz", context);
-      } else if (genderController.text.ext.isNotNullOrNoEmpty) {
+      } else if (cityDistrictController.text.ext.isNullOrEmpty) {
         Toastr.showError("İl/İlçe Giriniz", context);
-      } else if (addressController.text.ext.isNotNullOrNoEmpty) {
+      } else if (addressController.text.ext.isNullOrEmpty) {
         Toastr.showError("Adres Giriniz", context);
       }
     }

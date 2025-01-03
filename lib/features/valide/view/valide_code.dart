@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
-import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
 import 'package:rencber_mobile/features/valide/mixin/valide_code_mixin.dart';
 
 class ValideCodeView extends StatefulWidget {
-  const ValideCodeView({super.key});
+  const ValideCodeView({super.key, required this.phoneNumber});
+  final String phoneNumber;
 
   @override
   State<ValideCodeView> createState() => _ValideCodeViewState();
@@ -19,7 +19,7 @@ class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.BGCOLOR,
-      appBar: const AppBarBackButton(),
+      appBar: AppBar(backgroundColor: Colors.transparent),
       body: Padding(
         padding: context.padding.horizontalNormal,
         child: Column(
@@ -34,7 +34,13 @@ class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppTextField(fieldName: "valideCodeNumber", controller: valideCodeController, labelText: "Sms Kodu", obscureText: true, maxLength: 6),
+                  AppTextField(
+                    fieldName: "valideCodeNumber",
+                    controller: valideCodeController,
+                    labelText: "Sms Kodu",
+                    obscureText: true,
+                    maxLength: 6,
+                  ),
                 ],
               ),
             ),
@@ -46,6 +52,8 @@ class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
                 onValide();
               },
             ),
+            context.sized.emptySizedHeightBoxLow,
+            Text("${(second ~/ 60).toString()}:${(second % 60).toString().padLeft(2, '0')}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR)),
           ],
         ),
       ),

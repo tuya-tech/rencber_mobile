@@ -18,7 +18,7 @@ class AppDatePicker extends ConsumerStatefulWidget {
   final bool isBorder;
   final void Function()? onPressed;
   final TextEditingController controller;
-  final String initialValue;
+  final String? initialValue;
 
   @override
   ConsumerState<AppDatePicker> createState() => _AppDatePickerState();
@@ -121,7 +121,7 @@ class _AppDatePickerState extends ConsumerState<AppDatePicker> {
                                               onPressed: () {
                                                 setState(() {});
                                                 widget.controller.text = timePicker.toString();
-                                                controller.text = AppConstant.dateFormat(context, timePicker.toString());
+                                                controller.text = AppConstant.dateFormat(context, timePicker.toString()) ?? "";
                                                 isEdit = !isEdit;
                                                 Navigator.pop(context);
                                               },

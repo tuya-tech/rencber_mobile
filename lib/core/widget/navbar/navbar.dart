@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
@@ -7,16 +8,17 @@ import 'package:rencber_mobile/features/home/view/home.dart';
 import 'package:rencber_mobile/features/menu/view/menu.dart';
 import 'package:rencber_mobile/features/news/view/news.dart';
 import 'package:rencber_mobile/features/profile/view/profile.dart';
+import 'package:rencber_mobile/product/provider/navbar/navbar_provider.dart';
 import 'package:sizer/sizer.dart';
 
-class Navbar extends StatefulWidget {
+class Navbar extends ConsumerStatefulWidget {
   const Navbar({super.key});
 
   @override
-  State<Navbar> createState() => _NavbarState();
+  ConsumerState<Navbar> createState() => _NavbarState();
 }
 
-class _NavbarState extends State<Navbar> {
+class _NavbarState extends ConsumerState<Navbar> {
   late final PersistentTabController _controller;
 
   @override
@@ -27,6 +29,7 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
+    _controller.index = ref.watch(navbarSelectedProvider) as int;
     return Scaffold(
       body: PersistentTabView(
         context,
@@ -36,6 +39,7 @@ class _NavbarState extends State<Navbar> {
         navBarStyle: NavBarStyle.style3,
         confineToSafeArea: true,
         controller: _controller,
+        onItemSelected: (value) => ref.read(navbarSelectedProvider.notifier).notify(value),
       ),
     );
   }
