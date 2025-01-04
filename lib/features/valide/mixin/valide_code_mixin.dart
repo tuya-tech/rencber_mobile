@@ -44,12 +44,12 @@ mixin ValideCodeMixin on State<ValideCodeView> {
     if (formKey.currentState!.validate()) {
       appLoading(context, true);
       var valideCode = valideCodeController.text;
-      // var firebaseToken = Platform.isAndroid
-      //     ? FirebaseMessaging.instance.getToken()
-      //     : Platform.isIOS
-      //         ? FirebaseMessaging.instance.getAPNSToken()
-      //         : null;
-      var response = await ValideCodeApiService.instance.post(valideCode, phoneNumberFormatter(widget.phoneNumber));
+      var firebaseToken = Platform.isAndroid
+          ? await FirebaseMessaging.instance.getToken()
+          : Platform.isIOS
+              ? await FirebaseMessaging.instance.getAPNSToken()
+              : null;
+      var response = await ValideCodeApiService.instance.post(valideCode, phoneNumberFormatter(widget.phoneNumber), firebaseToken ?? "");
       if (response.data != null) {
         //Telefonu Doğruladık ve arka planda login işlemi yapılacak
         var response = await LoginApiService.instance.login(phoneNumberFormatter(widget.phoneNumber), valideCode);

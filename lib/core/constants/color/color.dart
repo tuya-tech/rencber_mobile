@@ -15,6 +15,7 @@ class ColorManager {
   static const BLUE = Color(0xFF49A5E6);
   static const BUTTONBGGREEN = Color(0xFF1CBE8E);
   static const LIGHTGREEN = Color(0xFFB7C3BA);
+  static const CONTAINERGREY = Color(0xFFF6F8FA);
 
 
 

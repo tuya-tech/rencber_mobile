@@ -1,0 +1,22 @@
+import 'package:flutter/material.dart';
+import 'package:kartal/kartal.dart';
+import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/constants/icon/icon.dart';
+
+class AppRightIconButton extends StatelessWidget {
+  const AppRightIconButton({super.key, this.onPressed});
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Row(
+        children: [
+          Text('Tümünü Gör', style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.GREYCOLOR)),
+          IconManager.instance.customIcon(Icons.chevron_right_outlined, color: ColorManager.GREYCOLOR, sizeW: 6),
+        ],
+      ),
+      onPressed: onPressed,
+    );
+  }
+}

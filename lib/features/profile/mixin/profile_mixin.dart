@@ -18,7 +18,9 @@ mixin ProfileMixin on State<ProfileView> {
       {
         "title": "Rençber Hakkında",
         "icon": IconManager.instance.customIcon(Icons.info_outline, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
-        "onTap": () {},
+        "onTap": (user) {
+          context.push(RouterManager.about);
+        },
       },
       {
         "title": "Bildirim Tercihleri",
@@ -30,7 +32,9 @@ mixin ProfileMixin on State<ProfileView> {
       {
         "title": "KVKK",
         "icon": IconManager.instance.customIcon(Icons.lock, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
-        "onTap": () {},
+        "onTap": (user) {
+          context.push(RouterManager.kvkk);
+        },
       },
       // {
       //   "title": "Çıkış Yap",

@@ -10,6 +10,7 @@ class ServicesPath {
   final String refreshToken = 'auth/refresh-token';
 
   final String news = 'api/news';
+  final String advice = 'api/product';
 
   final String weather = 'api/weather';
 

@@ -7,7 +7,7 @@ final navbarSelectedProvider = StateNotifierProvider(
 );
 
 class NavbarSelectedStateNotifier extends StateNotifier<int> {
-  NavbarSelectedStateNotifier() : super(0);
+  NavbarSelectedStateNotifier() : super(2);
 
   void notify(int index) async {
     state = index;

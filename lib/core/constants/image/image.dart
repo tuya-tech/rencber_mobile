@@ -17,6 +17,7 @@ class ImageManager {
   static const String _windFall = "assets/weather/windFall.png";
   static const String _humanityFall = "assets/weather/humanityFall.png";
   static const String _women = "assets/kadin.png";
+  static const String _rightArrow = "assets/rightArrow.png";
 
   static Widget weatherImage(String weatherType) {
     weatherType = weatherType.toLowerCase().ext.toCapitalized();
@@ -51,4 +52,5 @@ extension ImageManagerExtension on ImageManager {
   Widget get windFall => Image.asset(ImageManager._windFall, height: 6.w, width: 6.w, fit: BoxFit.cover);
   Widget get humanityFall => Image.asset(ImageManager._humanityFall, height: 6.w, width: 6.w, fit: BoxFit.cover);
   Widget get women => Image.asset(ImageManager._women, height: 25.w, width: 25.w, fit: BoxFit.cover);
+  Widget get rightArrow => Image.asset(ImageManager._rightArrow, height: 6.w, width: 6.w);
 }

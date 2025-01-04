@@ -8,11 +8,11 @@ class ValideCodeApiService {
   ValideCodeApiService._();
   static final instance = ValideCodeApiService._();
 
-  Future<BaseResponseModel<bool>> post(String code, String phoneNumber) async {
+  Future<BaseResponseModel<bool>> post(String code, String phoneNumber, String firebaseToken) async {
     try {
       final response = await DioManager.dio.put(
         ServicesPath.instance.valideCode,
-        data: {"code": code, "phone": phoneNumber},
+        data: {"code": code, "phone": phoneNumber, "fbToken": firebaseToken},
         //options: await DioManager.getOptions(),
       );
 

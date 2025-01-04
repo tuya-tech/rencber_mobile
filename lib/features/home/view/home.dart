@@ -5,9 +5,12 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
+import 'package:rencber_mobile/core/widget/button/review_button.dart';
 import 'package:rencber_mobile/core/widget/calendar/calendar.dart';
 import 'package:rencber_mobile/core/widget/card/blur_card.dart';
 import 'package:rencber_mobile/core/widget/icon/appbar_icon.dart';
+import 'package:rencber_mobile/core/widget/image/network_image.dart';
+import 'package:rencber_mobile/product/models/advice/advice_response.dart';
 import 'package:rencber_mobile/product/models/weather/weather_response.dart';
 import 'package:rencber_mobile/product/provider/home/home_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
@@ -22,7 +25,8 @@ class HomeView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: ColorManager.BGCOLOR,
       body: homeProvider.when(data: (homeData) {
-        var weatherData = homeData['weather']!.data;
+        var weatherData = homeData['weather'] as WeatherResponseModel;
+        var adviceData = homeData['advice'] as List<AdviceResponseModel>;
         return SliverAppBarCustom(
           height: 55,
           title: SizedBox(width: 40.w, child: ImageManager.instance.logo),
@@ -121,7 +125,7 @@ class HomeView extends ConsumerWidget {
                       height: 65.w,
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: 10,
+                          itemCount: adviceData.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return SizedBox(
@@ -132,32 +136,13 @@ class HomeView extends ConsumerWidget {
                                   padding: context.padding.low,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
-                                      ImageManager.instance.tarla,
+                                      AppNetworkImage.appNetworkImage(imageUrl: adviceData[index].image, height: 30, width: 30),
                                       context.sized.emptySizedHeightBoxLow,
-                                      Text("10 x 25 Kg Agsan %21 Azot", style: context.general.textTheme.labelLarge),
+                                      Text(adviceData[index].title ?? "", style: context.general.textTheme.labelLarge),
                                       context.sized.emptySizedHeightBoxLow,
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          padding: EdgeInsets.zero,
-                                          backgroundColor: ColorManager.BUTTONBGGREEN.withOpacity(0.1),
-                                        ),
-                                        onPressed: () {},
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text(
-                                              "İncele",
-                                              style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.BUTTONBGGREEN),
-                                            ),
-                                            IconManager.instance.customIcon(
-                                              Icons.arrow_forward_sharp,
-                                              color: ColorManager.BUTTONBGGREEN,
-                                              sizeW: 5,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      const AppReview(),
                                     ],
                                   ),
                                 ),
