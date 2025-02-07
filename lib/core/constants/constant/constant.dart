@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class AppConstant {
   static String? dateFormat(BuildContext context, String? dateTime) {
-    if (dateTime == null) {
+    if (dateTime == null || dateTime.isEmpty) {
       return null;
     }
     var date = DateTime.parse(dateTime).toLocal();

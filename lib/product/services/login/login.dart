@@ -28,11 +28,11 @@ class LoginApiService {
     }
   }
 
-  Future<BaseResponseModel<LoginResponseModel>> login(String phoneNumber, String phoneCode) async {
+  Future<BaseResponseModel<LoginResponseModel>> login(String phoneNumber, String phoneCode, String fbToken) async {
     try {
       final response = await DioManager.dio.post(
         ServicesPath.instance.login,
-        data: {"phone": phoneNumber, "code": phoneCode},
+        data: {"phone": phoneNumber, "code": phoneCode, "fbToken": fbToken},
         //options: await DioManager.getOptions(),
       );
 

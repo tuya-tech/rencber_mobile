@@ -40,7 +40,9 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditView> with ProfileE
             children: [
               Text("Giriş Kayıt Bilgileri", style: context.general.textTheme.headlineMedium),
               context.sized.emptySizedHeightBoxLow,
-              AppCustomTextField(fieldName: "nameSurname", controller: nameController, hintText: "Adınız Soyadınız", labelText: "Ad Soyad*"),
+              AppCustomTextField(fieldName: "name", controller: nameController, hintText: "Adınız", labelText: "Ad*"),
+              context.sized.emptySizedHeightBoxLow,
+              AppCustomTextField(fieldName: "surname", controller: surNameController, hintText: "Soyadınız", labelText: "Soyad*"),
               context.sized.emptySizedHeightBoxLow,
               AppCustomTextField(fieldName: "phoneNumber", controller: phoneController, hintText: "Telefon Numaranız", labelText: "Telefon Numarası*", phoneApproved: phoneApproved, isPhoneNumber: true),
               context.sized.emptySizedHeightBoxLow,

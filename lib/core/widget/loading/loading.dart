@@ -4,7 +4,7 @@ void appLoading(BuildContext context, bool isLoading) {
   if (isLoading) {
     showDialog(
       context: context,
-      barrierColor: Colors.white.withOpacity(0.5),
+      barrierColor: Colors.white.withValues(alpha: 0.5),
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return const Center(

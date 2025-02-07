@@ -47,10 +47,10 @@ mixin LoginMixin on State<LoginView> {
       debugPrint(response.data.toString());
       if (response.data != null) {
         appLoading(context, false);
-        context.go(RouterManager.phoneCode, extra: phoneNumberFormatter(phoneController.text));
+        context.push(RouterManager.phoneCode, extra: phoneNumberFormatter(phoneController.text));
       } else {
         appLoading(context, false);
-        context.go(RouterManager.phoneCode, extra: phoneNumberFormatter(phoneController.text));
+        context.push(RouterManager.phoneCode, extra: phoneNumberFormatter(phoneController.text));
       }
     } else {
       Toastr.showError("Lütfen geçerli bir cep telefonu numarası giriniz.", context);

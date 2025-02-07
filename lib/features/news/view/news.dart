@@ -54,7 +54,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
       resizeToAvoidBottomInset: true,
       backgroundColor: ColorManager.BGCOLOR,
       body: newsProvider.when(data: (newsData) {
-        var (outLineData, normalData) = outLineAndNormalData(newsData.data!);
+        var (outLineData, normalData) = outLineAndNormalData(newsData.data ?? []);
         return SliverAppBarCustom(
           height: 55,
           title: Text("Haberler", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
@@ -92,7 +92,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(outLineData[index].title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleSmall?.copyWith(color: ColorManager.WHITE)),
-                                      Text(outLineData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.WHITE.withOpacity(0.7))),
+                                      Text(outLineData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.WHITE.withValues(alpha: 0.7))),
                                       Row(
                                         children: [
                                           IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.BUTTONBGGREEN),
@@ -166,7 +166,7 @@ class _NewsViewState extends ConsumerState<NewsView> with NewsMixin {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(normalData[index].title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleSmall),
-                                      Text(normalData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.BLACK.withOpacity(0.7))),
+                                      Text(normalData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.BLACK.withValues(alpha: 0.7))),
                                       context.sized.emptySizedHeightBoxLow,
                                       Row(
                                         children: [

@@ -12,13 +12,13 @@ class WeatherResponseModel {
   final String? lastUpdatedDate;
   final CityModel? city;
   final CityModel? district;
-  final int? temperature;
-  final int? minTemperature;
-  final int? maxTemperature;
-  final int? windSpeed;
-  final int? humidity;
-  final int? date;
-  final int? rainFall;
+  final double? temperature;
+  final double? minTemperature;
+  final double? maxTemperature;
+  final double? windSpeed;
+  final double? humidity;
+  final String? date;
+  final double? rainFall;
   final String? weatherType;
 
   WeatherResponseModel({

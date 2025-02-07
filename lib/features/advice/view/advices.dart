@@ -6,11 +6,9 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
-import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/button/review_button.dart';
 import 'package:rencber_mobile/core/widget/image/network_image.dart';
 import 'package:rencber_mobile/product/models/advice/advice_response.dart';
-import 'package:sizer/sizer.dart';
 
 class AdvicesView extends ConsumerStatefulWidget {
   const AdvicesView({super.key, required this.adviceList});

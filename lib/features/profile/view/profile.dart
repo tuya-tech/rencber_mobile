@@ -8,6 +8,7 @@ import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
+import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/features/profile/mixin/profile_mixin.dart';
 import 'package:rencber_mobile/product/provider/user/user_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
@@ -70,8 +71,60 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                         leading: IconManager.instance.customIcon(Icons.logout, sizeW: 8, color: ColorManager.TEXTGREYCOLOR),
                         //trailing: IconManager.instance.customIcon(Icons.arrow_forward_ios, sizeW: 5, color: ColorManager.TEXTGREYCOLOR),
                         onTap: () {
-                          SecureStorage.instance.deleteSecureData();
-                          context.go(RouterManager.login);
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              backgroundColor: ColorManager.WHITE,
+                              child: Container(
+                                height: 35.w,
+                                width: 100.w,
+                                padding: context.padding.low,
+                                decoration: const BoxDecoration(
+                                  color: ColorManager.WHITE,
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                                child: Column(
+                                  children: [
+                                    context.sized.emptySizedHeightBoxLow,
+                                    Text("Çıkış Yap", style: context.general.textTheme.titleLarge),
+                                    context.sized.emptySizedHeightBoxLow,
+                                    Text("Çıkış yapmak istediğinizden emin misiniz?", style: context.general.textTheme.labelLarge),
+                                    context.sized.emptySizedHeightBoxLow,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: AppElevetedButton(
+                                            buttonColor: ColorManager.BUTTONREDCOLOR,
+                                            buttonText: "Çıkış Yap",
+                                            buttonwidth: 10,
+                                            buttonHeight: 10,
+                                            onPressed: () {
+                                              SecureStorage.instance.deleteSecureData();
+                                              context.go(RouterManager.login);
+                                            },
+                                          ),
+                                        ),
+                                        context.sized.emptySizedWidthBoxLow3x,
+                                        Expanded(
+                                          child: AppElevetedButton(
+                                            buttonColor: ColorManager.BUTTONGREYCOLOR,
+                                            buttonText: "İptal",
+                                            buttonwidth: 10,
+                                            buttonHeight: 10,
+                                            textStyle: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.GREEN, fontWeight: FontWeight.bold, fontSize: 16.5.sp),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       )
                     ],
@@ -81,30 +134,61 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
             ),
             Positioned(
               top: 45.w,
-              child: Container(
-                height: 30.w,
-                width: 90.w,
-                decoration: const BoxDecoration(
-                  color: ColorManager.WHITE,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    context.sized.emptySizedWidthBoxLow3x,
-                    ImageManager.instance.women,
-                    context.sized.emptySizedWidthBoxLow3x,
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 30.w,
+                    width: 90.w,
+                    decoration: const BoxDecoration(
+                      color: ColorManager.WHITE,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(width: 50.w, child: Text("${user?.name} ${user?.surname}", style: context.general.textTheme.labelMedium)),
-                        Text("${user?.phone}", style: context.general.textTheme.titleMedium),
+                        context.sized.emptySizedWidthBoxLow3x,
+                        isValidImagePath(imagePath)
+                            ? ClipOval(
+                                child: Image.asset(
+                                  imagePath ?? "",
+                                  height: 25.w,
+                                  width: 25.w,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : user?.gender == "Kadın" ? ImageManager.instance.women : ImageManager.instance.men,
+                        context.sized.emptySizedWidthBoxLow3x,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 50.w, child: Text("${user?.name} ${user?.surname}", style: context.general.textTheme.labelMedium)),
+                            Text("${user?.phone}", style: context.general.textTheme.titleMedium),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 20.w,
+                    top: 19.w,
+                    child: InkWell(
+                      onTap: () {
+                        pickImage();
+                      },
+                      child: CircleAvatar(
+                        radius: 4.w,
+                        backgroundColor: ColorManager.LIGHTGREEN2,
+                        child: IconManager.instance.customIcon(
+                          Icons.camera_alt_outlined,
+                          sizeW: 4,
+                          color: ColorManager.WHITE,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

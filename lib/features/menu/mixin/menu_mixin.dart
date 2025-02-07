@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rencber_mobile/product/provider/navbar/navbar_provider.dart';
 
@@ -7,50 +6,50 @@ mixin MenuMixin on ConsumerWidget {
     List menuList = [
       {
         "title": "Anasayfa",
-        "icon": Icons.home_outlined,
+        "icon": "house",
         "onTap": () {
           ref.read(navbarSelectedProvider.notifier).notify(2);
         },
       },
       {
         "title": "Tavsiyeler",
-        "icon": Icons.description_outlined,
+        "icon": "tavsiye",
         "onTap": () {
           ref.read(navbarSelectedProvider.notifier).notify(1);
         },
       },
       {
         "title": "Haberler",
-        "icon": Icons.newspaper,
+        "icon": "news",
         "onTap": () {
           ref.read(navbarSelectedProvider.notifier).notify(3);
         },
       },
       {
         "title": "Tarlalarım",
-        "icon": Icons.landscape_outlined,
+        "icon": "tarla",
         "onTap": "/tarla",
       },
       {
         "title": "Hava Durumu",
-        "icon": Icons.wb_sunny_outlined,
+        "icon": "hava",
         "onTap": "/news",
       },
       {
         "title": "Takvim",
-        "icon": Icons.calendar_today_outlined,
+        "icon": "takvim",
         "onTap": "/news",
       },
       {
         "title": "Hesabım",
-        "icon": Icons.person_2_outlined,
+        "icon": "hesabım",
         "onTap": () {
           ref.read(navbarSelectedProvider.notifier).notify(4);
         }
       },
       {
         "title": "Bildirim",
-        "icon": Icons.notifications_none_outlined,
+        "icon": "noti",
         "onTap": "/account",
       },
     ];

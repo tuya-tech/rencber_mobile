@@ -14,6 +14,7 @@ import 'package:rencber_mobile/product/services/user/user.dart';
 
 mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
   late final TextEditingController nameController;
+  late final TextEditingController surNameController;
   late final TextEditingController phoneController;
   late final TextEditingController genderController;
   late final TextEditingController dateTimeController;
@@ -33,6 +34,7 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
       initialData();
     });
     nameController = TextEditingController();
+    surNameController = TextEditingController();
     phoneController = TextEditingController();
     genderController = TextEditingController();
     dateTimeController = TextEditingController();
@@ -47,6 +49,7 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
   void dispose() {
     super.dispose();
     nameController.dispose();
+    surNameController.dispose();
     phoneController.dispose();
     genderController.dispose();
     dateTimeController.dispose();
@@ -58,13 +61,14 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
   }
 
   void initialData() {
-    phoneApproved = widget.userResponse.phoneApproved ?? false;
-    nameController.text = "${widget.userResponse.name} ${widget.userResponse.surname}";
+    setState(() {
+      phoneApproved = widget.userResponse.phoneApproved ?? false;
+    });
+    nameController.text = "${widget.userResponse.name}";
+    surNameController.text = "${widget.userResponse.surname}";
     phoneController.text = widget.userResponse.phone ?? "";
     genderController.text = genderByEng(widget.userResponse.gender ?? "");
     dateTimeController.text = widget.userResponse.birthday ?? "";
-    debugPrint("birthday: ${widget.userResponse.birthday}");
-    debugPrint("birthday: ${dateTimeController.text}");
     mailController.text = widget.userResponse.email ?? "";
     cityDistrictController.text = "${widget.userResponse.city?.name} / ${widget.userResponse.district?.name}";
     cityController.text = widget.userResponse.city?.name ?? "";
@@ -92,6 +96,7 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
   void onMyInfo(BuildContext context, WidgetRef ref) async {
     debugPrint("asdas");
     if (nameController.text.ext.isNotNullOrNoEmpty &&
+        surNameController.text.ext.isNotNullOrNoEmpty &&
         phoneController.text.ext.isNotNullOrNoEmpty &&
         genderController.text.ext.isNotNullOrNoEmpty &&
         dateTimeController.text.ext.isNotNullOrNoEmpty &&
@@ -103,8 +108,8 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
       var response = await UserApiService.instance.post(UserRequestModel(
         id: int.tryParse(userId ?? "0") ?? 0,
         phone: phoneController.text,
-        name: nameController.text.split(" ")[0],
-        surname: nameController.text.split(" ")[1],
+        name: nameController.text,
+        surname: surNameController.text,
         cityId: selectedCityId,
         districtId: selectedDistrictId,
         gender: genderByEng(genderController.text),
@@ -122,7 +127,9 @@ mixin ProfileEditMixin on ConsumerState<ProfileEditView> {
       }
     } else {
       if (nameController.text.ext.isNullOrEmpty) {
-        Toastr.showError("Ad Soyad Boş Bırakılamaz", context);
+        Toastr.showError("Ad Boş Bırakılamaz", context);
+      } else if (surNameController.text.ext.isNullOrEmpty) {
+        Toastr.showError("Soyad Boş Bırakılamaz", context);
       } else if (phoneController.text.ext.isNullOrEmpty) {
         Toastr.showError("Telefon Numarası Boş Bırakılamaz", context);
       } else if (genderController.text.ext.isNullOrEmpty) {

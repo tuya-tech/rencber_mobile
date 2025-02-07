@@ -17,6 +17,9 @@ AdviceResponseModel _$AdviceResponseModelFromJson(Map<String, dynamic> json) =>
       brand: json['brand'] as String?,
       sponsored: json['sponsored'] as bool?,
       image: json['image'] as String?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      webSite: json['webSite'] as String?,
     );
 
 Map<String, dynamic> _$AdviceResponseModelToJson(AdviceResponseModel instance) {
@@ -37,5 +40,8 @@ Map<String, dynamic> _$AdviceResponseModelToJson(AdviceResponseModel instance) {
   writeNotNull('brand', instance.brand);
   writeNotNull('sponsored', instance.sponsored);
   writeNotNull('image', instance.image);
+  writeNotNull('latitude', instance.latitude);
+  writeNotNull('longitude', instance.longitude);
+  writeNotNull('webSite', instance.webSite);
   return val;
 }

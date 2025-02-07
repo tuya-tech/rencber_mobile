@@ -25,7 +25,9 @@ class _RegisterViewState extends ConsumerState<RegisterView> with RegisterMixin 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.BGCOLOR,
-      appBar: const AppBarBackButton(),
+      appBar: const AppBarBackButton(
+        color: ColorManager.BLACK,
+      ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Padding(
@@ -42,9 +44,11 @@ class _RegisterViewState extends ConsumerState<RegisterView> with RegisterMixin 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppTextField(fieldName: "phoneNumber", controller: phoneController, isPhoneNumber: true, labelText: "Cep Telefonu Numaranız"),
+                    AppTextField(fieldName: "registerPhoneNumber", controller: phoneController, isPhoneNumber: true, labelText: "Cep Telefonu Numaranız"),
                     context.sized.emptySizedHeightBoxLow3x,
-                    AppTextField(fieldName: "nameSurname", controller: nameSurnameController, labelText: "Ad - Soyad", hintText: "Adınız Soyadınız", inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]'))]),
+                    AppTextField(fieldName: "registerName", controller: nameController, labelText: "Ad", hintText: "Adınız", inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]'))]),
+                    context.sized.emptySizedHeightBoxLow3x,
+                    AppTextField(fieldName: "registerSurname", controller: surnameController, labelText: "Soyad", hintText: "Soyadınız", inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]'))]),
                     context.sized.emptySizedHeightBoxLow3x,
                     Row(children: [
                       Expanded(

@@ -41,10 +41,10 @@ class NewsDetailsView extends ConsumerWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withOpacity(0.7),
-                            Colors.black.withOpacity(0.4),
-                            Colors.black.withOpacity(0.4),
-                            Colors.black.withOpacity(0.7),
+                            Colors.black.withValues(alpha: 0.7),
+                            Colors.black.withValues(alpha: 0.4),
+                            Colors.black.withValues(alpha: 0.4),
+                            Colors.black.withValues(alpha: 0.7),
                           ],
                           stops: const [0, 0.4, 0.8, 1],
                         ),
@@ -87,7 +87,7 @@ class NewsDetailsView extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: ColorManager.BLACK.withOpacity(0.1),
+                        color: ColorManager.BLACK.withValues(alpha: 0.1),
                         spreadRadius: 1,
                         blurRadius: 5,
                         offset: const Offset(0, 3),

@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/weather/weather_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -8,12 +10,17 @@ class WeatherApiService {
   WeatherApiService._();
   static final instance = WeatherApiService._();
 
-  Future<BaseResponseModel<WeatherResponseModel>> get(int fieldId) async {
+  Future<BaseResponseModel<WeatherResponseModel>> get() async {
     try {
+      var fieldData = await SecureStorage.instance.readFieldModel('outLineField');
+      var fieldId = fieldData?.id ?? 0;
+      debugPrint("fieldId: $fieldId");
       final response = await DioManager.dio.get(
-        "${ServicesPath.instance.weather}/$fieldId",
+        "${ServicesPath.instance.weather}/field/$fieldId",
         options: await DioManager.getOptions(),
       );
+
+      debugPrint("WeatherApiService get: ${ServicesPath.instance.weather}/field/$fieldId");
 
       if (response.statusCode == 200) {
         return BaseResponseModel<WeatherResponseModel>(

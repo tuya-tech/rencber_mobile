@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
-import 'package:rencber_mobile/core/constants/icon/icon.dart';
+import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/features/menu/mixin/menu_mixin.dart';
 
@@ -22,7 +22,12 @@ class MenuView extends ConsumerWidget with MenuMixin {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: getMenuList(ref).length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0
+          ),
           itemBuilder: (context, index) {
             var menuList = getMenuList(ref);
             return Padding(
@@ -35,7 +40,8 @@ class MenuView extends ConsumerWidget with MenuMixin {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconManager.instance.customIcon(menuList[index]["icon"], sizeW: 15, color: ColorManager.GREEN),
+                      ImageManager.getMenuImage(menuList[index]["icon"]),
+                      //IconManager.instance.customIcon(menuList[index]["icon"], sizeW: 15, color: ColorManager.GREEN),
                       context.sized.emptySizedHeightBoxLow,
                       Text('${menuList[index]["title"]}', style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.GREEN)),
                     ],

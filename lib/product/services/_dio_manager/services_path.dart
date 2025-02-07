@@ -9,6 +9,13 @@ class ServicesPath {
   final String valideCode = 'auth/validate-code';
   final String refreshToken = 'auth/refresh-token';
 
+  final String field = 'api/field';
+
+  final String notification = 'api/notification-settings';
+  final String products = 'api/bitki';
+
+
+
   final String news = 'api/news';
   final String advice = 'api/product';
 

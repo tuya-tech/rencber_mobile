@@ -46,13 +46,15 @@ mixin ValideCodeMixin on State<ValideCodeView> {
       var valideCode = valideCodeController.text;
       var firebaseToken = Platform.isAndroid
           ? await FirebaseMessaging.instance.getToken()
-          : Platform.isIOS
+          : Platform.isIOS || Platform.isMacOS
               ? await FirebaseMessaging.instance.getAPNSToken()
-              : null;
-      var response = await ValideCodeApiService.instance.post(valideCode, phoneNumberFormatter(widget.phoneNumber), firebaseToken ?? "");
+              : "";
+      debugPrint("firebaseToken : $firebaseToken");
+      var response = await ValideCodeApiService.instance.post(valideCode, phoneNumberFormatter(widget.phoneNumber));
+      debugPrint(response.data.toString());
       if (response.data != null) {
-        //Telefonu Doğruladık ve arka planda login işlemi yapılacak
-        var response = await LoginApiService.instance.login(phoneNumberFormatter(widget.phoneNumber), valideCode);
+        //Telefonu Doğruladık ve arka planda login işlemi yapılacak // TODO buradan firebasetoken gönderilecek
+        var response = await LoginApiService.instance.login(phoneNumberFormatter(widget.phoneNumber), valideCode, firebaseToken ?? "");
         if (response.statusCode == 200 && response.data != null) {
           appLoading(context, false);
           SecureStorage.instance.writeSecureData("accessToken", response.data!.accessToken!);

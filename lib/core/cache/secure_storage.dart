@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rencber_mobile/product/models/field/field_response.dart';
 
 class SecureStorage {
   SecureStorage._();
@@ -51,5 +52,18 @@ class SecureStorage {
   Future<void> writeListSecureData(String key, List value) async {
     final listEncoded = jsonEncode(value);
     await storage.write(key: key, value: listEncoded);
+  }
+
+  Future<void> writeFieldModel(String key, FieldResponseModel model) {
+    final modelEncoded = jsonEncode(model);
+    return storage.write(key: key, value: modelEncoded);
+  }
+
+  Future<FieldResponseModel?> readFieldModel(String key) async {
+    final modelEncoded = await storage.read(key: key);
+    if (modelEncoded != null) {
+      return FieldResponseModel.fromJson(jsonDecode(modelEncoded));
+    }
+    return null;
   }
 }

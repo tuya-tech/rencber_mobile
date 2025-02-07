@@ -5,10 +5,12 @@ import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
+import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/image/network_image.dart';
 import 'package:rencber_mobile/product/provider/advice/advice_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdviceDetailsView extends ConsumerStatefulWidget {
   const AdviceDetailsView({super.key, required this.adviceId});
@@ -49,6 +51,25 @@ class _AdviceDetailsViewState extends ConsumerState<AdviceDetailsView> {
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: Html(data: advice.content ?? ""),
+                  ),
+                  context.sized.emptySizedHeightBoxLow,
+                  AppElevetedButton(
+                    buttonText: "Web Sitesini Ziyaret Et",
+                    rightIconData: Icons.arrow_outward_rounded,
+                    onPressed: () async {
+                      await launchUrl(Uri(scheme: "https", path: advice.webSite ?? ""));
+                    },
+                  ),
+                  context.sized.emptySizedHeightBoxLow,
+                  AppElevetedButton(
+                    buttonText: "Haritaları Aç",
+                    buttonColor: ColorManager.BGCOLOR,
+                    borderColor: ColorManager.GREEN,
+                    textColor: ColorManager.GREEN,
+                    rightIconData: Icons.arrow_outward_rounded,
+                    onPressed: () async {
+                      await launchUrl(Uri(scheme: "https", path: "www.google.com/maps/search/?api=1&query=${advice.latitude},${advice.longitude}"));
+                    },
                   ),
                 ],
               ),

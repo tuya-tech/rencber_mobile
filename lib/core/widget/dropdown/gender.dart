@@ -33,7 +33,7 @@ class _AppGenderState extends State<AppGender> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: ColorManager.BLACK.withOpacity(0.1),
+            color: ColorManager.BLACK.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -78,7 +78,7 @@ class _AppGenderState extends State<AppGender> {
                 color: ColorManager.WHITE,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
-                  BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1)),
+                  BoxShadow(color: Colors.grey.withValues(alpha: 0.5), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1)),
                 ],
               ),
               textFormFieldstyle: context.general.textTheme.titleMedium,

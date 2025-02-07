@@ -12,8 +12,7 @@ class FirebaseInit {
   static Future<void> initFcm() async {
     try {
       debugPrint('Initializing Firebase...');
-      var iosToken = await FirebaseMessaging.instance.getToken();
-      debugPrint('APNS Token: $iosToken');
+
       await _configureFcmPermissions();
       await _initializeLocalNotifications();
 

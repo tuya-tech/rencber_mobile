@@ -6,7 +6,10 @@ import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AppCalendar extends StatefulWidget {
-  const AppCalendar({super.key});
+  const AppCalendar({super.key, this.format, this.headerVisible, this.rowHeight});
+  final CalendarFormat? format;
+  final bool? headerVisible;
+  final double? rowHeight;
 
   @override
   State<AppCalendar> createState() => _AppCalendarState();
@@ -15,9 +18,9 @@ class AppCalendar extends StatefulWidget {
 class _AppCalendarState extends State<AppCalendar> {
   DateTime _selectedDay = DateTime.now();
   final Map<String, List> _events = {
-    "2024-11-24": ['Event A0'],
-    "2024-11-23": ['Event A1'],
-    "2024-11-22": ['Event A2'],
+    "2025-02-24": ['Event A0'],
+    "2025-02-23": ['Event A1'],
+    "2025-02-22": ['Event A2'],
   };
 
   Color markerColors(DateTime selectedDay) {
@@ -38,12 +41,20 @@ class _AppCalendarState extends State<AppCalendar> {
     return Column(
       children: [
         TableCalendar(
-          rowHeight: 17.w,
+          rowHeight: widget.rowHeight?.w ?? 17.w,
           focusedDay: DateTime.now(),
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14),
-          calendarFormat: CalendarFormat.week,
-          headerVisible: false,
+          calendarFormat: widget.format ?? CalendarFormat.week,
+          headerVisible: widget.headerVisible ?? false,
+          headerStyle: HeaderStyle(
+            formatButtonVisible: false,
+            titleCentered: true,
+            titleTextStyle: context.general.textTheme.labelMedium!.copyWith(color: ColorManager.BLACK),
+            leftChevronIcon: const Icon(Icons.chevron_left, color: ColorManager.BLACK),
+            rightChevronIcon: const Icon(Icons.chevron_right, color: ColorManager.BLACK),
+            titleTextFormatter: (date, locale) => DateFormat.MMMM(locale).format(date),
+          ),
           daysOfWeekHeight: 6.w,
           locale: 'tr_TR',
           startingDayOfWeek: StartingDayOfWeek.monday,
@@ -86,7 +97,7 @@ class _AppCalendarState extends State<AppCalendar> {
                 ),
                 child: Text(
                   date.day.toString(),
-                  style: context.general.textTheme.labelMedium!.copyWith(color: ColorManager.BLACK),
+                  style: context.general.textTheme.labelSmall!.copyWith(color: ColorManager.BLACK..withValues(alpha: 0.2)),
                 ),
               );
             },

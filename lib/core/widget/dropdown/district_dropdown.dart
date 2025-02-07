@@ -48,7 +48,7 @@ class _AppDistrictDropdownState extends ConsumerState<AppDistrictDropdown> {
         color: ColorManager.WHITE,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1)),
+          BoxShadow(color: Colors.grey.withValues(alpha: 0.5), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1)),
         ],
       ),
       textFormFieldstyle: context.general.textTheme.titleMedium,

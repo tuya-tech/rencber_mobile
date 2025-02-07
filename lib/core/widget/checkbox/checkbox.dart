@@ -5,11 +5,12 @@ import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:sizer/sizer.dart';
 
 class AppCheckBox extends StatefulWidget {
-  const AppCheckBox({super.key, this.multiSelect = false, required this.items, this.onChanged, this.isCircular = false});
+  const AppCheckBox({super.key, this.multiSelect = false, required this.items, this.onChanged, this.isCircular = false, this.initialValue});
   final bool multiSelect;
   final List<String> items;
   final Function(dynamic)? onChanged;
   final bool isCircular;
+  final String? initialValue;
 
   @override
   State<AppCheckBox> createState() => _AppCheckBoxState();
@@ -18,6 +19,12 @@ class AppCheckBox extends StatefulWidget {
 class _AppCheckBoxState extends State<AppCheckBox> {
   var selectedItem = "";
   var selectedItems = <String>[];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedItem = widget.initialValue ?? "";
+  }
 
   @override
   Widget build(BuildContext context) {

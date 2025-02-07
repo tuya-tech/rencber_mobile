@@ -12,6 +12,9 @@ class AdviceResponseModel {
   String? brand;
   bool? sponsored;
   String? image;
+  double? latitude;
+  double? longitude;
+  String? webSite;
 
   AdviceResponseModel({
     this.id,
@@ -23,6 +26,9 @@ class AdviceResponseModel {
     this.brand,
     this.sponsored,
     this.image,
+    this.latitude,
+    this.longitude,
+    this.webSite,
   });
 
   factory AdviceResponseModel.fromJson(Map<String, dynamic> json) => _$AdviceResponseModelFromJson(json);

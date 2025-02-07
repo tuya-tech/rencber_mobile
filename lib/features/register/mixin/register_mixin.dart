@@ -12,7 +12,8 @@ import 'package:rencber_mobile/product/services/register/register.dart';
 
 mixin RegisterMixin<T extends StatefulWidget> on State<T> {
   late final TextEditingController phoneController;
-  late final TextEditingController nameSurnameController;
+  late final TextEditingController nameController;
+  late final TextEditingController surnameController;
   late final TextEditingController cityController;
   late final TextEditingController districtController;
   final formKey = GlobalKey<FormBuilderState>();
@@ -25,7 +26,8 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     super.initState();
     phoneController = TextEditingController(text: "(555)");
-    nameSurnameController = TextEditingController();
+    nameController = TextEditingController();
+    surnameController = TextEditingController();
     cityController = TextEditingController();
     districtController = TextEditingController();
   }
@@ -59,7 +61,7 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
     debugPrint(phoneNumberFormatter(phoneController.text));
     if (formKey.currentState!.validate() && gender.ext.isNotNullOrNoEmpty && checkBoxValue[1]) {
       appLoading(context, true);
-      RegisterRequestModel userData = RegisterRequestModel(phone: phoneNumberFormatter(phoneController.text), name: nameSurnameController.text, surname: nameSurnameController.text, cityId: cityId, districtId: districtId, gender: gender, sendAd: checkBoxValue[0], kvkk: checkBoxValue[1]);
+      RegisterRequestModel userData = RegisterRequestModel(phone: phoneNumberFormatter(phoneController.text), name: nameController.text, surname: surnameController.text, cityId: cityId, districtId: districtId, gender: gender, sendAd: checkBoxValue[0], kvkk: checkBoxValue[1]);
       var response = await RegisterApiService.instance.post(userData);
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         appLoading(context, false);
@@ -78,7 +80,8 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
   void dispose() {
     super.dispose();
     phoneController.dispose();
-    nameSurnameController.dispose();
+    nameController.dispose();
+    surnameController.dispose();
     cityController.dispose();
     districtController.dispose();
   }

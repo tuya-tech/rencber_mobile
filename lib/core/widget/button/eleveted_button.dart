@@ -5,7 +5,7 @@ import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:sizer/sizer.dart';
 
 class AppElevetedButton extends StatelessWidget {
-  const AppElevetedButton({super.key, required this.buttonText, required this.onPressed, this.rightIconData, this.leftIconData, this.buttonwidth = 100, this.buttonHeight = 12, this.textStyle});
+  const AppElevetedButton({super.key, required this.buttonText, required this.onPressed, this.rightIconData, this.leftIconData, this.buttonwidth = 100, this.buttonHeight = 12, this.textStyle, this.buttonColor, this.borderColor, this.textColor});
   final String buttonText;
   final IconData? rightIconData;
   final IconData? leftIconData;
@@ -13,6 +13,9 @@ class AppElevetedButton extends StatelessWidget {
   final double buttonwidth;
   final double buttonHeight;
   final TextStyle? textStyle;
+  final Color? buttonColor;
+  final Color? borderColor;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +24,19 @@ class AppElevetedButton extends StatelessWidget {
       height: buttonHeight.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: ColorManager.GREEN,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          backgroundColor: buttonColor ?? ColorManager.GREEN,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: borderColor ?? ColorManager.GREEN, width: 1),
+          ),
         ),
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             leftIconData != null ? Padding(padding: context.padding.onlyRightLow, child: IconManager.instance.customIcon(leftIconData, color: ColorManager.WHITE, sizeW: 6)) : const SizedBox.shrink(),
-            Text(buttonText, style: textStyle ?? context.general.textTheme.titleMedium!.copyWith(color: ColorManager.WHITE, fontWeight: FontWeight.bold, fontSize: 16.5.sp)),
-            rightIconData != null ? Padding(padding: context.padding.onlyLeftLow, child: IconManager.instance.customIcon(rightIconData, color: ColorManager.WHITE, sizeW: 6)) : const SizedBox.shrink(),
+            Text(buttonText, style: textStyle ?? context.general.textTheme.titleMedium!.copyWith(color: textColor ?? ColorManager.WHITE, fontWeight: FontWeight.bold, fontSize: 16.5.sp)),
+            rightIconData != null ? Padding(padding: context.padding.onlyLeftLow, child: IconManager.instance.customIcon(rightIconData, color: textColor ?? ColorManager.WHITE, sizeW: 6)) : const SizedBox.shrink(),
           ],
         ),
       ),

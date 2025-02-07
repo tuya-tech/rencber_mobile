@@ -15,7 +15,7 @@ class AppReview extends StatelessWidget {
       child: Container(
         height: 8.w,
         decoration: BoxDecoration(
-          color: ColorManager.BUTTONBGGREEN.withOpacity(0.1),
+          color: ColorManager.BUTTONBGGREEN.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(

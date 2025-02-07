@@ -43,6 +43,16 @@ class DioManager {
 
   static Future<Options> getOptions() async {
     var userToken = await SecureStorage.instance.readSecureData("accessToken");
+    // bool hasExpired = JwtDecoder.isExpired(userToken ?? "");
+    // if (hasExpired) {
+    //   var refreshToken = await SecureStorage.instance.readSecureData("refreshToken");
+    //   RefreshTokenApiService.instance.post(refreshToken ?? "").then((value) {
+    //     if (value.statusCode == 200 && value.data != null) {
+    //       SecureStorage.instance.writeSecureData("accessToken", value.data?.accessToken ?? "");
+    //       SecureStorage.instance.writeSecureData("refreshToken", value.data?.refreshToken ?? "");
+    //     }
+    //   });
+    // }
     debugPrint('userToken: $userToken');
     if (userToken.ext.isNotNullOrNoEmpty) {
       return Options(

@@ -29,7 +29,7 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
       backgroundColor: ColorManager.BGCOLOR,
       body: adviceProvider.when(
         data: (adviceData) {
-          var (outLineData, normalData) = outLineAndNormalData(adviceData.data!);
+          var (outLineData, normalData) = outLineAndNormalData(adviceData.data ?? []);
           return SliverAppBarCustom(
             height: 15,
             title: Text("Tavsiyeler", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
@@ -76,7 +76,7 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(child: Text(outLineData[index].title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleSmall)),
-                                          Expanded(child: Text(outLineData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.BLACK.withOpacity(0.7)))),
+                                          Expanded(child: Text(outLineData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.BLACK.withValues(alpha: 0.7)))),
                                           context.sized.emptySizedHeightBoxLow,
                                           AppElevetedButton(
                                             buttonText: "İncele",

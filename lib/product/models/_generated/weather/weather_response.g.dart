@@ -21,13 +21,13 @@ WeatherResponseModel _$WeatherResponseModelFromJson(
       district: json['district'] == null
           ? null
           : CityModel.fromJson(json['district'] as Map<String, dynamic>),
-      temperature: (json['temperature'] as num?)?.toInt(),
-      minTemperature: (json['minTemperature'] as num?)?.toInt(),
-      maxTemperature: (json['maxTemperature'] as num?)?.toInt(),
-      windSpeed: (json['windSpeed'] as num?)?.toInt(),
-      humidity: (json['humidity'] as num?)?.toInt(),
-      date: (json['date'] as num?)?.toInt(),
-      rainFall: (json['rainFall'] as num?)?.toInt(),
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      minTemperature: (json['minTemperature'] as num?)?.toDouble(),
+      maxTemperature: (json['maxTemperature'] as num?)?.toDouble(),
+      windSpeed: (json['windSpeed'] as num?)?.toDouble(),
+      humidity: (json['humidity'] as num?)?.toDouble(),
+      date: json['date'] as String?,
+      rainFall: (json['rainFall'] as num?)?.toDouble(),
       weatherType: json['weatherType'] as String?,
     );
 

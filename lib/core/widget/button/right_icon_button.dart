@@ -10,6 +10,7 @@ class AppRightIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      padding: EdgeInsets.zero,
       icon: Row(
         children: [
           Text('Tümünü Gör', style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.GREYCOLOR)),
