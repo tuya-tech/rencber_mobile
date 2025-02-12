@@ -31,6 +31,7 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
               itemCount: 9,
               itemBuilder: (context, index) {
                 return Container(
+                  height: 25.w,
                   decoration: const BoxDecoration(
                     color: ColorManager.WHITE,
                     border: Border(

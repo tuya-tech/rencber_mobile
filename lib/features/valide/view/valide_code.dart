@@ -3,8 +3,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
+import 'package:rencber_mobile/core/widget/loading/loading.dart';
 import 'package:rencber_mobile/core/widget/text_field/text_field.dart';
 import 'package:rencber_mobile/features/valide/mixin/valide_code_mixin.dart';
+import 'package:rencber_mobile/product/services/login/login.dart';
 
 class ValideCodeView extends StatefulWidget {
   const ValideCodeView({super.key, required this.phoneNumber});
@@ -53,7 +55,26 @@ class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
               },
             ),
             context.sized.emptySizedHeightBoxLow,
-            Text("${(second ~/ 60).toString()}:${(second % 60).toString().padLeft(2, '0')}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("${(second ~/ 60).toString()}:${(second % 60).toString().padLeft(2, '0')}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR)),
+                TextButton(
+                  onPressed: () async {
+                    appLoading(context, true);
+                    var response = await LoginApiService.instance.loginRequest(phoneNumberFormatter(widget.phoneNumber));
+                    debugPrint(response.data.toString());
+                    if (response.data != null && context.mounted) {
+                      appLoading(context, false);
+                    } else {
+                      context.mounted ? appLoading(context, false) : null;
+                    }
+                  },
+                  style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                  child: Text("Tekrar Gönder", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.GREEN)),
+                ),
+              ],
+            ),
           ],
         ),
       ),
