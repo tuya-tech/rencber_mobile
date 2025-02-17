@@ -80,7 +80,7 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                                           context.sized.emptySizedHeightBoxLow,
                                           AppElevetedButton(
                                             buttonText: "İncele",
-                                            buttonwidth: 20,
+                                            buttonwidth: 22,
                                             buttonHeight: 7,
                                             textStyle: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.WHITE, fontSize: 13.sp),
                                             onPressed: () => context.push(RouterManager.brandDetails, extra: outLineData[index].id),

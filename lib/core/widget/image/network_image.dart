@@ -19,7 +19,7 @@ class AppNetworkImage {
           imageUrl: imageUrl ?? "",
           useOldImageOnUrlChange: false,
           placeholder: (context, url) => const Center(child: CircularProgressIndicator.adaptive()),
-          errorWidget: (context, url, error) => const FlutterLogo(),
+          errorWidget: (context, url, error) => const SizedBox.shrink()
         ),
       );
     } catch (e) {

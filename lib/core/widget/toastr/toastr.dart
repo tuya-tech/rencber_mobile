@@ -17,7 +17,7 @@ class ToastrMsg {
       FToast fToast = FToast();
       fToast.init(context);
       fToast.showToast(
-        positionedToastBuilder: (context, child) {
+        positionedToastBuilder: (context, child, gravity) {
           return Positioned(top: 12.w, left: 10.w, right: 10.w, child: child);
         },
         child: SizedBox(

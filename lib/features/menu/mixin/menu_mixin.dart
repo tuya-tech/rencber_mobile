@@ -28,17 +28,21 @@ mixin MenuMixin on ConsumerWidget {
       {
         "title": "Tarlalarım",
         "icon": "tarla",
-        "onTap": "/tarla",
+        "onTap": () {
+          ref.read(navbarSelectedProvider.notifier).notify(2);
+        }
       },
-      {
-        "title": "Hava Durumu",
-        "icon": "hava",
-        "onTap": "/news",
-      },
+      // {
+      //   "title": "Hava Durumu",
+      //   "icon": "hava",
+      //   "onTap": "/news",
+      // },
       {
         "title": "Takvim",
         "icon": "takvim",
-        "onTap": "/news",
+        "onTap": () {
+          ref.read(navbarSelectedProvider.notifier).notify(2);
+        }
       },
       {
         "title": "Hesabım",

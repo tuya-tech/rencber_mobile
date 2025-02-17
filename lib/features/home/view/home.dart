@@ -13,6 +13,7 @@ import 'package:rencber_mobile/features/home/widget/calender.dart';
 import 'package:rencber_mobile/features/home/widget/fields.dart';
 import 'package:rencber_mobile/features/notification/view/notification_view.dart';
 import 'package:rencber_mobile/product/models/advice/advice_response.dart';
+import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:rencber_mobile/product/models/field/field_response.dart';
 import 'package:rencber_mobile/product/models/weather/weather_response.dart';
 import 'package:rencber_mobile/product/provider/home/home_provider.dart';
@@ -29,8 +30,9 @@ class HomeView extends ConsumerWidget {
       backgroundColor: ColorManager.BGCOLOR,
       body: homeProvider.when(data: (homeData) {
         var weatherData = homeData['weather'] != null ? homeData['weather'] as WeatherResponseModel : WeatherResponseModel();
-        var adviceData = homeData['advice'] as List<AdviceResponseModel>;
+        var adviceData = homeData['advice'] != null ? homeData['advice'] as List<AdviceResponseModel> : List<AdviceResponseModel>.empty();
         var fieldData = homeData['field'] != null ? homeData['field'] as List<FieldResponseModel> : List<FieldResponseModel>.empty();
+        var fieldIslemData = homeData['fieldIslem'] != null ? homeData['fieldIslem'] as List<FieldIslemResponseModel> : List<FieldIslemResponseModel>.empty();
         fieldData.sort((a, b) => a.outline == true ? -1 : 1);
         return SliverAppBarCustom(
           height: 55,
@@ -66,7 +68,7 @@ class HomeView extends ConsumerWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const HomeCalendar(),
+                    HomeCalendar(fieldIslemData: fieldIslemData),
                     context.sized.emptySizedHeightBoxLow,
                     HomeFieldList(fieldData: fieldData),
                     context.sized.emptySizedHeightBoxLow,
@@ -87,14 +89,50 @@ class HomeView extends ConsumerWidget {
   }
 }
 
-class HomeWeather extends StatelessWidget {
+class HomeWeather extends StatefulWidget {
   const HomeWeather({super.key, required this.weatherData});
 
   final WeatherResponseModel? weatherData;
 
   @override
+  State<HomeWeather> createState() => _HomeWeatherState();
+}
+
+class _HomeWeatherState extends State<HomeWeather> {
+  String weatherTypeLanguage(String? weatherType) {
+    switch (weatherType) {
+      case "Clear":
+        return "Açık";
+      case "Clouds":
+        return "Bulutlu";
+      case "Rain":
+        return "Yağmurlu";
+      case "Snow":
+        return "Karlı";
+      case "Mist":
+        return "Sisli";
+      case "Fog":
+        return "Sisli";
+      case "Haze":
+        return "Sisli";
+      case "Dust":
+        return "Tozlu";
+      case "Sand":
+        return "Kum Fırtınalı";
+      case "Ash":
+        return "Kül Fırtınalı";
+      case "Squall":
+        return "Fırtınalı";
+      case "Tornado":
+        return "Tornado";
+      default:
+        return "";
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return weatherData?.id != null
+    return widget.weatherData?.id != null
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -105,7 +143,7 @@ class HomeWeather extends StatelessWidget {
                     children: [
                       IconManager.instance.customIcon(Icons.near_me, color: ColorManager.BUTTONBGGREEN, sizeW: 5),
                       context.sized.emptySizedWidthBoxLow,
-                      Text("${weatherData?.city?.name ?? ""}, ${weatherData?.district?.name ?? ""}", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.WHITE)),
+                      Text("${widget.weatherData?.city?.name ?? ""}, ${widget.weatherData?.district?.name ?? ""}", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.WHITE)),
                     ],
                   ),
                   //Text(AppConstant.dateFormat(context, weatherData?.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
@@ -116,23 +154,23 @@ class HomeWeather extends StatelessWidget {
                 padding: context.padding.horizontalNormal,
                 child: Row(
                   children: [
-                    ImageManager.weatherImage(weatherData?.weatherType ?? ""),
+                    ImageManager.weatherImage(widget.weatherData?.weatherType ?? ""),
                     context.sized.emptySizedWidthBoxLow3x,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${weatherData?.temperature ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("${widget.weatherData?.temperature ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.WHITE)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text(weatherData?.weatherType ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text(weatherTypeLanguage(widget.weatherData?.weatherType?.ext.toCapitalized()), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                       ],
                     ),
                     context.sized.emptySizedWidthBoxLow3x,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("En yüksek: ${weatherData?.maxTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En yüksek: ${widget.weatherData?.maxTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text("En düşük: ${weatherData?.minTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En düşük: ${widget.weatherData?.minTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                       ],
                     )
                   ],
@@ -153,7 +191,7 @@ class HomeWeather extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Yağış Miktarı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            Text("${weatherData?.rainFall ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                            Text("${widget.weatherData?.rainFall ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
                           ],
                         ),
                       ],
@@ -167,7 +205,7 @@ class HomeWeather extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Rüzgar", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            Text("${weatherData?.windSpeed ?? ""} km/h", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                            Text("${widget.weatherData?.windSpeed ?? ""} km/h", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
                           ],
                         ),
                       ],
@@ -181,7 +219,7 @@ class HomeWeather extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Nem Oranı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            Text("%${weatherData?.humidity ?? ""}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                            Text("%${widget.weatherData?.humidity ?? ""}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
                           ],
                         ),
                       ],
@@ -191,6 +229,6 @@ class HomeWeather extends StatelessWidget {
               )
             ],
           )
-        : const SizedBox.shrink();
+        : Center(child: Text("Hava Durumu Bulunamadı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)));
   }
 }

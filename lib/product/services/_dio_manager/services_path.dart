@@ -10,7 +10,9 @@ class ServicesPath {
   final String refreshToken = 'auth/refresh-token';
 
   final String field = 'api/field';
-
+  final String fieldIslem = 'api/field-islem/field/';
+  final String fieldIslemManuel = 'api/field-islem/manuel';
+  
   final String notification = 'api/notification-settings';
   final String products = 'api/bitki';
 

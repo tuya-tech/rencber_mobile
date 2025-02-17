@@ -94,7 +94,7 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditView> with ProfileE
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppElevetedButton(buttonwidth: 26, buttonHeight: 9, buttonText: "Kaydet", onPressed: () => onMyInfo(context, ref)),
+                  AppElevetedButton(buttonwidth: 30, buttonHeight: 9, buttonText: "Kaydet", onPressed: () => onMyInfo(context, ref)),
                 ],
               ),
             ],

@@ -8,6 +8,7 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/features/profile/view/profile.dart';
+import 'package:path_provider/path_provider.dart';
 
 mixin ProfileMixin on State<ProfileView> {
   late final ImagePicker picker;
@@ -26,13 +27,12 @@ mixin ProfileMixin on State<ProfileView> {
   }
 
   bool isValidImagePath(String? imagePath) {
-    if (imagePath == null || imagePath.isEmpty) {
-      return false;
-    }
+    if (imagePath == null || imagePath.isEmpty) return false;
     try {
       final file = File(imagePath);
-      return file.existsSync();
+      return file.existsSync() && file.lengthSync() > 0;
     } catch (e) {
+      debugPrint('Image validation error: $e');
       return false;
     }
   }
@@ -78,16 +78,47 @@ mixin ProfileMixin on State<ProfileView> {
 
   Future<void> pickImage() async {
     try {
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1024, // Resim boyutunu sınırlayalım
+        maxHeight: 1024,
+        imageQuality: 85, // Kaliteyi ayarlayalım
+      );
+
       if (pickedFile != null) {
-        var filePath = pickedFile.path;
-        imagePath = filePath;
-        await SecureStorage.instance.writeSecureData("profileImage", filePath);
+        final File pickedImage = File(pickedFile.path);
+        if (!await pickedImage.exists()) {
+          debugPrint('Picked image does not exist');
+          return;
+        }
+
+        final appDir = await getApplicationDocumentsDirectory();
+        final fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+        final savedImagePath = '${appDir.path}/$fileName';
+
+        // Önce varolan dosyayı kontrol edelim ve silelim
+        final savedImage = File(savedImagePath);
+        if (await savedImage.exists()) {
+          await savedImage.delete();
+        }
+
+        // Yeni dosyayı kopyalayalım
+        await pickedImage.copy(savedImagePath);
+
+        // Kopyalanan dosyanın varlığını kontrol edelim
+        if (!await File(savedImagePath).exists()) {
+          debugPrint('Failed to save image');
+          return;
+        }
+
+        setState(() {
+          imagePath = savedImagePath;
+        });
+        await SecureStorage.instance.writeSecureData("profileImage", savedImagePath);
+        debugPrint('Image saved successfully at: $savedImagePath');
       }
     } catch (e) {
-      debugPrint('Error picking image: $e');
-    } finally {
-      setState(() {});
+      debugPrint('Error picking/saving image: $e');
     }
   }
 }

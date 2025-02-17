@@ -13,6 +13,7 @@ import 'package:rencber_mobile/features/profile/mixin/profile_mixin.dart';
 import 'package:rencber_mobile/product/provider/user/user_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:sizer/sizer.dart';
+import 'dart:io';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});
@@ -150,14 +151,20 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                         context.sized.emptySizedWidthBoxLow3x,
                         isValidImagePath(imagePath)
                             ? ClipOval(
-                                child: Image.asset(
-                                  imagePath ?? "",
+                                child: Image.file(
+                                  File(imagePath!),
                                   height: 25.w,
                                   width: 25.w,
                                   fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    debugPrint('Error loading image: $error');
+                                    return user?.gender == "Kadın" ? ImageManager.instance.women : ImageManager.instance.men;
+                                  },
                                 ),
                               )
-                            : user?.gender == "Kadın" ? ImageManager.instance.women : ImageManager.instance.men,
+                            : user?.gender == "Kadın"
+                                ? ImageManager.instance.women
+                                : ImageManager.instance.men,
                         context.sized.emptySizedWidthBoxLow3x,
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,

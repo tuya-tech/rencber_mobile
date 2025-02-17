@@ -5,10 +5,12 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/widget/button/right_icon_button.dart';
 import 'package:rencber_mobile/core/widget/calendar/calendar.dart';
 import 'package:rencber_mobile/features/calendar/view/calendar.dart';
+import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeCalendar extends StatelessWidget {
-  const HomeCalendar({super.key});
+  const HomeCalendar({super.key, required this.fieldIslemData});
+  final List<FieldIslemResponseModel> fieldIslemData;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class HomeCalendar extends StatelessWidget {
           children: [
             Text("Takvim", style: context.general.textTheme.titleSmall),
             AppRightIconButton(onPressed: () {
-              PersistentNavBarNavigator.pushNewScreen(context, screen: const CalendarView());
+              PersistentNavBarNavigator.pushNewScreen(context, screen:  CalendarView(fieldIslemData: fieldIslemData));
             }),
           ],
         ),
@@ -29,7 +31,7 @@ class HomeCalendar extends StatelessWidget {
             color: ColorManager.WHITE,
             child: Padding(
               padding: context.padding.onlyLeftLow + context.padding.onlyRightLow + context.padding.onlyTopLow,
-              child: const AppCalendar(),
+              child: AppCalendar(fieldIslemData: fieldIslemData),
             ),
           ),
         ),

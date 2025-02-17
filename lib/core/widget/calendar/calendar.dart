@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/constants/constant/constant.dart';
+import 'package:rencber_mobile/core/constants/image/image.dart';
+import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AppCalendar extends StatefulWidget {
-  const AppCalendar({super.key, this.format, this.headerVisible, this.rowHeight});
+  const AppCalendar({super.key, this.format, this.headerVisible, this.rowHeight, this.fieldIslemData, this.isVisibleEventText = false});
   final CalendarFormat? format;
   final bool? headerVisible;
   final double? rowHeight;
+  final List<FieldIslemResponseModel>? fieldIslemData;
+  final bool isVisibleEventText;
 
   @override
   State<AppCalendar> createState() => _AppCalendarState();
@@ -17,28 +22,51 @@ class AppCalendar extends StatefulWidget {
 
 class _AppCalendarState extends State<AppCalendar> {
   DateTime _selectedDay = DateTime.now();
-  final Map<String, List> _events = {
-    "2025-02-24": ['Event A0'],
-    "2025-02-23": ['Event A1'],
-    "2025-02-22": ['Event A2'],
-  };
+  late final Map<String, List> _events;
 
-  Color markerColors(DateTime selectedDay) {
-    return ColorManager.GREEN;
+  Color markerColors(List selectedDay) {
+    if (selectedDay.contains('SULAMA')) {
+      return ColorManager.BLUE;
+    } else if (selectedDay.contains('GUBRELEME')) {
+      return ColorManager.BROWN;
+    } else if (selectedDay.contains('CAPALAMA')) {
+      return ColorManager.ORANGE;
+    }
+    return ColorManager.WHITE;
   }
 
   String selectedMarkerText(DateTime selectedDay) {
-    var dateFormat = DateFormat('yyyy-MM-dd').format(selectedDay);
-    var events = _events[dateFormat];
+    var dateFormat = DateFormat('dd.MM.yyyy').format(selectedDay);
+    var events = _events[dateFormat]?.toSet();
     if (events != null) {
-      return events.join('\n');
+      return events.join(', ');
     }
     return '';
+  }
+
+  void setEvent() {
+    widget.fieldIslemData?.forEach((element) {
+      var date = element.startDate;
+      if (_events[date] == null) {
+        _events[date!] = [];
+      }
+      if (!_events[date]!.contains(element.id)) {
+        _events[date]!.add(element.islemTipi);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _events = {};
+    setEvent();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TableCalendar(
           rowHeight: widget.rowHeight?.w ?? 17.w,
@@ -65,8 +93,8 @@ class _AppCalendarState extends State<AppCalendar> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: ColorManager.BLUE,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(10),
+                  shape: widget.isVisibleEventText ? BoxShape.circle : BoxShape.rectangle,
+                  borderRadius: widget.isVisibleEventText ? null : BorderRadius.circular(10),
                 ),
                 child: Text(
                   date.day.toString(),
@@ -79,7 +107,7 @@ class _AppCalendarState extends State<AppCalendar> {
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
-                  color: markerColors(_selectedDay),
+                  color: markerColors(events),
                   shape: BoxShape.circle,
                 ),
                 width: 2.w,
@@ -120,14 +148,14 @@ class _AppCalendarState extends State<AppCalendar> {
               return Container(
                 alignment: Alignment.center,
                 child: Text(
-                  DateFormat('EEE.').format(day),
+                  DateFormat('EEE.', "tr_TR").format(day),
                   style: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.BLACK),
                 ),
               );
             },
           ),
           eventLoader: (day) {
-            return _events[DateFormat('yyyy-MM-dd').format(day)] ?? [];
+            return _events[DateFormat('dd.MM.yyyy').format(day)] ?? [];
           },
           onDaySelected: (selectedDay, focusedDay) {
             setState(() {
@@ -135,8 +163,29 @@ class _AppCalendarState extends State<AppCalendar> {
             });
           },
         ),
-        context.sized.emptySizedHeightBoxLow3x,
-        Text(selectedMarkerText(_selectedDay)),
+        !widget.isVisibleEventText ? context.sized.emptySizedHeightBoxLow3x : const SizedBox.shrink(),
+        !widget.isVisibleEventText
+            ? Padding(
+                padding: context.padding.onlyLeftNormal,
+                child: Row(
+                  spacing: 2.w,
+                  children: [
+                    if (selectedMarkerText(_selectedDay) == "SULAMA") SizedBox(width: 5.w, height: 5.w, child: ImageManager.instance.sulama),
+                    if (selectedMarkerText(_selectedDay) == "GUBRELEME") SizedBox(width: 5.w, height: 5.w, child: ImageManager.instance.gubreleme),
+                    if (selectedMarkerText(_selectedDay) == "CAPALAMA") SizedBox(width: 5.w, height: 5.w, child: ImageManager.instance.capalama),
+                    selectedMarkerText(_selectedDay).ext.isNotNullOrNoEmpty
+                        ? Text(
+                            AppConstant.dateFormat(context, _selectedDay.toString()) == AppConstant.dateFormat(context, DateTime.now().toString()) ? "Bugün ${selectedMarkerText(_selectedDay).toLowerCase()} işlemi yapılacak" : "${selectedMarkerText(_selectedDay).ext.toCapitalized()} işlemi yapıldı",
+                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.BLACK),
+                          )
+                        : Text(
+                            "Bugün için işlem bulunmamaktadır",
+                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.BLACK),
+                          )
+                  ],
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

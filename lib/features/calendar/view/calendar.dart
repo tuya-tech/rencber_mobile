@@ -1,23 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
+import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/calendar/calendar.dart';
 import 'package:rencber_mobile/features/fields/view/field_detail.dart';
+import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarView extends ConsumerStatefulWidget {
-  const CalendarView({super.key});
+  const CalendarView({super.key, this.fieldIslemData});
+  final List<FieldIslemResponseModel>? fieldIslemData;
 
   @override
   ConsumerState<CalendarView> createState() => _CalendarViewState();
 }
 
 class _CalendarViewState extends ConsumerState<CalendarView> {
+  int fieldId = 0;
+
+  Color markerColors(String selectedDay) {
+    if (selectedDay == 'SULAMA') {
+      return ColorManager.BLUE;
+    } else if (selectedDay == 'GUBRELEME') {
+      return ColorManager.BROWN;
+    } else if (selectedDay == 'CAPALAMA') {
+      return ColorManager.ORANGE;
+    }
+    return ColorManager.WHITE;
+  }
+
+  void getFieldIdByCache() async {
+    var fieldData = await SecureStorage.instance.readFieldModel('outLineField');
+    setState(() {
+      fieldId = fieldData?.id ?? 0;
+    });
+  }
+
+  @override
+  void initState() {
+    getFieldIdByCache();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +65,12 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
                   color: ColorManager.WHITE,
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: const AppCalendar(
+                child: AppCalendar(
                   format: CalendarFormat.month,
                   headerVisible: true,
                   rowHeight: 12,
+                  fieldIslemData: widget.fieldIslemData,
+                  isVisibleEventText: true,
                 ),
               ),
               Row(
@@ -52,7 +83,18 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
                     leftIconData: Icons.add,
                     buttonText: "Ekle",
                     textStyle: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (contexy) {
+                          return IslemlerEkleme(
+                            //image: ImageManager.instance.sulama,
+                            fieldId: fieldId,
+                            islemField: true,
+                          );
+                        },
+                      );
+                    },
                   )
                 ],
               ),
@@ -60,11 +102,14 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: 3,
+                itemCount: widget.fieldIslemData?.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: context.padding.onlyTopLow,
-                    child: const IslermlerCardWidget(color: ColorManager.BLUE),
+                    child: IslermlerCardWidget(
+                      color: markerColors(widget.fieldIslemData?[index].islemTipi ?? ""),
+                      fieldIslemData: widget.fieldIslemData?[index],
+                    ),
                   );
                 },
               ),

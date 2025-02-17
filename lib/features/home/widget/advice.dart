@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/button/review_button.dart';
 import 'package:rencber_mobile/core/widget/button/right_icon_button.dart';
 import 'package:rencber_mobile/core/widget/image/network_image.dart';
@@ -47,7 +49,11 @@ class HomeAdviceList extends ConsumerWidget {
                         context.sized.emptySizedHeightBoxLow,
                         Text(adviceData[index].title ?? "", style: context.general.textTheme.labelLarge),
                         context.sized.emptySizedHeightBoxLow,
-                        const AppReview(),
+                        AppReview(
+                          onTap: () {
+                            context.push(RouterManager.adviceDetails, extra: adviceData[index].id);
+                          },
+                        ),
                       ],
                     ),
                   ),

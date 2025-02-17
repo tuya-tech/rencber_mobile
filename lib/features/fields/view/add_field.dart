@@ -128,7 +128,7 @@ class _FieldAddViewState extends ConsumerState<FieldAddView> with FieldAddMixin 
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppElevetedButton(buttonwidth: 26, buttonHeight: 9, buttonText: "Kaydet", onPressed: onSaved),
+                  AppElevetedButton(buttonwidth: 30, buttonHeight: 9, buttonText: "Kaydet", onPressed: onSaved),
                 ],
               ),
             ],

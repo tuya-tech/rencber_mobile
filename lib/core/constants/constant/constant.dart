@@ -7,12 +7,18 @@ class AppConstant {
       return null;
     }
     var date = DateTime.parse(dateTime).toLocal();
-    return DateFormat("dd MMMM yyyy", context.locale.languageCode).format(date);
+    return DateFormat("dd MMMM yyyy", "tr_TR").format(date);
   }
 
   static String setDateFormat(BuildContext context, String? dateTime) {
     dateTime ??= DateTime.now().toString();
     var date = DateTime.parse(dateTime).toLocal();
     return DateFormat("yyyy-MM-dd", context.locale.languageCode).format(date);
+  }
+
+  static String setDateTimeFormat(BuildContext context, String pattern, String? dateTime) {
+    dateTime ??= DateTime.now().toString();
+    var date = DateTime.parse(dateTime).toLocal();
+    return DateFormat(pattern, context.locale.languageCode).format(date);
   }
 }
