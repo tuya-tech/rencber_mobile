@@ -27,27 +27,19 @@ UserResponseModel _$UserResponseModelFromJson(Map<String, dynamic> json) =>
           : CityModel.fromJson(json['district'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$UserResponseModelToJson(UserResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('phone', instance.phone);
-  writeNotNull('name', instance.name);
-  writeNotNull('surname', instance.surname);
-  writeNotNull('email', instance.email);
-  writeNotNull('gender', instance.gender);
-  writeNotNull('phoneApproved', instance.phoneApproved);
-  writeNotNull('detailAddress', instance.detailAddress);
-  writeNotNull('kvkk', instance.kvkk);
-  writeNotNull('sendAd', instance.sendAd);
-  writeNotNull('city', instance.city);
-  writeNotNull('birthday', instance.birthday);
-  writeNotNull('district', instance.district);
-  return val;
-}
+Map<String, dynamic> _$UserResponseModelToJson(UserResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.phone case final value?) 'phone': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.surname case final value?) 'surname': value,
+      if (instance.email case final value?) 'email': value,
+      if (instance.gender case final value?) 'gender': value,
+      if (instance.phoneApproved case final value?) 'phoneApproved': value,
+      if (instance.detailAddress case final value?) 'detailAddress': value,
+      if (instance.kvkk case final value?) 'kvkk': value,
+      if (instance.sendAd case final value?) 'sendAd': value,
+      if (instance.city case final value?) 'city': value,
+      if (instance.birthday case final value?) 'birthday': value,
+      if (instance.district case final value?) 'district': value,
+    };

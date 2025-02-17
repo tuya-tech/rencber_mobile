@@ -14,6 +14,8 @@ class ServicesPath {
   final String fieldIslemManuel = 'api/field-islem/manuel';
   
   final String notification = 'api/notification-settings';
+  final String notificationBildirim = 'api/notification';
+
   final String products = 'api/bitki';
 
 

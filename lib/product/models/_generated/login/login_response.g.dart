@@ -13,17 +13,9 @@ LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) =>
       refreshToken: json['refreshToken'] as String?,
     );
 
-Map<String, dynamic> _$LoginResponseModelToJson(LoginResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('userId', instance.userId);
-  writeNotNull('accessToken', instance.accessToken);
-  writeNotNull('refreshToken', instance.refreshToken);
-  return val;
-}
+Map<String, dynamic> _$LoginResponseModelToJson(LoginResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.userId case final value?) 'userId': value,
+      if (instance.accessToken case final value?) 'accessToken': value,
+      if (instance.refreshToken case final value?) 'refreshToken': value,
+    };

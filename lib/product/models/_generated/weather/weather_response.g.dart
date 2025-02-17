@@ -32,30 +32,22 @@ WeatherResponseModel _$WeatherResponseModelFromJson(
     );
 
 Map<String, dynamic> _$WeatherResponseModelToJson(
-    WeatherResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('deleted', instance.deleted);
-  writeNotNull('createdBy', instance.createdBy);
-  writeNotNull('createdDate', instance.createdDate);
-  writeNotNull('lastUpdatedBy', instance.lastUpdatedBy);
-  writeNotNull('lastUpdatedDate', instance.lastUpdatedDate);
-  writeNotNull('city', instance.city);
-  writeNotNull('district', instance.district);
-  writeNotNull('temperature', instance.temperature);
-  writeNotNull('minTemperature', instance.minTemperature);
-  writeNotNull('maxTemperature', instance.maxTemperature);
-  writeNotNull('windSpeed', instance.windSpeed);
-  writeNotNull('humidity', instance.humidity);
-  writeNotNull('date', instance.date);
-  writeNotNull('rainFall', instance.rainFall);
-  writeNotNull('weatherType', instance.weatherType);
-  return val;
-}
+        WeatherResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.deleted case final value?) 'deleted': value,
+      if (instance.createdBy case final value?) 'createdBy': value,
+      if (instance.createdDate case final value?) 'createdDate': value,
+      if (instance.lastUpdatedBy case final value?) 'lastUpdatedBy': value,
+      if (instance.lastUpdatedDate case final value?) 'lastUpdatedDate': value,
+      if (instance.city case final value?) 'city': value,
+      if (instance.district case final value?) 'district': value,
+      if (instance.temperature case final value?) 'temperature': value,
+      if (instance.minTemperature case final value?) 'minTemperature': value,
+      if (instance.maxTemperature case final value?) 'maxTemperature': value,
+      if (instance.windSpeed case final value?) 'windSpeed': value,
+      if (instance.humidity case final value?) 'humidity': value,
+      if (instance.date case final value?) 'date': value,
+      if (instance.rainFall case final value?) 'rainFall': value,
+      if (instance.weatherType case final value?) 'weatherType': value,
+    };

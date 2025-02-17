@@ -19,22 +19,13 @@ CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
           : CityModel.fromJson(json['city'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$CityModelToJson(CityModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('deleted', instance.deleted);
-  writeNotNull('createdBy', instance.createdBy);
-  writeNotNull('createdDate', instance.createdDate);
-  writeNotNull('lastUpdatedBy', instance.lastUpdatedBy);
-  writeNotNull('lastUpdatedDate', instance.lastUpdatedDate);
-  writeNotNull('name', instance.name);
-  writeNotNull('city', instance.city);
-  return val;
-}
+Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.deleted case final value?) 'deleted': value,
+      if (instance.createdBy case final value?) 'createdBy': value,
+      if (instance.createdDate case final value?) 'createdDate': value,
+      if (instance.lastUpdatedBy case final value?) 'lastUpdatedBy': value,
+      if (instance.lastUpdatedDate case final value?) 'lastUpdatedDate': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.city case final value?) 'city': value,
+    };

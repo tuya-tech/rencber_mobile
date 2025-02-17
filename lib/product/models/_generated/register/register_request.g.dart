@@ -20,22 +20,14 @@ RegisterRequestModel _$RegisterRequestModelFromJson(
     );
 
 Map<String, dynamic> _$RegisterRequestModelToJson(
-    RegisterRequestModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('phone', instance.phone);
-  writeNotNull('name', instance.name);
-  writeNotNull('surname', instance.surname);
-  writeNotNull('cityId', instance.cityId);
-  writeNotNull('districtId', instance.districtId);
-  writeNotNull('gender', instance.gender);
-  writeNotNull('kvkk', instance.kvkk);
-  writeNotNull('sendAd', instance.sendAd);
-  return val;
-}
+        RegisterRequestModel instance) =>
+    <String, dynamic>{
+      if (instance.phone case final value?) 'phone': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.surname case final value?) 'surname': value,
+      if (instance.cityId case final value?) 'cityId': value,
+      if (instance.districtId case final value?) 'districtId': value,
+      if (instance.gender case final value?) 'gender': value,
+      if (instance.kvkk case final value?) 'kvkk': value,
+      if (instance.sendAd case final value?) 'sendAd': value,
+    };

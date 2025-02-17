@@ -26,26 +26,19 @@ FieldResponseModel _$FieldResponseModelFromJson(Map<String, dynamic> json) =>
       gubreTipi: json['gubreTipi'] as String?,
     );
 
-Map<String, dynamic> _$FieldResponseModelToJson(FieldResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('city', instance.city);
-  writeNotNull('district', instance.district);
-  writeNotNull('name', instance.name);
-  writeNotNull('active', instance.active);
-  writeNotNull('outline', instance.outline);
-  writeNotNull('bitkiName', instance.bitkiName);
-  writeNotNull('buyumeTipi', instance.buyumeTipi);
-  writeNotNull('day', instance.day);
-  writeNotNull('ekimDate', instance.ekimDate);
-  writeNotNull('sulamadaGubreYapilacak', instance.sulamadaGubreYapilacak);
-  writeNotNull('gubreTipi', instance.gubreTipi);
-  return val;
-}
+Map<String, dynamic> _$FieldResponseModelToJson(FieldResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.city case final value?) 'city': value,
+      if (instance.district case final value?) 'district': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.active case final value?) 'active': value,
+      if (instance.outline case final value?) 'outline': value,
+      if (instance.bitkiName case final value?) 'bitkiName': value,
+      if (instance.buyumeTipi case final value?) 'buyumeTipi': value,
+      if (instance.day case final value?) 'day': value,
+      if (instance.ekimDate case final value?) 'ekimDate': value,
+      if (instance.sulamadaGubreYapilacak case final value?)
+        'sulamadaGubreYapilacak': value,
+      if (instance.gubreTipi case final value?) 'gubreTipi': value,
+    };

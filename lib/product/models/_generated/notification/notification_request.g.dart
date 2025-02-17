@@ -16,18 +16,11 @@ NotificationRequestModel _$NotificationRequestModelFromJson(
     );
 
 Map<String, dynamic> _$NotificationRequestModelToJson(
-    NotificationRequestModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('allowNotifications', instance.allowNotifications);
-  writeNotNull('allowSms', instance.allowSms);
-  writeNotNull('allowEmail', instance.allowEmail);
-  return val;
-}
+        NotificationRequestModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.allowNotifications case final value?)
+        'allowNotifications': value,
+      if (instance.allowSms case final value?) 'allowSms': value,
+      if (instance.allowEmail case final value?) 'allowEmail': value,
+    };

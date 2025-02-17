@@ -16,18 +16,11 @@ ProductResponseModel _$ProductResponseModelFromJson(
     );
 
 Map<String, dynamic> _$ProductResponseModelToJson(
-    ProductResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('name', instance.name);
-  writeNotNull('capalamaGerekli', instance.capalamaGerekli);
-  writeNotNull('sulamaDonguSayisi', instance.sulamaDonguSayisi);
-  return val;
-}
+        ProductResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.capalamaGerekli case final value?) 'capalamaGerekli': value,
+      if (instance.sulamaDonguSayisi case final value?)
+        'sulamaDonguSayisi': value,
+    };

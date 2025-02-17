@@ -16,18 +16,10 @@ FieldIslemResponseModel _$FieldIslemResponseModelFromJson(
     );
 
 Map<String, dynamic> _$FieldIslemResponseModelToJson(
-    FieldIslemResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('islemTipi', instance.islemTipi);
-  writeNotNull('startDate', instance.startDate);
-  writeNotNull('endDate', instance.endDate);
-  return val;
-}
+        FieldIslemResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.islemTipi case final value?) 'islemTipi': value,
+      if (instance.startDate case final value?) 'startDate': value,
+      if (instance.endDate case final value?) 'endDate': value,
+    };

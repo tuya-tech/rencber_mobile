@@ -24,26 +24,18 @@ UserRequestModel _$UserRequestModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$UserRequestModelToJson(UserRequestModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('phone', instance.phone);
-  writeNotNull('name', instance.name);
-  writeNotNull('surname', instance.surname);
-  writeNotNull('cityId', instance.cityId);
-  writeNotNull('districtId', instance.districtId);
-  writeNotNull('gender', instance.gender);
-  writeNotNull('sendAd', instance.sendAd);
-  writeNotNull('birthday', instance.birthday);
-  writeNotNull('email', instance.email);
-  writeNotNull('detailAddress', instance.detailAddress);
-  writeNotNull('roles', instance.roles);
-  return val;
-}
+Map<String, dynamic> _$UserRequestModelToJson(UserRequestModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.phone case final value?) 'phone': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.surname case final value?) 'surname': value,
+      if (instance.cityId case final value?) 'cityId': value,
+      if (instance.districtId case final value?) 'districtId': value,
+      if (instance.gender case final value?) 'gender': value,
+      if (instance.sendAd case final value?) 'sendAd': value,
+      if (instance.birthday case final value?) 'birthday': value,
+      if (instance.email case final value?) 'email': value,
+      if (instance.detailAddress case final value?) 'detailAddress': value,
+      if (instance.roles case final value?) 'roles': value,
+    };

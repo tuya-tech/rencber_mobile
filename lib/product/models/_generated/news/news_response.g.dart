@@ -19,23 +19,15 @@ NewsResponseModel _$NewsResponseModelFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String?,
     );
 
-Map<String, dynamic> _$NewsResponseModelToJson(NewsResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('title', instance.title);
-  writeNotNull('summary', instance.summary);
-  writeNotNull('date', instance.date);
-  writeNotNull('content', instance.content);
-  writeNotNull('outline', instance.outline);
-  writeNotNull('status', instance.status);
-  writeNotNull('imagePath', instance.imagePath);
-  writeNotNull('image', instance.image);
-  return val;
-}
+Map<String, dynamic> _$NewsResponseModelToJson(NewsResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.title case final value?) 'title': value,
+      if (instance.summary case final value?) 'summary': value,
+      if (instance.date case final value?) 'date': value,
+      if (instance.content case final value?) 'content': value,
+      if (instance.outline case final value?) 'outline': value,
+      if (instance.status case final value?) 'status': value,
+      if (instance.imagePath case final value?) 'imagePath': value,
+      if (instance.image case final value?) 'image': value,
+    };

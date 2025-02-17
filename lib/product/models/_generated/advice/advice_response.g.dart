@@ -22,26 +22,19 @@ AdviceResponseModel _$AdviceResponseModelFromJson(Map<String, dynamic> json) =>
       webSite: json['webSite'] as String?,
     );
 
-Map<String, dynamic> _$AdviceResponseModelToJson(AdviceResponseModel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('title', instance.title);
-  writeNotNull('summary', instance.summary);
-  writeNotNull('content', instance.content);
-  writeNotNull('imagePath', instance.imagePath);
-  writeNotNull('price', instance.price);
-  writeNotNull('brand', instance.brand);
-  writeNotNull('sponsored', instance.sponsored);
-  writeNotNull('image', instance.image);
-  writeNotNull('latitude', instance.latitude);
-  writeNotNull('longitude', instance.longitude);
-  writeNotNull('webSite', instance.webSite);
-  return val;
-}
+Map<String, dynamic> _$AdviceResponseModelToJson(
+        AdviceResponseModel instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.title case final value?) 'title': value,
+      if (instance.summary case final value?) 'summary': value,
+      if (instance.content case final value?) 'content': value,
+      if (instance.imagePath case final value?) 'imagePath': value,
+      if (instance.price case final value?) 'price': value,
+      if (instance.brand case final value?) 'brand': value,
+      if (instance.sponsored case final value?) 'sponsored': value,
+      if (instance.image case final value?) 'image': value,
+      if (instance.latitude case final value?) 'latitude': value,
+      if (instance.longitude case final value?) 'longitude': value,
+      if (instance.webSite case final value?) 'webSite': value,
+    };
