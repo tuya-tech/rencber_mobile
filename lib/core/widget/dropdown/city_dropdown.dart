@@ -21,7 +21,7 @@ class _AppCityDropdownState extends ConsumerState<AppCityDropdown> {
 
   int getCityIdByName(String cityName) {
     if (cityList.ext.isNotNullOrEmpty) {
-      return cityList.firstWhere((element) => element["name"] == cityName)["id"];
+      return cityList.firstWhere((element) => element.name == cityName).id;
     } else {
       return 1;
     }
@@ -38,7 +38,7 @@ class _AppCityDropdownState extends ConsumerState<AppCityDropdown> {
         return null;
       },
       controller: widget.controller,
-      items: cityList.map((e) => e['name'] as String).toList(),
+      items: cityList.map((e) => e.name as String).toList(),
       itemBuilder: (context, item) => Padding(padding: context.padding.low, child: Text(item, style: context.general.textTheme.titleMedium)),
       menuDecoration: BoxDecoration(
         color: ColorManager.WHITE,

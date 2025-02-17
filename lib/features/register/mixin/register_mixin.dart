@@ -68,7 +68,7 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
         context.push(RouterManager.phoneCode, extra: phoneController.text);
       } else {
         appLoading(context, false);
-        Toastr.showError(response.data.code ?? "", context);
+        Toastr.showError("İşlem yapılırken bir hata ile karşılaşıldı", context);
       }
     } else {
       gender.ext.isNullOrEmpty ? Toastr.showError("Lütfen Cinsiyet Seçiniz", context) : null;
