@@ -17,8 +17,7 @@ final homeFutureProvider = FutureProvider(
       'advice': await advice.get().then((value) => value.data?.where((element) => element.brand != 'Aydınlı').toList()),
       'field': await field.get().then((value) async {
         var outlineField = value.data?.where((element) => element.outline == true).toList();
-        var outLineFieldNotList = outlineField?.first;
-        debugPrint("outLineFieldNotList: ${outLineFieldNotList?.toJson()}");
+        var outLineFieldNotList = outlineField?.firstOrNull;
         await SecureStorage.instance.writeFieldModel("outLineField", outLineFieldNotList ?? FieldResponseModel());
         return value.data;
       }),
