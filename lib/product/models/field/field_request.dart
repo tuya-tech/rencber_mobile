@@ -12,7 +12,7 @@ class FieldRequestModel {
   int? bitkiId;
   String? ekimZamani;
   bool? sulamadaGubreYapilacak;
-  String? gubreTipi;
+  List<String>? gubreTipleri;
 
   FieldRequestModel({
     this.id,
@@ -24,7 +24,7 @@ class FieldRequestModel {
     this.bitkiId,
     this.ekimZamani,
     this.sulamadaGubreYapilacak,
-    this.gubreTipi,
+    this.gubreTipleri,
   });
 
   factory FieldRequestModel.fromJson(Map<String, dynamic> json) => _$FieldRequestModelFromJson(json);

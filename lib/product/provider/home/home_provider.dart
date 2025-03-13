@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/product/models/field/field_response.dart';
 import 'package:rencber_mobile/product/services/advice/advice.dart';
@@ -19,7 +22,12 @@ final homeFutureProvider = FutureProvider(
         var outlineField = value.data?.where((element) => element.outline == true).toList();
         var outLineFieldNotList = outlineField?.firstOrNull;
         await SecureStorage.instance.writeFieldModel("outLineField", outLineFieldNotList ?? FieldResponseModel());
-        return value.data;
+        debugPrint("value.data: ${value.data}");
+        if (value.data.ext.isNotNullOrEmpty) {
+          return value.data;
+        } else {
+          return null;
+        }
       }),
       'fieldIslem': await fieldIslem.get(null).then((value) => value.data),
       'weather': await weather.get().then((value) => value.data),

@@ -14,14 +14,15 @@ import 'package:rencber_mobile/product/services/field/field.dart';
 mixin FieldEditMixin on ConsumerState<FieldEditView> {
   late final TextEditingController fieldNameController;
   late final TextEditingController productController;
+  late final TextEditingController productIdController;
   late final TextEditingController dateTimeController;
   late final TextEditingController gubreController;
   late final TextEditingController cityDistrictController;
   late final TextEditingController cityController;
   late final TextEditingController districtController;
   bool sulamaGubre = false;
-  bool outline = true;
-  bool isActive = false;
+  late bool outline;
+  late bool isActive;
 
   int selectedCityId = 0;
   int selectedDistrictId = 0;
@@ -34,6 +35,7 @@ mixin FieldEditMixin on ConsumerState<FieldEditView> {
     });
     fieldNameController = TextEditingController();
     productController = TextEditingController();
+    productIdController = TextEditingController();
     dateTimeController = TextEditingController();
     gubreController = TextEditingController();
     cityDistrictController = TextEditingController();
@@ -42,17 +44,21 @@ mixin FieldEditMixin on ConsumerState<FieldEditView> {
   }
 
   void initialData() {
-    fieldNameController.text = widget.fieldData.name.toString();
-    productController.text = widget.fieldData.bitkiName.toString();
-    dateTimeController.text = widget.fieldData.ekimDate.toString();
-    sulamaGubre = widget.fieldData.sulamadaGubreYapilacak ?? false;
-    gubreController.text = widget.fieldData.gubreTipi ?? "";
-    cityDistrictController.text = "${widget.fieldData.city?.name} / ${widget.fieldData.district?.name}";
-    cityController.text = widget.fieldData.city?.name ?? "";
-    districtController.text = widget.fieldData.district?.name ?? "";
-    selectedCityId = widget.fieldData.city?.id ?? 0;
-    selectedDistrictId = widget.fieldData.district?.id ?? 0;
-    isActive = widget.fieldData.active ?? false;
+    setState(() {
+      fieldNameController.text = widget.fieldData.name ?? "";
+      productController.text = widget.fieldData.bitkiName ?? "";
+      productIdController.text = widget.fieldData.bitkiId.toString();
+      dateTimeController.text = widget.fieldData.ekimDate ?? "";
+      sulamaGubre = widget.fieldData.sulamadaGubreYapilacak ?? false;
+      gubreController.text = widget.fieldData.gubreTipleri?.first ?? "";
+      cityDistrictController.text = "${widget.fieldData.city?.name} / ${widget.fieldData.district?.name}";
+      cityController.text = widget.fieldData.city?.name ?? "";
+      districtController.text = widget.fieldData.district?.name ?? "";
+      selectedCityId = widget.fieldData.city?.id ?? 0;
+      selectedDistrictId = widget.fieldData.district?.id ?? 0;
+      isActive = widget.fieldData.active ?? false;
+      outline = widget.fieldData.outline ?? true;
+    });
   }
 
   void setSulamaGubre(String value) {
@@ -82,13 +88,14 @@ mixin FieldEditMixin on ConsumerState<FieldEditView> {
         outline: outline,
         cityId: selectedCityId,
         districtId: selectedDistrictId,
-        bitkiId: 1,
-        ekimZamani: AppConstant.setDateFormat(context, dateTimeController.text),
+        bitkiId: int.tryParse(productIdController.text),
+        ekimZamani: AppConstant.convertDottedDateToText2(dateTimeController.text, context),
         sulamadaGubreYapilacak: sulamaGubre,
-        gubreTipi: gubreController.text,
+        gubreTipleri: [gubreController.text],
       );
+      debugPrint("fieldData: ${fieldData.toJson()}");
       var response = await FieldApiService.instance.put(fieldData);
-      if (response.data != null && response.statusCode == 201) {
+      if (response.data != null && response.statusCode == 200) {
         appLoading(context, false);
         Navigator.pop(context);
         Toastr.showSuccess("Tarlanız başarıyla düzenlendi.", context);
@@ -96,7 +103,7 @@ mixin FieldEditMixin on ConsumerState<FieldEditView> {
         ref.refresh(homeFutureProvider);
       } else {
         appLoading(context, false);
-        Toastr.showError(response.data.code, context);
+        Toastr.showError(response.message ?? "", context);
       }
     } else {
       if (fieldNameController.text.ext.isNullOrEmpty) {
@@ -125,6 +132,7 @@ mixin FieldEditMixin on ConsumerState<FieldEditView> {
     super.dispose();
     fieldNameController.dispose();
     productController.dispose();
+    productIdController.dispose();
     dateTimeController.dispose();
     gubreController.dispose();
     cityDistrictController.dispose();

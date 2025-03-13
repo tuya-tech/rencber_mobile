@@ -54,7 +54,7 @@ mixin ValideCodeMixin on State<ValideCodeView> {
       debugPrint(response.data.toString());
       if (response.data != null) {
         var response = await LoginApiService.instance.login(phoneNumberFormatter(widget.phoneNumber), valideCode, firebaseToken ?? "");
-        if (response.statusCode == 200 && response.data != null) {
+        if (response.statusCode == 200 && response.data?.accessToken != null) {
           appLoading(context, false);
           SecureStorage.instance.writeSecureData("accessToken", response.data!.accessToken!);
           SecureStorage.instance.writeSecureData("refreshToken", response.data!.refreshToken!);

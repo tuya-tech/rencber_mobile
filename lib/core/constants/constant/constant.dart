@@ -21,4 +21,26 @@ class AppConstant {
     var date = DateTime.parse(dateTime).toLocal();
     return DateFormat(pattern, context.locale.languageCode).format(date);
   }
+
+  static String convertDottedDateToText(String dateStr) {
+    try {
+      // First convert string to DateTime
+      final date = DateFormat("dd.MM.yyyy").parse(dateStr);
+      // Then format the DateTime to desired format
+      return DateFormat("dd MMMM yyyy", "tr_TR").format(date);
+    } catch (e) {
+      return dateStr; // Return original in case of parsing error
+    }
+  }
+
+  static String convertDottedDateToText2(String dateStr, BuildContext context) {
+    try {
+      // First convert string to DateTime
+      final date = DateFormat("dd.MM.yyyy").parse(dateStr);
+      // Then format the DateTime to desired format
+      return DateFormat("yyyy-MM-dd", context.locale.languageCode).format(date);
+    } catch (e) {
+      return dateStr; // Return original in case of parsing error
+    }
+  }
 }

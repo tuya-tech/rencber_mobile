@@ -91,6 +91,7 @@ class FieldApiService {
   }
 
   Future<BaseResponseModel<dynamic>> put(FieldRequestModel data) async {
+    debugPrint("fieldData1212: ${data.toJson()}");
     try {
       final response = await DioManager.dio.put(
         ServicesPath.instance.field,
@@ -98,7 +99,9 @@ class FieldApiService {
         options: await DioManager.getOptions(),
       );
 
-      if (response.statusCode != 200 && response.statusCode != 201) {
+
+      debugPrint("fieldDataresponose: ${response.data}");
+      if (response.statusCode != 200) {
         return BaseResponseModel<bool>(
           data: null,
           message: response.statusMessage,

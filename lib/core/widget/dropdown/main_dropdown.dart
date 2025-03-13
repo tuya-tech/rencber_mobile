@@ -20,7 +20,8 @@ class DropDownSearchField extends StatefulWidget {
       this.textFormscrollPadding,
       this.enabled = true,
       this.focusNode,
-      this.textMode = true});
+      this.textMode = true,
+      this.searchable = true});
   final TextEditingController? controller;
   final String? Function(String?)? textFormFieldvalidator;
   final InputDecoration? textFormFieldDecoration;
@@ -38,6 +39,7 @@ class DropDownSearchField extends StatefulWidget {
   final bool enabled;
   final FocusNode? focusNode;
   final bool textMode;
+  final bool searchable; // Controls whether search functionality is enabled
 
   @override
   State<DropDownSearchField> createState() => _DropDownSearchFieldState();
@@ -71,7 +73,7 @@ class _DropDownSearchFieldState extends State<DropDownSearchField> {
     });
     if (_isTapped && (_items.isEmpty || !listEquals(_items, widget.items.where((item) => item != null).toList()))) _items = widget.items.where((item) => item != null).toList();
     setState(() {
-      if (searchText.isEmpty) {
+      if (!widget.searchable || searchText.isEmpty) {
         _filteredItems = _items;
       } else {
         _filteredItems = _items.where((element) => element!.toLowerCase().contains(searchText.toLowerCase())).toList();
@@ -200,8 +202,9 @@ class _DropDownSearchFieldState extends State<DropDownSearchField> {
         onChanged: (value) {
           if (widget.onChanged != null) widget.onChanged!(value);
           setState(() {
-            //if (_filteredItems.isEmpty) filterItems(value);
-            widget.textMode == true ? filterItems(value) : null;
+            if (widget.textMode == true && widget.searchable) {
+              filterItems(value);
+            }
           });
         },
       ),

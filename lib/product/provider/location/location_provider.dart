@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/product/models/_global/city.dart';
 import 'package:rencber_mobile/product/services/location/location_response.dart';
-import 'package:kartal/kartal.dart';
 
 final cityFutureProvider = FutureProvider<List<dynamic>>(
   (ref) async {

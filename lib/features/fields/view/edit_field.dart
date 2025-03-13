@@ -43,7 +43,7 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
               context.sized.emptySizedHeightBoxLow,
               AppCustomTextField(fieldName: "fieldName", controller: fieldNameController, hintText: "Tarla İsmi Giriniz", labelText: "Tarla İsmi*"),
               context.sized.emptySizedHeightBoxLow,
-              AppProducts(productController: productController, labelText: "Mahsül Bilgisi*"),
+              AppProducts(productController: productController, labelText: "Mahsül Bilgisi*", productIdController: productIdController),
               context.sized.emptySizedHeightBoxLow,
               AppDatePicker(controller: dateTimeController, name: "dateTime", hintText: "--,--,----", labelText: "Ekim Yapılma Tarihi*", initialValue: dateTimeController.text),
               context.sized.emptySizedHeightBoxLow,
@@ -120,7 +120,7 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
               AppSwitch(
                 name: "fieldActive",
                 label: "Öne Çıkar*",
-                initialValue: outline,
+                initialValue: widget.fieldData.outline ?? false,
                 onChanged: (value) {
                   setState(() {
                     outline = value!;
@@ -216,10 +216,10 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
                           }
                         },
                         child: AbsorbPointer(
-                          absorbing: !isActive,
+                          absorbing: (widget.fieldData.active ?? false),
                           child: AppCheckBox(
                             multiSelect: true,
-                            initialValue: isActive ? "Pasif" : "Aktif",
+                            initialValue: widget.fieldData.active == false ? "Pasif" : "Aktif",
                             items: const ["Aktif", "Pasif"],
                             isCircular: true,
                             onChanged: (value) {
@@ -236,7 +236,7 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppElevetedButton(buttonwidth: 26, buttonHeight: 9, buttonText: "Kaydet", onPressed: onSaved),
+                  AppElevetedButton(buttonwidth: 30, buttonHeight: 9, buttonText: "Kaydet", onPressed: onSaved),
                 ],
               ),
             ],

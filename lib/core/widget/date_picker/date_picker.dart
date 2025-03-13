@@ -33,10 +33,19 @@ class _AppDatePickerState extends ConsumerState<AppDatePicker> {
     super.initState();
     timePicker = DateTime.now();
     controller = TextEditingController(text: widget.initialValue);
+    debugPrint("widget.initialValue: ${widget.initialValue}");
+    debugPrint("controller.text: ${controller.text}");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    controller.text = AppConstant.convertDottedDateToText(widget.initialValue ?? "");
     return Container(
       decoration: BoxDecoration(
         color: ColorManager.WHITE,

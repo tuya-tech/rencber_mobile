@@ -19,11 +19,14 @@ FieldResponseModel _$FieldResponseModelFromJson(Map<String, dynamic> json) =>
       active: json['active'] as bool?,
       outline: json['outline'] as bool?,
       bitkiName: json['bitkiName'] as String?,
+      bitkiId: (json['bitkiId'] as num?)?.toInt(),
       buyumeTipi: json['buyumeTipi'] as String?,
       day: (json['day'] as num?)?.toInt(),
       ekimDate: json['ekimDate'] as String?,
       sulamadaGubreYapilacak: json['sulamadaGubreYapilacak'] as bool?,
-      gubreTipi: json['gubreTipi'] as String?,
+      gubreTipleri: (json['gubreTipleri'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$FieldResponseModelToJson(FieldResponseModel instance) =>
@@ -35,10 +38,11 @@ Map<String, dynamic> _$FieldResponseModelToJson(FieldResponseModel instance) =>
       if (instance.active case final value?) 'active': value,
       if (instance.outline case final value?) 'outline': value,
       if (instance.bitkiName case final value?) 'bitkiName': value,
+      if (instance.bitkiId case final value?) 'bitkiId': value,
       if (instance.buyumeTipi case final value?) 'buyumeTipi': value,
       if (instance.day case final value?) 'day': value,
       if (instance.ekimDate case final value?) 'ekimDate': value,
       if (instance.sulamadaGubreYapilacak case final value?)
         'sulamadaGubreYapilacak': value,
-      if (instance.gubreTipi case final value?) 'gubreTipi': value,
+      if (instance.gubreTipleri case final value?) 'gubreTipleri': value,
     };

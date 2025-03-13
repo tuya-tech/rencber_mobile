@@ -17,7 +17,9 @@ FieldRequestModel _$FieldRequestModelFromJson(Map<String, dynamic> json) =>
       bitkiId: (json['bitkiId'] as num?)?.toInt(),
       ekimZamani: json['ekimZamani'] as String?,
       sulamadaGubreYapilacak: json['sulamadaGubreYapilacak'] as bool?,
-      gubreTipi: json['gubreTipi'] as String?,
+      gubreTipleri: (json['gubreTipleri'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$FieldRequestModelToJson(FieldRequestModel instance) =>
@@ -32,5 +34,5 @@ Map<String, dynamic> _$FieldRequestModelToJson(FieldRequestModel instance) =>
       if (instance.ekimZamani case final value?) 'ekimZamani': value,
       if (instance.sulamadaGubreYapilacak case final value?)
         'sulamadaGubreYapilacak': value,
-      if (instance.gubreTipi case final value?) 'gubreTipi': value,
+      if (instance.gubreTipleri case final value?) 'gubreTipleri': value,
     };

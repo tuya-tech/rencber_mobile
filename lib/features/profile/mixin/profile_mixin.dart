@@ -8,6 +8,7 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/features/profile/view/profile.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 
 mixin ProfileMixin on State<ProfileView> {

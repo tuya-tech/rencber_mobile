@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
+import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
+import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/card/blur_card.dart';
 import 'package:rencber_mobile/core/widget/icon/appbar_icon.dart';
 import 'package:rencber_mobile/features/home/widget/advice.dart';
@@ -20,15 +23,73 @@ import 'package:rencber_mobile/product/provider/home/home_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:sizer/sizer.dart';
 
-class HomeView extends ConsumerWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends ConsumerState<HomeView> {
+  bool _hasShownDialog = false;
+  bool isField = false;
+
+  void _showNoFieldDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Container(
+            height: 37.h,
+            width: 80.w,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ColorManager.BGCOLOR),
+            child: Padding(
+              padding: context.padding.normal,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                spacing: 4.h,
+                children: [
+                  IconManager.instance.customIcon(Icons.warning_amber_rounded, color: ColorManager.BUTTONREDCOLOR, sizeW: 20),
+                  Text("Henüz tarlanız bulunmamaktadır. İşlemlerinize devem etmek istiyorsanız tarla eklemelisiniz.", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.BLACK), textAlign: TextAlign.center),
+                  AppElevetedButton(
+                    buttonText: "Tarla Ekle",
+                    onPressed: () {
+                      context.push(RouterManager.addField);
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    setState(() {
+      _hasShownDialog = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var homeProvider = ref.watch(homeFutureProvider);
     return Scaffold(
       backgroundColor: ColorManager.BGCOLOR,
       body: homeProvider.when(data: (homeData) {
+        if (homeData['field'] == null && !_hasShownDialog) {
+          setState(() {
+            isField = false;
+          });
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _showNoFieldDialog();
+          });
+        } else {
+          setState(() {
+            isField = true;
+          });
+        }
+
         var weatherData = homeData['weather'] != null ? homeData['weather'] as WeatherResponseModel : WeatherResponseModel();
         var adviceData = homeData['advice'] != null ? homeData['advice'] as List<AdviceResponseModel> : List<AdviceResponseModel>.empty();
         var fieldData = homeData['field'] != null ? homeData['field'] as List<FieldResponseModel> : List<FieldResponseModel>.empty();
@@ -49,35 +110,39 @@ class HomeView extends ConsumerWidget {
               ),
             ),
           ],
-          appbarChild: Padding(
-            padding: context.padding.onlyBottomLow + context.padding.onlyTopLow,
-            child: BlurCard(
-              height: 45,
-              width: 93,
-              child: Padding(
-                padding: context.padding.low,
-                child: HomeWeather(weatherData: weatherData),
-              ),
-            ),
-          ),
-          child: Padding(
-            padding: context.padding.low,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HomeCalendar(fieldIslemData: fieldIslemData),
-                    context.sized.emptySizedHeightBoxLow,
-                    HomeFieldList(fieldData: fieldData),
-                    context.sized.emptySizedHeightBoxLow,
-                    HomeAdviceList(adviceData: adviceData),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          appbarChild: isField
+              ? Padding(
+                  padding: context.padding.onlyBottomLow + context.padding.onlyTopLow,
+                  child: BlurCard(
+                    height: 45,
+                    width: 93,
+                    child: Padding(
+                      padding: context.padding.low,
+                      child: HomeWeather(weatherData: weatherData),
+                    ),
+                  ),
+                )
+              : null,
+          child: isField
+              ? Padding(
+                  padding: context.padding.low,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          HomeCalendar(fieldIslemData: fieldIslemData),
+                          context.sized.emptySizedHeightBoxLow,
+                          HomeFieldList(fieldData: fieldData),
+                          context.sized.emptySizedHeightBoxLow,
+                          HomeAdviceList(adviceData: adviceData),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              : null,
         );
       }, error: (error, stackTrace) {
         debugPrint("Error: $error");
@@ -154,23 +219,23 @@ class _HomeWeatherState extends State<HomeWeather> {
                 padding: context.padding.horizontalNormal,
                 child: Row(
                   children: [
-                    ImageManager.weatherImage(widget.weatherData?.weatherType ?? ""),
+                    ImageManager.weatherImage(widget.weatherData?.weatherIcon ?? ""),
                     context.sized.emptySizedWidthBoxLow3x,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${widget.weatherData?.temperature ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("${widget.weatherData?.tempDay ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.WHITE)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text(weatherTypeLanguage(widget.weatherData?.weatherType?.ext.toCapitalized()), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text(weatherTypeLanguage(widget.weatherData?.weatherMain?.ext.toCapitalized()), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                       ],
                     ),
                     context.sized.emptySizedWidthBoxLow3x,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("En yüksek: ${widget.weatherData?.maxTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En yüksek: ${widget.weatherData?.tempMax ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text("En düşük: ${widget.weatherData?.minTemperature ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En düşük: ${widget.weatherData?.tempMin ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                       ],
                     )
                   ],
@@ -191,7 +256,7 @@ class _HomeWeatherState extends State<HomeWeather> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Yağış Miktarı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            Text("${widget.weatherData?.rainFall ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                            Text("${widget.weatherData?.rain ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
                           ],
                         ),
                       ],

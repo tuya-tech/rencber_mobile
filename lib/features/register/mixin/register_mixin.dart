@@ -56,12 +56,10 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
   }
 
   void onRegister() async {
-    debugPrint("cityId: $cityId, districtId: $districtId");
-    debugPrint(gender.toString());
-    debugPrint(phoneNumberFormatter(phoneController.text));
     if (formKey.currentState!.validate() && gender.ext.isNotNullOrNoEmpty && checkBoxValue[1]) {
       appLoading(context, true);
       RegisterRequestModel userData = RegisterRequestModel(phone: phoneNumberFormatter(phoneController.text), name: nameController.text, surname: surnameController.text, cityId: cityId, districtId: districtId, gender: gender, sendAd: checkBoxValue[0], kvkk: checkBoxValue[1]);
+      debugPrint(userData.toJson().toString());
       var response = await RegisterApiService.instance.post(userData);
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         appLoading(context, false);

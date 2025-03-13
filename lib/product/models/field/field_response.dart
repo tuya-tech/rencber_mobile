@@ -11,11 +11,12 @@ class FieldResponseModel {
   bool? active;
   bool? outline;
   String? bitkiName;
+  int? bitkiId;
   String? buyumeTipi;
   int? day;
   String? ekimDate;
   bool? sulamadaGubreYapilacak;
-  String? gubreTipi;
+  List<String>? gubreTipleri;
 
   FieldResponseModel({
     this.id,
@@ -25,11 +26,12 @@ class FieldResponseModel {
     this.active,
     this.outline,
     this.bitkiName,
+    this.bitkiId,
     this.buyumeTipi,
     this.day,
     this.ekimDate,
     this.sulamadaGubreYapilacak,
-    this.gubreTipi,
+    this.gubreTipleri,
   });
 
   factory FieldResponseModel.fromJson(Map<String, dynamic> json) => _$FieldResponseModelFromJson(json);

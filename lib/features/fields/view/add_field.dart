@@ -41,7 +41,7 @@ class _FieldAddViewState extends ConsumerState<FieldAddView> with FieldAddMixin 
               context.sized.emptySizedHeightBoxLow,
               AppCustomTextField(fieldName: "fieldName", controller: fieldNameController, hintText: "Tarla İsmi Giriniz", labelText: "Tarla İsmi*"),
               context.sized.emptySizedHeightBoxLow,
-              AppProducts(productController: productController, labelText: "Mahsül Bilgisi*"),
+              AppProducts(productController: productController, labelText: "Mahsül Bilgisi*", productIdController: productIdController),
               context.sized.emptySizedHeightBoxLow,
               AppDatePicker(controller: dateTimeController, name: "dateTime", hintText: "--,--,----", labelText: "Ekim Yapılma Tarihi*", initialValue: AppConstant.dateFormat(context, dateTimeController.text)),
               context.sized.emptySizedHeightBoxLow,

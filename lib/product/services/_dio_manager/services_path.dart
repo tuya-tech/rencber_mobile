@@ -1,7 +1,7 @@
 class ServicesPath {
   ServicesPath._();
   static final instance = ServicesPath._();
-  final String baseUrl = "http://51.20.142.167:8080/";
+  final String baseUrl = "http://51.20.156.95:8080/";
 
   final String login = 'auth/login';
   final String loginRequest = 'auth/login-request';

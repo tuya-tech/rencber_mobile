@@ -14,6 +14,7 @@ import 'package:rencber_mobile/product/services/field/field.dart';
 mixin FieldAddMixin on ConsumerState<FieldAddView> {
   late final TextEditingController fieldNameController;
   late final TextEditingController productController;
+  late final TextEditingController productIdController;
   late final TextEditingController dateTimeController;
   late final TextEditingController gubreController;
   late final TextEditingController cityDistrictController;
@@ -30,6 +31,7 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
     super.initState();
     fieldNameController = TextEditingController();
     productController = TextEditingController();
+    productIdController = TextEditingController();
     dateTimeController = TextEditingController();
     gubreController = TextEditingController();
     cityDistrictController = TextEditingController();
@@ -49,6 +51,7 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
   }
 
   void onSaved() async {
+    debugPrint("productController: ${productIdController.text}");
     if (fieldNameController.text.ext.isNotNullOrNoEmpty &&
         productController.text.ext.isNotNullOrNoEmpty &&
         dateTimeController.text.ext.isNotNullOrNoEmpty &&
@@ -62,18 +65,18 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
         outline: outline,
         cityId: selectedCityId,
         districtId: selectedDistrictId,
-        bitkiId: 1,
+        bitkiId: int.tryParse(productIdController.text),
         ekimZamani: AppConstant.setDateFormat(context, dateTimeController.text),
         sulamadaGubreYapilacak: sulamaGubre,
-        gubreTipi: gubreController.text,
+        gubreTipleri: [gubreController.text],
       );
       debugPrint("fieldData: ${fieldData.toJson()}");
       var response = await FieldApiService.instance.post(fieldData);
       if (response.data != null && response.statusCode == 201) {
         appLoading(context, false);
-        Navigator.pop(context);
         Toastr.showSuccess("Tarlanız başarıyla eklendi.", context);
         ref.refresh(homeFutureProvider);
+        Navigator.pop(context);
       } else {
         appLoading(context, false);
         Toastr.showError(response.message.toString(), context);
@@ -105,6 +108,7 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
     super.dispose();
     fieldNameController.dispose();
     productController.dispose();
+    productIdController.dispose();
     dateTimeController.dispose();
     gubreController.dispose();
     cityDistrictController.dispose();

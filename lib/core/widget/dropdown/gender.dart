@@ -70,7 +70,8 @@ class _AppGenderState extends State<AppGender> {
             DropDownSearchField(
               focusNode: focusNode,
               enabled: isEdit,
-              textMode: true,
+              textMode: false,
+              searchable: false,
               controller: widget.genderController,
               items: const ["Erkek", "Kadın"],
               itemBuilder: (context, item) => Padding(padding: context.padding.low, child: Text(item, style: context.general.textTheme.titleMedium)),

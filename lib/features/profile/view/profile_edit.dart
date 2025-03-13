@@ -126,7 +126,7 @@ class _UserSelectCityAndDistrictState extends ConsumerState<UserSelectCityAndDis
       backgroundColor: ColorManager.WHITE,
       elevation: 0,
       content: SizedBox(
-        height: 43.w,
+        height: 50.w,
         width: 100.w,
         child: Column(
           children: [

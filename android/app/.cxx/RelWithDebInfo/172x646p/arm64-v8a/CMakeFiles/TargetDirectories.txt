@@ -1,0 +1,2 @@
+/Users/developer/Documents/Github/rencber_mobile/android/app/.cxx/RelWithDebInfo/172x646p/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/developer/Documents/Github/rencber_mobile/android/app/.cxx/RelWithDebInfo/172x646p/arm64-v8a/CMakeFiles/rebuild_cache.dir

@@ -8,9 +8,10 @@ import 'package:rencber_mobile/product/provider/product/product.dart';
 import 'package:sizer/sizer.dart';
 
 class AppProducts extends ConsumerStatefulWidget {
-  const AppProducts({super.key, required this.productController, required this.labelText});
+  const AppProducts({super.key, required this.productController, required this.labelText, required this.productIdController});
   final TextEditingController productController;
   final String labelText;
+  final TextEditingController productIdController;
 
   @override
   ConsumerState<AppProducts> createState() => _AppProductsState();
@@ -96,6 +97,8 @@ class _AppProductsState extends ConsumerState<AppProducts> {
               ),
               onSelected: (value) {
                 debugPrint(value);
+                var productId = bitki.firstWhere((element) => element.name == value).id;
+                widget.productIdController.text = productId.toString();
                 widget.productController.text = value;
               },
             ),
