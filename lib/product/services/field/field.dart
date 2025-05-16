@@ -71,7 +71,7 @@ class FieldApiService {
         options: await DioManager.getOptions(),
       );
 
-      if (response.statusCode != 200 && response.statusCode != 201) {
+      if (response.statusCode != 200 || response.statusCode != 201) {
         return BaseResponseModel<bool>(
           data: null,
           message: response.statusMessage,

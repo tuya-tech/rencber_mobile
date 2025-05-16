@@ -72,7 +72,7 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
       );
       debugPrint("fieldData: ${fieldData.toJson()}");
       var response = await FieldApiService.instance.post(fieldData);
-      if (response.data != null && response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         appLoading(context, false);
         Toastr.showSuccess("Tarlanız başarıyla eklendi.", context);
         ref.refresh(homeFutureProvider);

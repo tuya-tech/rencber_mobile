@@ -18,6 +18,7 @@ import 'package:rencber_mobile/features/profile/view/profile_edit.dart';
 import 'package:rencber_mobile/features/register/view/register.dart';
 import 'package:rencber_mobile/features/splash/view/splash.dart';
 import 'package:rencber_mobile/features/valide/view/valide_code.dart';
+import 'package:rencber_mobile/features/weather/view/weather_view.dart';
 import 'package:rencber_mobile/product/models/advice/advice_response.dart';
 import 'package:rencber_mobile/product/models/field/field_response.dart';
 import 'package:rencber_mobile/product/models/user/user_response.dart';
@@ -41,6 +42,7 @@ class RouterManager {
   static const addField = '/addField';
   static const editField = '/editField';
   static const notification = '/notification';
+  static const weather = '/weather';
 
   static Widget _splashRoute(BuildContext context, GoRouterState state) => const SplashView();
   static Widget _homeRoute(BuildContext context, GoRouterState state) => const Navbar();
@@ -59,7 +61,7 @@ class RouterManager {
   static Widget _addFieldRoute(BuildContext context, GoRouterState state) => const FieldAddView();
   static Widget _editFieldRoute(BuildContext context, GoRouterState state) => FieldEditView(fieldData: state.extra as FieldResponseModel);
   static Widget _notificationRoute(BuildContext context, GoRouterState state) => const NotificationView();
-
+  static Widget _weatherRoute(BuildContext context, GoRouterState state) => const WeatherView();
 
   static Widget _errorRoute(BuildContext context, GoRouterState state) => const ErrorView();
 
@@ -83,6 +85,7 @@ class RouterManager {
       GoRoute(path: addField, builder: _addFieldRoute),
       GoRoute(path: editField, builder: _editFieldRoute),
       GoRoute(path: notification, builder: _notificationRoute),
+      GoRoute(path: weather, builder: _weatherRoute),
     ],
   );
 

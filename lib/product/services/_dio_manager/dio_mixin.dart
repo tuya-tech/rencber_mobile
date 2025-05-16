@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart'; // Import kDebugMode
 import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/services_path.dart';
@@ -13,7 +13,12 @@ class DioManager {
       baseUrl: ServicesPath.instance.baseUrl,
       contentType: "application/json",
     ),
-  );
+  )..interceptors.add(
+      // Add interceptor here
+      kDebugMode
+          ? LogInterceptor(responseBody: true, requestBody: true, responseHeader: true, requestHeader: true, logPrint: (obj) => debugPrint('[Dio] ${obj.toString().length > 300 ? '${obj.toString().substring(0, 300)}...' : obj}'))
+          : LogInterceptor(responseBody: false, requestBody: false, responseHeader: false, requestHeader: false),
+    );
 
   static BaseResponseModel<T> dioError<T>(DioException e) {
     if (e.error is SocketException) {

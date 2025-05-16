@@ -13,7 +13,7 @@ class WeatherApiService {
   Future<BaseResponseModel<WeatherResponseModel>> get() async {
     try {
       var fieldData = await SecureStorage.instance.readFieldModel('outLineField');
-      var fieldId = fieldData?.id ?? 0;
+      var fieldId = fieldData?.id;
       debugPrint("fieldId: $fieldId");
       final response = await DioManager.dio.get(
         "${ServicesPath.instance.weather}/field/$fieldId",
@@ -37,6 +37,34 @@ class WeatherApiService {
       }
     } on DioException catch (e) {
       return DioManager.dioError<WeatherResponseModel>(e);
+    }
+  }
+
+  Future<BaseResponseModel<List<WeatherResponseModel>>> getAll() async {
+    try {
+      var fieldData = await SecureStorage.instance.readFieldModel('outLineField');
+      var fieldId = fieldData?.id ?? 0;
+      final response = await DioManager.dio.get(
+        //"${ServicesPath.instance.weather}/field/55/all",
+        "${ServicesPath.instance.weather}/field/$fieldId/all",
+        options: await DioManager.getOptions(),
+      );
+
+      if (response.statusCode == 200) {
+        return BaseResponseModel<List<WeatherResponseModel>>(
+          data: List<WeatherResponseModel>.from(response.data.map((x) => WeatherResponseModel.fromJson(x))),
+          message: response.statusMessage,
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponseModel<List<WeatherResponseModel>>(
+          data: null,
+          message: response.statusMessage,
+          statusCode: response.statusCode,
+        );
+      }
+    } on DioException catch (e) {
+      return DioManager.dioError<List<WeatherResponseModel>>(e);
     }
   }
 }

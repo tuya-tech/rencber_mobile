@@ -24,6 +24,11 @@ class ImageManager {
   static const String _gubreleme = "assets/islemler/gubreleme.png";
   static const String _men = "assets/men.png";
 
+  static const String _miniRain = "assets/weather/miniRain.png";
+  static const String _miniSun = "assets/weather/miniSun.png";
+  static const String _miniWind = "assets/weather/miniWind.png";
+
+
   static Image getMenuImage(String imageName) {
     return Image.asset("assets/navigation/$imageName.png", height: 15.w, width: 15.w);
   }
@@ -75,4 +80,8 @@ extension ImageManagerExtension on ImageManager {
   Widget get sulama => Image.asset(ImageManager._sulama, height: 12.w, width: 12.w);
   Widget get capalama => Image.asset(ImageManager._capalama, height: 12.w, width: 12.w);
   Widget get gubreleme => Image.asset(ImageManager._gubreleme, height: 12.w, width: 12.w);
+
+  Widget get miniRain => Image.asset(ImageManager._miniRain, height: 5.w, width: 5.w);
+  Widget get miniSun => Image.asset(ImageManager._miniSun, height: 5.w, width: 5.w);
+  Widget get miniWind => Image.asset(ImageManager._miniWind, height: 5.w, width: 5.w);
 }

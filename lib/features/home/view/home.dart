@@ -32,7 +32,7 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   bool _hasShownDialog = false;
-  bool isField = false;
+  bool isField = false; //TODO unutma burayı
 
   void _showNoFieldDialog() {
     showDialog(
@@ -118,7 +118,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     width: 93,
                     child: Padding(
                       padding: context.padding.low,
-                      child: HomeWeather(weatherData: weatherData),
+                      child: InkWell(
+                          onTap: () {
+                            context.push(RouterManager.weather);
+                          },
+                          child: HomeWeather(weatherData: weatherData)),
                     ),
                   ),
                 )
