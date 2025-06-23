@@ -35,7 +35,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> with RegisterMixin 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Hoşgeldiniz", style: context.general.textTheme.titleLarge),
+              Text("Hoşgeldiniz", style: context.general.textTheme.labelMedium),
               context.sized.emptySizedHeightBoxLow,
               Text("Kayıt Olun", style: context.general.textTheme.headlineSmall),
               context.sized.emptySizedHeightBoxLow3x,

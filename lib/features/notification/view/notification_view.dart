@@ -51,8 +51,8 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
                         tileColor: ColorManager.WHITE,
                         onTap: () {},
                         title: Text(notification[index].islemTipi ?? "", style: context.general.textTheme.titleMedium),
-                        subtitle: Text("Bildirim Açıklaması", style: context.general.textTheme.bodyLarge),
-                        trailing: Text("12:00", style: context.general.textTheme.bodyLarge),
+                        // subtitle: Text("Bildirim Açıklaması", style: context.general.textTheme.bodyLarge),
+                        // trailing: Text("12:00", style: context.general.textTheme.bodyLarge),
                       ),
                     );
                   },

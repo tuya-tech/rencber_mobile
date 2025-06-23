@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:rencber_mobile/features/notification/view/notification_view.dart';
 import 'package:rencber_mobile/product/provider/navbar/navbar_provider.dart';
 
 mixin MenuMixin on ConsumerWidget {
-  List getMenuList(WidgetRef ref) {
+  List getMenuList(WidgetRef ref, BuildContext context) {
     List menuList = [
       {
         "title": "Anasayfa",
@@ -54,7 +57,9 @@ mixin MenuMixin on ConsumerWidget {
       {
         "title": "Bildirim",
         "icon": "noti",
-        "onTap": "/account",
+        "onTap": (){
+           PersistentNavBarNavigator.pushNewScreen(context, screen: const NotificationView());
+        }
       },
     ];
 

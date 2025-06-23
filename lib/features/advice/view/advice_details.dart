@@ -53,6 +53,8 @@ class _AdviceDetailsViewState extends ConsumerState<AdviceDetailsView> {
                     child: Html(data: advice.content ?? ""),
                   ),
                   context.sized.emptySizedHeightBoxLow,
+                  Text(advice.price?.toString() ?? "", style: context.general.textTheme.headlineMedium),
+                  context.sized.emptySizedHeightBoxLow,
                   AppElevetedButton(
                     buttonText: "Web Sitesini Ziyaret Et",
                     rightIconData: Icons.arrow_outward_rounded,

@@ -25,7 +25,7 @@ mixin RegisterMixin<T extends StatefulWidget> on State<T> {
   @override
   void initState() {
     super.initState();
-    phoneController = TextEditingController(text: "(555)");
+    phoneController = TextEditingController(text: "(0)");
     nameController = TextEditingController();
     surnameController = TextEditingController();
     cityController = TextEditingController();

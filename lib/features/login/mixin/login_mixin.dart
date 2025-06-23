@@ -15,7 +15,7 @@ mixin LoginMixin on State<LoginView> {
   @override
   void initState() {
     super.initState();
-    phoneController = TextEditingController(text: "(555)");
+    phoneController = TextEditingController(text: "(0)");
   }
 
   @override

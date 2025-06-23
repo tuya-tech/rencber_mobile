@@ -21,15 +21,10 @@ class MenuView extends ConsumerWidget with MenuMixin {
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: getMenuList(ref).length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 0
-          ),
+          itemCount: getMenuList(ref, context).length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1, crossAxisSpacing: 0, mainAxisSpacing: 0),
           itemBuilder: (context, index) {
-            var menuList = getMenuList(ref);
+            var menuList = getMenuList(ref, context);
             return Padding(
               padding: context.padding.low,
               child: InkWell(

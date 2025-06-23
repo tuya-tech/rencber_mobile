@@ -219,11 +219,11 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
                           absorbing: (widget.fieldData.active ?? false),
                           child: AppCheckBox(
                             multiSelect: true,
-                            initialValue: widget.fieldData.active == false ? "Pasif" : "Aktif",
-                            items: const ["Aktif", "Pasif"],
+                            initialValue: widget.fieldData.active == false ? "Ekilmiyor" : "Ekiliyor",
+                            items: const ["Ekiliyor", "Ekilmiyor"],
                             isCircular: true,
                             onChanged: (value) {
-                              isActive = value == "Pasif";
+                              isActive = value == "Ekilmiyor";
                             },
                           ),
                         ),

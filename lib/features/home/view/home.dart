@@ -179,10 +179,9 @@ class _HomeWeatherState extends State<HomeWeather> {
       case "Snow":
         return "Karlı";
       case "Mist":
-        return "Sisli";
       case "Fog":
-        return "Sisli";
       case "Haze":
+      case "Smoke":
         return "Sisli";
       case "Dust":
         return "Tozlu";
@@ -191,6 +190,8 @@ class _HomeWeatherState extends State<HomeWeather> {
       case "Ash":
         return "Kül Fırtınalı";
       case "Squall":
+      case "Drizzle":
+      case "Thunderstorm":
         return "Fırtınalı";
       case "Tornado":
         return "Tornado";
@@ -237,9 +238,9 @@ class _HomeWeatherState extends State<HomeWeather> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("En yüksek: ${widget.weatherData?.tempMax ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En yüksek: ${(widget.weatherData?.tempMax?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text("En düşük: ${widget.weatherData?.tempMin ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En düşük: ${(widget.weatherData?.tempMin?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
                       ],
                     )
                   ],
