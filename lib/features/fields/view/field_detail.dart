@@ -35,20 +35,20 @@ class FieldDetailView extends ConsumerStatefulWidget {
 class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
   Color markerColors(String selectedDay) {
     if (selectedDay == 'SULAMA') {
-      return ColorManager.BLUE;
+      return ColorManager.blue;
     } else if (selectedDay == 'GUBRELEME') {
-      return ColorManager.BROWN;
+      return ColorManager.brown;
     } else if (selectedDay == 'CAPALAMA') {
-      return ColorManager.ORANGE;
+      return ColorManager.orange;
     }
-    return ColorManager.WHITE;
+    return ColorManager.white;
   }
 
   @override
   Widget build(BuildContext context) {
     var fieldProvider = ref.watch(fieldIdFutureProvider(widget.fieldId));
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: fieldProvider.when(
         data: (fieldData) {
           //var field = fieldData.data;
@@ -56,7 +56,7 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
           var fieldIslemData = fieldData['fieldIslem'] != null ? fieldData['fieldIslem'] as List<FieldIslemResponseModel> : List<FieldIslemResponseModel>.empty();
           return SliverAppBarCustom(
             height: 5,
-            title: Text(field.name ?? "", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text(field.name ?? "", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             leading: const AppBarBackButton(),
             child: Padding(
               padding: context.padding.low,
@@ -73,7 +73,7 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IslemlerWidget(
-                        borderColor: ColorManager.BLUE,
+                        borderColor: ColorManager.blue,
                         image: ImageManager.instance.sulama,
                         title: "Sulama",
                         onTap: () {
@@ -86,7 +86,7 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                         },
                       ),
                       IslemlerWidget(
-                        borderColor: ColorManager.ORANGE,
+                        borderColor: ColorManager.orange,
                         image: ImageManager.instance.capalama,
                         title: "Çapalama",
                         onTap: () {
@@ -99,7 +99,7 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                         },
                       ),
                       IslemlerWidget(
-                        borderColor: ColorManager.BROWN,
+                        borderColor: ColorManager.brown,
                         image: ImageManager.instance.gubreleme,
                         title: "Gübreleme",
                         onTap: () {
@@ -198,7 +198,7 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       content: SizedBox(
         height: widget.islemField ? 72.w : 70.w,
         width: 100.w,
@@ -212,7 +212,7 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
                 controller: _dropdownController,
                 items: items,
                 hintText: "İşlem Tipi",
-                borderColor: ColorManager.WHITE,
+                borderColor: ColorManager.white,
                 onSelected: (p0) {
                   _dropdownController.text = islemTipiConvert(p0);
                 },
@@ -252,7 +252,7 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
                 Navigator.pop(context);
               },
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              child: Text("İptal", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.BUTTONREDCOLOR)),
+              child: Text("İptal", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.buttonRedColor)),
             ),
           ],
         ),
@@ -272,9 +272,9 @@ class IslermlerCardWidget extends StatelessWidget {
       width: 65.w,
       height: 30.w,
       decoration: BoxDecoration(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ColorManager.BGCOLOR, width: 1.5),
+        border: Border.all(color: ColorManager.bgColor, width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

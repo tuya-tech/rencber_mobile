@@ -19,11 +19,11 @@ class _AppSwitchState extends State<AppSwitch> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: ColorManager.BLACK.withValues(alpha: 0.1),
+            color: ColorManager.black.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -37,10 +37,10 @@ class _AppSwitchState extends State<AppSwitch> {
           title: Text(widget.label, style: context.general.textTheme.titleMedium),
           onChanged: widget.onChanged,
           initialValue: widget.initialValue,
-          activeColor: ColorManager.WHITE,
-          inactiveThumbColor: ColorManager.WHITE,
-          inactiveTrackColor: ColorManager.GREYCOLOR,
-          activeTrackColor: ColorManager.GREEN,
+          activeColor: ColorManager.white,
+          inactiveThumbColor: ColorManager.white,
+          inactiveTrackColor: ColorManager.greyColor,
+          activeTrackColor: ColorManager.green,
           decoration: const InputDecoration(
             border: InputBorder.none,
             focusedBorder: InputBorder.none,

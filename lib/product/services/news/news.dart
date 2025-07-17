@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/news/news_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -30,8 +31,19 @@ class NewsApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('NewsApiService get: ${e.message}');
-      return DioManager.dioError<List<NewsResponseModel>>(e);
+      debugPrint('NewsApiService get: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Haber verileri alınamadı";
+      
+      return BaseResponseModel<List<NewsResponseModel>>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -56,8 +68,19 @@ class NewsApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('NewsApiService get: ${e.message}');
-      return DioManager.dioError<NewsResponseModel>(e);
+      debugPrint('NewsApiService getById: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Haber bilgisi alınamadı";
+      
+      return BaseResponseModel<NewsResponseModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 }

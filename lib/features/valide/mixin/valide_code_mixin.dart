@@ -52,22 +52,36 @@ mixin ValideCodeMixin on State<ValideCodeView> {
       debugPrint("firebaseToken : $firebaseToken");
       var response = await ValideCodeApiService.instance.post(valideCode, phoneNumberFormatter(widget.phoneNumber));
       debugPrint(response.data.toString());
+      
+      appLoading(context, false);
+      
+      // CODE-1003 (validCode) hatasını özel olarak handle et
+      if (response.message?.contains("CODE-1003") == true) {
+        Toastr.showError(response.message ?? "Kod geçerli", context);
+        // Kod girme ekranında kal, kullanıcının tekrar deneme yapmasına izin ver
+        valideCodeController.clear();
+        return;
+      }
+      
       if (response.data != null) {
-        var response = await LoginApiService.instance.login(phoneNumberFormatter(widget.phoneNumber), valideCode, firebaseToken ?? "");
-        if (response.statusCode == 200 && response.data?.accessToken != null) {
-          appLoading(context, false);
-          SecureStorage.instance.writeSecureData("accessToken", response.data!.accessToken!);
-          SecureStorage.instance.writeSecureData("refreshToken", response.data!.refreshToken!);
+        var loginResponse = await LoginApiService.instance.login(phoneNumberFormatter(widget.phoneNumber), valideCode, firebaseToken ?? "");
+        if (loginResponse.statusCode == 200 && loginResponse.data?.accessToken != null) {
+          SecureStorage.instance.writeSecureData("accessToken", loginResponse.data!.accessToken!);
+          SecureStorage.instance.writeSecureData("refreshToken", loginResponse.data!.refreshToken!);
           SecureStorage.instance.writeSecureData("phone", phoneNumberFormatter(widget.phoneNumber));
-          SecureStorage.instance.writeSecureData("userId", response.data!.userId.toString());
+          SecureStorage.instance.writeSecureData("userId", loginResponse.data!.userId.toString());
           context.go(RouterManager.home);
         } else {
-          appLoading(context, false);
-          Toastr.showError("Giriş başarısız", context);
+          // Login sırasında da CODE-1003 kontrolü
+          if (loginResponse.message?.contains("CODE-1003") == true) {
+            Toastr.showError(loginResponse.message ?? "Kod geçerli, tekrar deneyiniz", context);
+            valideCodeController.clear();
+          } else {
+            Toastr.showError(loginResponse.message ?? "Giriş başarısız", context);
+          }
         }
       } else {
-        appLoading(context, false);
-        Toastr.showError("Kod hatalı", context);
+        Toastr.showError(response.message ?? "Kod hatalı", context);
       }
     }
   }

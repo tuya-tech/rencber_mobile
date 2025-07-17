@@ -20,7 +20,7 @@ class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: Padding(
         padding: context.padding.horizontalNormal,
@@ -58,7 +58,7 @@ class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("${(second ~/ 60).toString()}:${(second % 60).toString().padLeft(2, '0')}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR)),
+                Text("${(second ~/ 60).toString()}:${(second % 60).toString().padLeft(2, '0')}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.greyColor)),
                 TextButton(
                   onPressed: () async {
                     appLoading(context, true);
@@ -71,7 +71,7 @@ class _ValideCodeViewState extends State<ValideCodeView> with ValideCodeMixin {
                     }
                   },
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                  child: Text("Tekrar Gönder", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.GREEN)),
+                  child: Text("Tekrar Gönder", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.green)),
                 ),
               ],
             ),

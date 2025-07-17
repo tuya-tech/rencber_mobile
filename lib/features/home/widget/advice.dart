@@ -24,7 +24,7 @@ class HomeAdviceList extends ConsumerWidget {
           children: [
             Text("Tavsiyeler", style: context.general.textTheme.titleSmall),
             AppRightIconButton(onPressed: () => ref.read(navbarSelectedProvider.notifier).notify(1))
-            //IconButton(onPressed: (){}, icon: IconManager.instance.customIcon(Icons.add, color: ColorManager.WHITE, sizeW: 5))
+            //IconButton(onPressed: (){}, icon: IconManager.instance.customIcon(Icons.add, color: ColorManager.white, sizeW: 5))
           ],
         ),
         context.sized.emptySizedHeightBoxLow,
@@ -38,7 +38,7 @@ class HomeAdviceList extends ConsumerWidget {
               return SizedBox(
                 width: 40.w,
                 child: Card(
-                  color: ColorManager.WHITE,
+                  color: ColorManager.white,
                   child: Padding(
                     padding: context.padding.low,
                     child: Column(

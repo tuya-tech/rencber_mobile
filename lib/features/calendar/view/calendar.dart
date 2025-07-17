@@ -25,13 +25,13 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
 
   Color markerColors(String selectedDay) {
     if (selectedDay == 'SULAMA') {
-      return ColorManager.BLUE;
+      return ColorManager.blue;
     } else if (selectedDay == 'GUBRELEME') {
-      return ColorManager.BROWN;
+      return ColorManager.brown;
     } else if (selectedDay == 'CAPALAMA') {
-      return ColorManager.ORANGE;
+      return ColorManager.orange;
     }
-    return ColorManager.WHITE;
+    return ColorManager.white;
   }
 
   void getFieldIdByCache() async {
@@ -50,11 +50,11 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 15,
         leading: const AppBarBackButton(),
-        title: Text("Takvim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("Takvim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         child: Padding(
           padding: context.padding.low,
           child: Column(
@@ -62,7 +62,7 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: ColorManager.WHITE,
+                  color: ColorManager.white,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: AppCalendar(
@@ -76,13 +76,13 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Bu Ay", style: context.general.textTheme.titleSmall?.copyWith(color: ColorManager.BLACK)),
+                  Text("Bu Ay", style: context.general.textTheme.titleSmall?.copyWith(color: ColorManager.black)),
                   AppElevetedButton(
                     buttonwidth: 28,
                     buttonHeight: 10,
                     leftIconData: Icons.add,
                     buttonText: "Ekle",
-                    textStyle: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE),
+                    textStyle: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white),
                     onPressed: () {
                       showDialog(
                         context: context,

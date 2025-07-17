@@ -4,14 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/button/right_icon_button.dart';
 import 'package:rencber_mobile/core/widget/image/network_image.dart';
+import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/features/advice/mixin/advice_mixin.dart';
 import 'package:rencber_mobile/product/provider/advice/advice_provider.dart';
-import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:sizer/sizer.dart';
 
 class AdviceView extends ConsumerStatefulWidget {
@@ -26,13 +27,13 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
   Widget build(BuildContext context) {
     var adviceProvider = ref.watch(adviceFutureProvider);
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: adviceProvider.when(
         data: (adviceData) {
           var (outLineData, normalData) = outLineAndNormalData(adviceData.data ?? []);
           return SliverAppBarCustom(
             height: 15,
-            title: Text("Tavsiyeler", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text("Tavsiyeler", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             child: Padding(
               padding: context.padding.low,
               child: Column(
@@ -61,7 +62,7 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                           height: 45.w,
                           width: 75.w,
                           child: Card(
-                            color: ColorManager.WHITE,
+                            color: ColorManager.white,
                             child: Padding(
                               padding: EdgeInsets.only(left: 2.w, right: 1.w, top: 2.w, bottom: 2.w),
                               child: Row(
@@ -76,13 +77,13 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(child: Text(outLineData[index].title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleSmall)),
-                                          Expanded(child: Text(outLineData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.BLACK.withValues(alpha: 0.7)))),
+                                          Expanded(child: Text(outLineData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.black.withValues(alpha: 0.7)))),
                                           context.sized.emptySizedHeightBoxLow,
                                           AppElevetedButton(
                                             buttonText: "İncele",
                                             buttonwidth: 22,
                                             buttonHeight: 7,
-                                            textStyle: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.WHITE, fontSize: 13.sp),
+                                            textStyle: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.white, fontSize: 13.sp),
                                             onPressed: () => context.push(RouterManager.brandDetails, extra: outLineData[index].id),
                                           )
                                         ],
@@ -123,7 +124,7 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                           height: 60.w,
                           width: 40.w,
                           child: Card(
-                            color: ColorManager.WHITE,
+                            color: ColorManager.white,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,7 +134,7 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                                   alignment: Alignment.topLeft,
                                   child: Padding(
                                     padding: context.padding.horizontalNormal,
-                                    child: Text(normalData[index].title ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR)),
+                                    child: Text(normalData[index].title ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.greyColor)),
                                   ),
                                 ),
                                 InkWell(
@@ -157,7 +158,19 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
         },
         error: (error, stackTrace) {
           debugPrint("Error: $error");
-          return DioErrorManager.dioError(error);
+
+          // Hata mesajını toast olarak göster
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            String errorMessage = "Tavsiye verileri yüklenirken hata oluştu";
+
+            // Eğer hata string ise ve backend hata kodu içeriyorsa işle
+            if (error is String) {
+              errorMessage = ExceptionHandler.handleException(error);
+            }
+
+            Toastr.showError(errorMessage, context);
+          });
+          return null;
         },
         loading: () {
           return const Center(child: CircularProgressIndicator());

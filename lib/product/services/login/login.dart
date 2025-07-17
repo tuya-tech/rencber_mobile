@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/login/login_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -23,8 +24,27 @@ class LoginApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('LoginApiService post: ${e.message}');
-      return DioManager.dioError<bool>(e);
+      debugPrint('LoginApiService loginRequest: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage;
+      
+      if (errorCode != null) {
+        errorMessage = ExceptionHandler.handleException(errorCode);
+        // CODE-1003 için özel mesaj ekle
+        if (errorCode == "CODE-1003") {
+          errorMessage = "Kod geçerli, doğrulama ekranına yönlendiriliyorsunuz";
+        }
+      } else {
+        errorMessage = "Giriş isteği gönderilemedi";
+      }
+      
+      return BaseResponseModel<bool>(
+        data: false,
+        message: errorCode != null ? "[$errorCode] $errorMessage" : errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -50,8 +70,27 @@ class LoginApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('LoginApiService post: ${e.message}');
-      return DioManager.dioError<LoginResponseModel>(e);
+      debugPrint('LoginApiService login: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage;
+      
+      if (errorCode != null) {
+        errorMessage = ExceptionHandler.handleException(errorCode);
+        // CODE-1003 için özel mesaj ekle
+        if (errorCode == "CODE-1003") {
+          errorMessage = "Kod geçerli ancak giriş tamamlanamadı, lütfen tekrar deneyiniz";
+        }
+      } else {
+        errorMessage = "Giriş yapılamadı";
+      }
+      
+      return BaseResponseModel<LoginResponseModel>(
+        data: null,
+        message: errorCode != null ? "[$errorCode] $errorMessage" : errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 }

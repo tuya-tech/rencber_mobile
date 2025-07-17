@@ -26,13 +26,13 @@ class _AppCalendarState extends State<AppCalendar> {
 
   Color markerColors(List selectedDay) {
     if (selectedDay.contains('SULAMA')) {
-      return ColorManager.BLUE;
+      return ColorManager.blue;
     } else if (selectedDay.contains('GUBRELEME')) {
-      return ColorManager.BROWN;
+      return ColorManager.brown;
     } else if (selectedDay.contains('CAPALAMA')) {
-      return ColorManager.ORANGE;
+      return ColorManager.orange;
     }
-    return ColorManager.WHITE;
+    return ColorManager.white;
   }
 
   String selectedMarkerText(DateTime selectedDay) {
@@ -78,9 +78,9 @@ class _AppCalendarState extends State<AppCalendar> {
           headerStyle: HeaderStyle(
             formatButtonVisible: false,
             titleCentered: true,
-            titleTextStyle: context.general.textTheme.labelMedium!.copyWith(color: ColorManager.BLACK),
-            leftChevronIcon: const Icon(Icons.chevron_left, color: ColorManager.BLACK),
-            rightChevronIcon: const Icon(Icons.chevron_right, color: ColorManager.BLACK),
+            titleTextStyle: context.general.textTheme.labelMedium!.copyWith(color: ColorManager.black),
+            leftChevronIcon: const Icon(Icons.chevron_left, color: ColorManager.black),
+            rightChevronIcon: const Icon(Icons.chevron_right, color: ColorManager.black),
             titleTextFormatter: (date, locale) => DateFormat.MMMM(locale).format(date),
           ),
           daysOfWeekHeight: 6.w,
@@ -92,13 +92,13 @@ class _AppCalendarState extends State<AppCalendar> {
                 margin: EdgeInsets.only(top: 4.w),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: ColorManager.BLUE,
+                  color: ColorManager.blue,
                   shape: widget.isVisibleEventText ? BoxShape.circle : BoxShape.rectangle,
                   borderRadius: widget.isVisibleEventText ? null : BorderRadius.circular(10),
                 ),
                 child: Text(
                   date.day.toString(),
-                  style: context.general.textTheme.labelMedium!.copyWith(color: ColorManager.WHITE),
+                  style: context.general.textTheme.labelMedium!.copyWith(color: ColorManager.white),
                 ),
               );
             },
@@ -119,13 +119,13 @@ class _AppCalendarState extends State<AppCalendar> {
                 margin: EdgeInsets.only(top: 4.w),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: ColorManager.WHITE,
+                  color: ColorManager.white,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   date.day.toString(),
-                  style: context.general.textTheme.labelSmall!.copyWith(color: ColorManager.BLACK..withValues(alpha: 0.2)),
+                  style: context.general.textTheme.labelSmall!.copyWith(color: ColorManager.black..withValues(alpha: 0.2)),
                 ),
               );
             },
@@ -134,13 +134,13 @@ class _AppCalendarState extends State<AppCalendar> {
                 margin: EdgeInsets.only(top: 4.w),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: ColorManager.WHITE,
+                  color: ColorManager.white,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   date.day.toString(),
-                  style: context.general.textTheme.labelSmall!.copyWith(color: ColorManager.BLACK),
+                  style: context.general.textTheme.labelSmall!.copyWith(color: ColorManager.black),
                 ),
               );
             },
@@ -149,7 +149,7 @@ class _AppCalendarState extends State<AppCalendar> {
                 alignment: Alignment.center,
                 child: Text(
                   DateFormat('EEE.', "tr_TR").format(day),
-                  style: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.BLACK),
+                  style: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.black),
                 ),
               );
             },
@@ -176,11 +176,11 @@ class _AppCalendarState extends State<AppCalendar> {
                     selectedMarkerText(_selectedDay).ext.isNotNullOrNoEmpty
                         ? Text(
                             AppConstant.dateFormat(context, _selectedDay.toString()) == AppConstant.dateFormat(context, DateTime.now().toString()) ? "Bugün ${selectedMarkerText(_selectedDay).toLowerCase()} işlemi yapılacak" : "${selectedMarkerText(_selectedDay).ext.toCapitalized()} işlemi yapıldı",
-                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.BLACK),
+                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.black),
                           )
                         : Text(
                             "Bugün için işlem bulunmamaktadır",
-                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.BLACK),
+                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.black),
                           )
                   ],
                 ),

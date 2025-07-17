@@ -50,11 +50,11 @@ class HomeFieldList extends StatelessWidget {
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      ColorManager.GREEN.withValues(alpha: 0.8),
-                                      ColorManager.GREEN.withValues(alpha: 0.5),
-                                      ColorManager.GREEN.withValues(alpha: 0.4),
-                                      ColorManager.GREEN.withValues(alpha: 0.5),
-                                      ColorManager.GREEN.withValues(alpha: 0.8),
+                                      ColorManager.green.withValues(alpha: 0.8),
+                                      ColorManager.green.withValues(alpha: 0.5),
+                                      ColorManager.green.withValues(alpha: 0.4),
+                                      ColorManager.green.withValues(alpha: 0.5),
+                                      ColorManager.green.withValues(alpha: 0.8),
                                     ],
                                   )
                                 : null,
@@ -70,7 +70,7 @@ class HomeFieldList extends StatelessWidget {
                   children: [
                     Text(
                       "Henüz tarlanız bulunmamaktadır.",
-                      style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.BLACK),
+                      style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.black),
                     ),
                     context.sized.emptySizedHeightBoxLow,
                     TextButton(
@@ -78,7 +78,7 @@ class HomeFieldList extends StatelessWidget {
                         context.push(RouterManager.addField);
                       },
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      child: Text("Ekle", style: context.general.textTheme.titleLarge?.copyWith(color: ColorManager.GREEN)),
+                      child: Text("Ekle", style: context.general.textTheme.titleLarge?.copyWith(color: ColorManager.green)),
                     ),
                   ],
                 ),

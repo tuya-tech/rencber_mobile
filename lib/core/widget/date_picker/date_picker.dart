@@ -48,12 +48,12 @@ class _AppDatePickerState extends ConsumerState<AppDatePicker> {
     controller.text = AppConstant.convertDottedDateToText(widget.initialValue ?? "");
     return Container(
       decoration: BoxDecoration(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         borderRadius: BorderRadius.circular(widget.isBorder ? 10 : 24),
-        //border: Border.all(color: ColorManager.BLACK.withValues(alpha: 0.1)),
+        //border: Border.all(color: ColorManager.black.withValues(alpha: 0.1)),
         boxShadow: [
           BoxShadow(
-            color: ColorManager.BLACK.withValues(alpha: 0.1),
+            color: ColorManager.black.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -75,7 +75,7 @@ class _AppDatePickerState extends ConsumerState<AppDatePicker> {
                       return StatefulBuilder(
                         builder: (context, setState) {
                           return AlertDialog(
-                            backgroundColor: ColorManager.WHITE,
+                            backgroundColor: ColorManager.white,
                             elevation: 0,
                             content: SizedBox(
                               height: 60.w,
@@ -152,105 +152,182 @@ class _AppDatePickerState extends ConsumerState<AppDatePicker> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     if (widget.labelText != null) Text(widget.labelText ?? "", style: context.general.textTheme.titleMedium),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          isEdit = false;
-                        });
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return StatefulBuilder(
-                              builder: (context, setState) {
-                                return AlertDialog(
-                                  backgroundColor: ColorManager.WHITE,
-                                  elevation: 0,
-                                  content: SizedBox(
-                                    height: 60.w,
-                                    width: 100.w,
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: ScrollDatePicker(
-                                            maximumDate: DateTime.now(),
-                                            minimumDate: DateTime(1900),
-                                            viewType: const [
-                                              DatePickerViewType.day,
-                                              DatePickerViewType.month,
-                                              DatePickerViewType.year,
-                                            ],
-                                            scrollViewOptions: DatePickerScrollViewOptions(
-                                              day: ScrollViewDetailOptions(margin: EdgeInsets.only(right: 5.w)),
-                                              month: const ScrollViewDetailOptions(margin: EdgeInsets.zero, label: " "),
-                                              year: ScrollViewDetailOptions(margin: EdgeInsets.only(left: 5.w)),
-                                            ),
-                                            selectedDate: timePicker,
-                                            onDateTimeChanged: (value) {
-                                              setState(() {
-                                                timePicker = value;
-                                              });
-                                            },
-                                            locale: const Locale("tr", "TR"),
-                                          ),
-                                        ),
-                                        context.sized.emptySizedHeightBoxLow,
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            AppElevetedButton(
-                                                buttonwidth: 30,
-                                                buttonHeight: 10,
-                                                buttonText: "Geri",
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isEdit = false;
-                                                  });
-                                                  Navigator.pop(context);
-                                                }),
-                                            AppElevetedButton(
-                                              buttonwidth: 30,
-                                              buttonHeight: 10,
-                                              buttonText: "Tamam",
-                                              onPressed: () {
-                                                setState(() {});
-                                                widget.controller.text = timePicker.toString();
-                                                controller.text = AppConstant.dateFormat(context, timePicker.toString()) ?? "";
-                                                isEdit = false;
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                      child: widget.labelText != null ? IconManager.instance.customIcon(Icons.edit_outlined) : const SizedBox.shrink(),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       isEdit = false;
+                    //     });
+                    //     showDialog(
+                    //       barrierDismissible: false,
+                    //       context: context,
+                    //       builder: (BuildContext context) {
+                    //         return StatefulBuilder(
+                    //           builder: (context, setState) {
+                    //             return AlertDialog(
+                    //               backgroundColor: ColorManager.white,
+                    //               elevation: 0,
+                    //               content: SizedBox(
+                    //                 height: 60.w,
+                    //                 width: 100.w,
+                    //                 child: Column(
+                    //                   children: [
+                    //                     Expanded(
+                    //                       child: ScrollDatePicker(
+                    //                         maximumDate: DateTime.now(),
+                    //                         minimumDate: DateTime(1900),
+                    //                         viewType: const [
+                    //                           DatePickerViewType.day,
+                    //                           DatePickerViewType.month,
+                    //                           DatePickerViewType.year,
+                    //                         ],
+                    //                         scrollViewOptions: DatePickerScrollViewOptions(
+                    //                           day: ScrollViewDetailOptions(margin: EdgeInsets.only(right: 5.w)),
+                    //                           month: const ScrollViewDetailOptions(margin: EdgeInsets.zero, label: " "),
+                    //                           year: ScrollViewDetailOptions(margin: EdgeInsets.only(left: 5.w)),
+                    //                         ),
+                    //                         selectedDate: timePicker,
+                    //                         onDateTimeChanged: (value) {
+                    //                           setState(() {
+                    //                             timePicker = value;
+                    //                           });
+                    //                         },
+                    //                         locale: const Locale("tr", "TR"),
+                    //                       ),
+                    //                     ),
+                    //                     context.sized.emptySizedHeightBoxLow,
+                    //                     Row(
+                    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                       children: [
+                    //                         AppElevetedButton(
+                    //                             buttonwidth: 30,
+                    //                             buttonHeight: 10,
+                    //                             buttonText: "Geri",
+                    //                             onPressed: () {
+                    //                               setState(() {
+                    //                                 isEdit = false;
+                    //                               });
+                    //                               Navigator.pop(context);
+                    //                             }),
+                    //                         AppElevetedButton(
+                    //                           buttonwidth: 30,
+                    //                           buttonHeight: 10,
+                    //                           buttonText: "Tamam",
+                    //                           onPressed: () {
+                    //                             setState(() {});
+                    //                             widget.controller.text = timePicker.toString();
+                    //                             controller.text = AppConstant.dateFormat(context, timePicker.toString()) ?? "";
+                    //                             isEdit = false;
+                    //                             Navigator.pop(context);
+                    //                           },
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             );
+                    //           },
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    //   child: widget.labelText != null ? IconManager.instance.customIcon(Icons.edit_outlined) : const SizedBox.shrink(),
+                    // ),
                   ],
                 ),
               ),
-              FormBuilderTextField(
-                controller: controller,
-                enabled: isEdit,
-                name: widget.name,
-                style: context.general.textTheme.titleMedium,
-                decoration: InputDecoration(
-                  hintText: widget.hintText,
-                  contentPadding: EdgeInsets.only(left: 2.w, top: widget.labelText == null ? 3.w : 0),
-                  disabledBorder: InputBorder.none,
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  suffixIcon: widget.labelText == null ? IconManager.instance.customIcon(Icons.calendar_today_outlined) : null,
+              InkWell(
+                onTap: () {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return AlertDialog(
+                            backgroundColor: ColorManager.white,
+                            elevation: 0,
+                            content: SizedBox(
+                              height: 60.w,
+                              width: 100.w,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: ScrollDatePicker(
+                                      maximumDate: DateTime.now(),
+                                      minimumDate: DateTime(1900),
+                                      viewType: const [
+                                        DatePickerViewType.day,
+                                        DatePickerViewType.month,
+                                        DatePickerViewType.year,
+                                      ],
+                                      scrollViewOptions: DatePickerScrollViewOptions(
+                                        day: ScrollViewDetailOptions(margin: EdgeInsets.only(right: 5.w)),
+                                        month: const ScrollViewDetailOptions(margin: EdgeInsets.zero, label: " "),
+                                        year: ScrollViewDetailOptions(margin: EdgeInsets.only(left: 5.w)),
+                                      ),
+                                      selectedDate: timePicker,
+                                      onDateTimeChanged: (value) {
+                                        setState(() {
+                                          timePicker = value;
+                                        });
+                                      },
+                                      locale: const Locale("tr", "TR"),
+                                    ),
+                                  ),
+                                  context.sized.emptySizedHeightBoxLow,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AppElevetedButton(
+                                          buttonwidth: 30,
+                                          buttonHeight: 10,
+                                          buttonText: "Geri",
+                                          onPressed: () {
+                                            setState(() {
+                                              isEdit = false;
+                                            });
+                                            Navigator.pop(context);
+                                          }),
+                                      AppElevetedButton(
+                                        buttonwidth: 30,
+                                        buttonHeight: 10,
+                                        buttonText: "Tamam",
+                                        onPressed: () {
+                                          setState(() {});
+                                          widget.controller.text = timePicker.toString();
+                                          controller.text = AppConstant.dateFormat(context, timePicker.toString()) ?? "";
+                                          isEdit = false;
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+                child: FormBuilderTextField(
+                  controller: controller,
+                  enabled: isEdit,
+                  name: widget.name,
+                  style: context.general.textTheme.titleMedium,
+                  decoration: InputDecoration(
+                    hintText: widget.hintText,
+                    contentPadding: EdgeInsets.only(left: 2.w, top: widget.labelText == null ? 3.w : 0),
+                    disabledBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    suffixIcon: widget.labelText == null ? IconManager.instance.customIcon(Icons.calendar_today_outlined) : null,
+                  ),
                 ),
               )
             ],

@@ -24,19 +24,19 @@ class AppElevetedButton extends StatelessWidget {
       height: buttonHeight.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor ?? ColorManager.GREEN,
+          backgroundColor: buttonColor ?? ColorManager.green,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: BorderSide(color: borderColor ?? ColorManager.GREEN, width: 1),
+            side: BorderSide(color: borderColor ?? ColorManager.green, width: 1),
           ),
         ),
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            leftIconData != null ? Padding(padding: context.padding.onlyRightLow, child: IconManager.instance.customIcon(leftIconData, color: ColorManager.WHITE, sizeW: 6)) : const SizedBox.shrink(),
-            Text(buttonText, style: textStyle ?? context.general.textTheme.titleMedium!.copyWith(color: textColor ?? ColorManager.WHITE, fontWeight: FontWeight.bold, fontSize: 16.5.sp)),
-            rightIconData != null ? Padding(padding: context.padding.onlyLeftLow, child: IconManager.instance.customIcon(rightIconData, color: textColor ?? ColorManager.WHITE, sizeW: 6)) : const SizedBox.shrink(),
+            leftIconData != null ? Padding(padding: context.padding.onlyRightLow, child: IconManager.instance.customIcon(leftIconData, color: ColorManager.white, sizeW: 6)) : const SizedBox.shrink(),
+            Text(buttonText, style: textStyle ?? context.general.textTheme.titleMedium!.copyWith(color: textColor ?? ColorManager.white, fontWeight: FontWeight.bold, fontSize: 16.5.sp)),
+            rightIconData != null ? Padding(padding: context.padding.onlyLeftLow, child: IconManager.instance.customIcon(rightIconData, color: textColor ?? ColorManager.white, sizeW: 6)) : const SizedBox.shrink(),
           ],
         ),
       ),

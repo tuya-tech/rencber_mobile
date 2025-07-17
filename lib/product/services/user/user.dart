@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/user/user_request.dart';
 import 'package:rencber_mobile/product/models/user/user_response.dart';
@@ -30,7 +31,17 @@ class UserApiService {
         );
       }
     } on DioException catch (e) {
-      return DioManager.dioError<UserResponseModel>(e);
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Kullanıcı bilgisi alınamadı";
+      
+      return BaseResponseModel<UserResponseModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -56,7 +67,17 @@ class UserApiService {
         );
       }
     } on DioException catch (e) {
-      return DioManager.dioError<UserResponseModel>(e);
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Kullanıcı bilgisi güncellenemedi";
+      
+      return BaseResponseModel<UserResponseModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 }

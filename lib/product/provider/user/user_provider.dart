@@ -10,3 +10,27 @@ final userIdFutureProvider = FutureProvider.autoDispose<BaseResponseModel<UserRe
     return UserApiService.instance.getById(int.tryParse(userId ?? "0") ?? 0);
   },
 );
+
+final profileImageProvider = StateNotifierProvider(
+  (ref) {
+    return ProfileImageStateNotifier();
+  },
+);
+
+class ProfileImageStateNotifier extends StateNotifier<String> {
+  ProfileImageStateNotifier() : super("");
+
+  void notify(String path) async {
+    state = path;
+  }
+
+  void delete() {
+    state = "";
+  }
+
+  void init() {
+    SecureStorage.instance.readSecureData("profileImage").then((value) {
+      state = value ?? "";
+    });
+  }
+}

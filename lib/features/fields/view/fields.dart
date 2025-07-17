@@ -19,17 +19,17 @@ class FieldList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.push(RouterManager.addField);
         },
-        backgroundColor: ColorManager.GREEN,
+        backgroundColor: ColorManager.green,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
-          side: const BorderSide(color: ColorManager.LIGHTGREEN, width: 2),
+          side: const BorderSide(color: ColorManager.lightGreen, width: 2),
         ),
-        child: IconManager.instance.customIcon(Icons.add, color: ColorManager.WHITE, sizeW: 5),
+        child: IconManager.instance.customIcon(Icons.add, color: ColorManager.white, sizeW: 5),
       ),
       body: Stack(
         alignment: Alignment.topCenter,
@@ -37,7 +37,7 @@ class FieldList extends StatelessWidget {
           SliverAppBarCustom(
             height: 30,
             leading: const AppBarBackButton(),
-            title: Text("Tarlalarım", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text("Tarlalarım", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             //child: const SizedBox.shrink(),
           ),
           Positioned(

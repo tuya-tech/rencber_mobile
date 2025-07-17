@@ -20,14 +20,14 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
   Widget build(BuildContext context) {
     var notificationFuture = ref.watch(notificationBildirimFutureProvider);
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: notificationFuture.when(
         data: (notificationData) {
           var notification = notificationData.data ?? [];
           return SliverAppBarCustom(
             leading: const AppBarBackButton(),
             height: 5,
-            title: Text("Bildirimlerim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text("Bildirimlerim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             child: Padding(
               padding: context.padding.verticalLow + context.padding.horizontalNormal,
               child: SizedBox(
@@ -39,16 +39,16 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
                     return Container(
                       height: 25.w,
                       decoration: const BoxDecoration(
-                        color: ColorManager.WHITE,
+                        color: ColorManager.white,
                         border: Border(
-                          top: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
-                          bottom: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
+                          top: BorderSide(color: ColorManager.borderGray, width: 0.5),
+                          bottom: BorderSide(color: ColorManager.borderGray, width: 0.5),
                         ),
                         //borderRadius: BorderRadius.circular(10),
                       ),
                       child: ListTile(
-                        splashColor: ColorManager.WHITE,
-                        tileColor: ColorManager.WHITE,
+                        splashColor: ColorManager.white,
+                        tileColor: ColorManager.white,
                         onTap: () {},
                         title: Text(notification[index].islemTipi ?? "", style: context.general.textTheme.titleMedium),
                         // subtitle: Text("Bildirim Açıklaması", style: context.general.textTheme.bodyLarge),
@@ -56,7 +56,7 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
                       ),
                     );
                   },
-                ) : const Center(child: Text("Bildirim Bulunamadı", style: TextStyle(color: ColorManager.BLACK)))
+                ) : const Center(child: Text("Bildirim Bulunamadı", style: TextStyle(color: ColorManager.black)))
               ),
             ),
           );
@@ -72,7 +72,7 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
       // body: SliverAppBarCustom(
       //   leading: const AppBarBackButton(),
       //   height: 5,
-      //   title: Text("Bildirimlerim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+      //   title: Text("Bildirimlerim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
       //   child: Padding(
       //     padding: context.padding.verticalLow + context.padding.horizontalNormal,
       //     child: SizedBox(
@@ -84,16 +84,16 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
       //           return Container(
       //             height: 25.w,
       //             decoration: const BoxDecoration(
-      //               color: ColorManager.WHITE,
+      //               color: ColorManager.white,
       //               border: Border(
-      //                 top: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
-      //                 bottom: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
+      //                 top: BorderSide(color: ColorManager.borderGray, width: 0.5),
+      //                 bottom: BorderSide(color: ColorManager.borderGray, width: 0.5),
       //               ),
       //               //borderRadius: BorderRadius.circular(10),
       //             ),
       //             child: ListTile(
-      //               splashColor: ColorManager.WHITE,
-      //               tileColor: ColorManager.WHITE,
+      //               splashColor: ColorManager.white,
+      //               tileColor: ColorManager.white,
       //               onTap: () {},
       //               title: Text("Bildirim Başlığı", style: context.general.textTheme.titleMedium),
       //               subtitle: Text("Bildirim Açıklaması", style: context.general.textTheme.bodyLarge),

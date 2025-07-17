@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/constants/dimensions/app_dimensions.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,21 +24,21 @@ class ToastrMsg {
         child: SizedBox(
           width: 100.w,
           child: Card(
-            color: ColorManager.WHITE,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            color: ColorManager.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppDimensions.radiusLarge)),
             child: Padding(
               padding: context.padding.normal,
               child: isError
                   ? Row(
                       children: [
-                        IconManager.instance.customIcon(Icons.warning_amber_outlined, color: ColorManager.RED, sizeW: 8),
+                        IconManager.instance.customIcon(Icons.warning_amber_outlined, color: ColorManager.red, sizeW: 8),
                         context.sized.emptySizedWidthBoxLow3x,
                         Expanded(child: Text(message, style: context.general.textTheme.labelLarge)),
                       ],
                     )
                   : Row(
                       children: [
-                        IconManager.instance.customIcon(Icons.check_box, color: ColorManager.TOASTRCOLOR, sizeW: 8),
+                        IconManager.instance.customIcon(Icons.check_box, color: ColorManager.toastrColor, sizeW: 8),
                         context.sized.emptySizedWidthBoxLow3x,
                         Expanded(child: Text(message, style: context.general.textTheme.labelLarge)),
                       ],

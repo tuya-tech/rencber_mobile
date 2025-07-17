@@ -15,14 +15,14 @@ class AppReview extends StatelessWidget {
       child: Container(
         height: 8.w,
         decoration: BoxDecoration(
-          color: ColorManager.BUTTONBGGREEN.withValues(alpha: 0.1),
+          color: ColorManager.buttonBgGreen.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("İncele", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.BUTTONBGGREEN)),
-            IconManager.instance.customIcon(Icons.arrow_forward_sharp, color: ColorManager.BUTTONBGGREEN, sizeW: 5),
+            Text("İncele", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.buttonBgGreen)),
+            IconManager.instance.customIcon(Icons.arrow_forward_sharp, color: ColorManager.buttonBgGreen, sizeW: 5),
           ],
         ),
       ),

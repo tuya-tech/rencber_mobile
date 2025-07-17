@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
-import 'package:rencber_mobile/product/models/error_response.dart';
 import 'package:rencber_mobile/product/models/notification/notification_request.dart';
 import 'package:rencber_mobile/product/models/notification/notification_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -32,8 +32,19 @@ class NotificationApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<List<NotificationRequestModel>>(e);
+      debugPrint('NotificationApiService get: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Bildirim ayarları alınamadı";
+      
+      return BaseResponseModel<List<NotificationRequestModel>>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -58,8 +69,19 @@ class NotificationApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<NotificationRequestModel>(e);
+      debugPrint('NotificationApiService getById: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Bildirim ayarı alınamadı";
+      
+      return BaseResponseModel<NotificationRequestModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -85,8 +107,19 @@ class NotificationApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<bool>(e);
+      debugPrint('NotificationApiService post: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Bildirim ayarı eklenemedi";
+      
+      return BaseResponseModel<bool>(
+        data: false,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -112,10 +145,18 @@ class NotificationApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      return BaseResponseModel<ErrorResponseModel>(
-        data: ErrorResponseModel.fromJson(e.response!.data),
-        message: e.response!.statusMessage,
-        statusCode: e.response!.statusCode,
+      debugPrint('NotificationApiService put: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Bildirim ayarı güncellenemedi";
+      
+      return BaseResponseModel<bool>(
+        data: false,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
       );
     }
   }
@@ -141,8 +182,19 @@ class NotificationApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<List<NotificationResponseModel>>(e);
+      debugPrint('NotificationApiService getNotification: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Bildirimler alınamadı";
+      
+      return BaseResponseModel<List<NotificationResponseModel>>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 }

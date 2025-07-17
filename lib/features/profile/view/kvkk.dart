@@ -15,10 +15,10 @@ class _KvkkViewState extends State<KvkkView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 5,
-        title: Text("KVKK", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("KVKK", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         leading: const AppBarBackButton(),
         child: Padding(
           padding: context.padding.normal + context.padding.onlyBottomHigh,

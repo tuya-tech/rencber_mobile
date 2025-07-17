@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
@@ -10,6 +11,7 @@ import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/features/profile/view/profile.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
+import 'package:rencber_mobile/product/provider/user/user_provider.dart';
 
 mixin ProfileMixin on State<ProfileView> {
   late final ImagePicker picker;
@@ -42,42 +44,42 @@ mixin ProfileMixin on State<ProfileView> {
     List<Map<String, dynamic>> profileList = [
       {
         "title": "Hesap Ayarları",
-        "icon": IconManager.instance.customIcon(Icons.edit_outlined, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
+        "icon": IconManager.instance.customIcon(Icons.edit_outlined, sizeW: 8, color: ColorManager.buttonBgGreen),
         "onTap": (user) {
           context.push(RouterManager.profileEdit, extra: user);
         },
       },
       {
         "title": "Rençber Hakkında",
-        "icon": IconManager.instance.customIcon(Icons.info_outline, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
+        "icon": IconManager.instance.customIcon(Icons.info_outline, sizeW: 8, color: ColorManager.buttonBgGreen),
         "onTap": (user) {
           context.push(RouterManager.about);
         },
       },
       {
         "title": "Bildirim Tercihleri",
-        "icon": IconManager.instance.customIcon(Icons.notifications, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
+        "icon": IconManager.instance.customIcon(Icons.notifications, sizeW: 8, color: ColorManager.buttonBgGreen),
         "onTap": (user) {
           context.push(RouterManager.notificationSetting, extra: user);
         },
       },
       {
         "title": "KVKK",
-        "icon": IconManager.instance.customIcon(Icons.lock, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
+        "icon": IconManager.instance.customIcon(Icons.lock, sizeW: 8, color: ColorManager.buttonBgGreen),
         "onTap": (user) {
           context.push(RouterManager.kvkk);
         },
       },
       // {
       //   "title": "Çıkış Yap",
-      //   "icon": IconManager.instance.customIcon(Icons.logout, sizeW: 8, color: ColorManager.BUTTONBGGREEN),
+      //   "icon": IconManager.instance.customIcon(Icons.logout, sizeW: 8, color: ColorManager.buttonBgGreen),
       //   "onTap": () {},
       // },
     ];
     return profileList;
   }
 
-  Future<void> pickImage() async {
+  Future<void> pickImage(WidgetRef ref) async {
     try {
       final XFile? pickedFile = await picker.pickImage(
         source: ImageSource.gallery,
@@ -115,11 +117,26 @@ mixin ProfileMixin on State<ProfileView> {
         setState(() {
           imagePath = savedImagePath;
         });
+        ref.read(profileImageProvider.notifier).notify(savedImagePath);
         await SecureStorage.instance.writeSecureData("profileImage", savedImagePath);
         debugPrint('Image saved successfully at: $savedImagePath');
       }
     } catch (e) {
       debugPrint('Error picking/saving image: $e');
+    }
+  }
+
+  void deleteImage(WidgetRef ref) async {
+    if (imagePath != null && imagePath!.isNotEmpty) {
+      final file = File(imagePath!);
+      if (await file.exists()) {
+        await file.delete();
+        setState(() {
+          imagePath = null;
+        });
+        ref.read(profileImageProvider.notifier).delete();
+        await SecureStorage.instance.deleteSecureDataSpec("profileImage");
+      }
     }
   }
 }

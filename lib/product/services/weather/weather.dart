@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rencber_mobile/core/cache/secure_storage.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/weather/weather_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -14,14 +15,10 @@ class WeatherApiService {
     try {
       var fieldData = await SecureStorage.instance.readFieldModel('outLineField');
       var fieldId = fieldData?.id;
-      debugPrint("fieldId: $fieldId");
       final response = await DioManager.dio.get(
         "${ServicesPath.instance.weather}/field/$fieldId",
         options: await DioManager.getOptions(),
       );
-
-      debugPrint("WeatherApiService get: ${ServicesPath.instance.weather}/field/$fieldId");
-
       if (response.statusCode == 200) {
         return BaseResponseModel<WeatherResponseModel>(
           data: WeatherResponseModel.fromJson(response.data),
@@ -36,7 +33,19 @@ class WeatherApiService {
         );
       }
     } on DioException catch (e) {
-      return DioManager.dioError<WeatherResponseModel>(e);
+      debugPrint("DioException in WeatherApiService: ${e.response?.data}");
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Hava durumu bilgisi alınamadı";
+      
+      return BaseResponseModel<WeatherResponseModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -64,7 +73,19 @@ class WeatherApiService {
         );
       }
     } on DioException catch (e) {
-      return DioManager.dioError<List<WeatherResponseModel>>(e);
+      debugPrint("DioException in WeatherApiService getAll: ${e.response?.data}");
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Hava durumu verileri alınamadı";
+      
+      return BaseResponseModel<List<WeatherResponseModel>>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 }

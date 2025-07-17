@@ -13,8 +13,8 @@ class AppRightIconButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       icon: Row(
         children: [
-          Text('Tümünü Gör', style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.GREYCOLOR)),
-          IconManager.instance.customIcon(Icons.chevron_right_outlined, color: ColorManager.GREYCOLOR, sizeW: 6),
+          Text('Tümünü Gör', style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.greyColor)),
+          IconManager.instance.customIcon(Icons.chevron_right_outlined, color: ColorManager.greyColor, sizeW: 6),
         ],
       ),
       onPressed: onPressed,

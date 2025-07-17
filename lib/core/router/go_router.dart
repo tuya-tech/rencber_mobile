@@ -5,9 +5,11 @@ import 'package:rencber_mobile/features/advice/view/advice_details.dart';
 import 'package:rencber_mobile/features/advice/view/advices.dart';
 import 'package:rencber_mobile/features/advice/view/brand_details.dart';
 import 'package:rencber_mobile/features/advice/view/brands.dart';
+import 'package:rencber_mobile/features/calendar/view/calendar_page.dart';
 import 'package:rencber_mobile/features/error.dart';
 import 'package:rencber_mobile/features/fields/view/add_field.dart';
 import 'package:rencber_mobile/features/fields/view/edit_field.dart';
+import 'package:rencber_mobile/features/fields/view/fields_page.dart';
 import 'package:rencber_mobile/features/login/view/login.dart';
 import 'package:rencber_mobile/features/news/view/news_details.dart';
 import 'package:rencber_mobile/features/notification/view/notification_view.dart';
@@ -39,8 +41,10 @@ class RouterManager {
   static const brandDetails = '/brandDetails';
   static const advices = '/advices';
   static const adviceDetails = '/adviceDetails';
+  static const fields = '/fields';
   static const addField = '/addField';
   static const editField = '/editField';
+  static const calendar = '/calendar';
   static const notification = '/notification';
   static const weather = '/weather';
 
@@ -58,8 +62,10 @@ class RouterManager {
   static Widget _brandDetailsRoute(BuildContext context, GoRouterState state) => BrandDetailsView(brandId: state.extra as int);
   static Widget _advicesRoute(BuildContext context, GoRouterState state) => AdvicesView(adviceList: state.extra as List<AdviceResponseModel>);
   static Widget _adviceDetailsRoute(BuildContext context, GoRouterState state) => AdviceDetailsView(adviceId: state.extra as int);
+  static Widget _fieldsRoute(BuildContext context, GoRouterState state) => const FieldsPage();
   static Widget _addFieldRoute(BuildContext context, GoRouterState state) => const FieldAddView();
   static Widget _editFieldRoute(BuildContext context, GoRouterState state) => FieldEditView(fieldData: state.extra as FieldResponseModel);
+  static Widget _calendarRoute(BuildContext context, GoRouterState state) => const CalendarPage();
   static Widget _notificationRoute(BuildContext context, GoRouterState state) => const NotificationView();
   static Widget _weatherRoute(BuildContext context, GoRouterState state) => const WeatherView();
 
@@ -82,8 +88,10 @@ class RouterManager {
       GoRoute(path: brandDetails, builder: _brandDetailsRoute),
       GoRoute(path: advices, builder: _advicesRoute),
       GoRoute(path: adviceDetails, builder: _adviceDetailsRoute),
+      GoRoute(path: fields, builder: _fieldsRoute),
       GoRoute(path: addField, builder: _addFieldRoute),
       GoRoute(path: editField, builder: _editFieldRoute),
+      GoRoute(path: calendar, builder: _calendarRoute),
       GoRoute(path: notification, builder: _notificationRoute),
       GoRoute(path: weather, builder: _weatherRoute),
     ],

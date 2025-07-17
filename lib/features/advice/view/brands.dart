@@ -23,11 +23,11 @@ class _BrandListViewState extends ConsumerState<BrandListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 5,
         leading: const AppBarBackButton(),
-        title: Text("Tavsiyeler", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("Tavsiyeler", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         child: Padding(
           padding: context.padding.low,
           child: Column(
@@ -46,7 +46,7 @@ class _BrandListViewState extends ConsumerState<BrandListView> {
                   return SizedBox(
                     child: Card(
                       elevation: 0.5,
-                      color: ColorManager.WHITE,
+                      color: ColorManager.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -57,14 +57,14 @@ class _BrandListViewState extends ConsumerState<BrandListView> {
                                 AppNetworkImage.appNetworkImage(imageUrl: brands.image, height: 30, width: 100),
                                 context.sized.emptySizedHeightBoxLow,
                                 Text('${brands.title}', maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleMedium),
-                                Text('${brands.summary}', maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR)),
+                                Text('${brands.summary}', maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.greyColor)),
                               ],
                             ),
                             context.sized.emptySizedHeightBoxLow,
                             AppElevetedButton(
                               buttonText: "İncele",
                               buttonHeight: 10,
-                              textStyle: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.WHITE, fontSize: 15.5.sp),
+                              textStyle: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.white, fontSize: 15.5.sp),
                               onPressed: () => context.push(RouterManager.brandDetails, extra: brands.id),
                             )
                           ],

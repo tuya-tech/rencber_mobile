@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/advice/advice_response.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -30,8 +31,19 @@ class AdviceApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<List<AdviceResponseModel>>(e);
+      debugPrint('AdviceApiService get: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Tavsiye verileri alınamadı";
+      
+      return BaseResponseModel<List<AdviceResponseModel>>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -56,8 +68,19 @@ class AdviceApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<AdviceResponseModel>(e);
+      debugPrint('AdviceApiService getById: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Tavsiye bilgisi alınamadı";
+      
+      return BaseResponseModel<AdviceResponseModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 }

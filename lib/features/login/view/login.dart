@@ -19,14 +19,14 @@ class _LoginViewState extends State<LoginView> with LoginMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: Padding(
         padding: context.padding.horizontalNormal,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Hoşgeldiniz", style: context.general.textTheme.labelMedium),
+            Text("Hoş geldiniz", style: context.general.textTheme.labelMedium),
             context.sized.emptySizedHeightBoxLow,
             Text("Giriş Yapın", style: context.general.textTheme.headlineSmall),
             context.sized.emptySizedHeightBoxLow3x,
@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> with LoginMixin {
             Row(
               children: [
                 Text("Bir üyeliğiniz yok mu?", style: context.general.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
-                InkWell(onTap: () => context.push(RouterManager.register), child: Text(" Kayıt Olun", style: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.GREEN, fontWeight: FontWeight.w600))),
+                InkWell(onTap: () => context.push(RouterManager.register), child: Text(" Kayıt Olun", style: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.green, fontWeight: FontWeight.w600))),
               ],
             ),
           ],

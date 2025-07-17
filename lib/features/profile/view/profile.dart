@@ -28,7 +28,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
     var userIdProvider = ref.watch(userIdFutureProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: userIdProvider.when(data: (userData) {
         var user = userData.data;
         return Stack(
@@ -36,13 +36,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
           children: [
             SliverAppBarCustom(
               height: 30,
-              title: Text("Hesabım", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+              title: Text("Hesabım", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
               child: Center(
                 child: Container(
                   margin: EdgeInsets.only(top: 25.w),
                   width: 90.w,
                   decoration: const BoxDecoration(
-                    color: ColorManager.WHITE,
+                    color: ColorManager.white,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   child: Column(
@@ -57,32 +57,32 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                             //contentPadding: EdgeInsets.zero,
                             title: Text(item["title"], style: context.general.textTheme.titleMedium),
                             leading: item["icon"],
-                            trailing: IconManager.instance.customIcon(Icons.arrow_forward_ios, sizeW: 5, color: ColorManager.BUTTONBGGREEN),
+                            trailing: IconManager.instance.customIcon(Icons.arrow_forward_ios, sizeW: 5, color: ColorManager.buttonBgGreen),
                             onTap: () => item["onTap"]!(user),
                           );
                         },
                         separatorBuilder: (context, index) {
-                          return Divider(color: ColorManager.TEXTGREYCOLOR, indent: 3.w, endIndent: 3.w);
+                          return Divider(color: ColorManager.textGreyColor, indent: 3.w, endIndent: 3.w);
                         },
                       ),
-                      Divider(color: ColorManager.TEXTGREYCOLOR, indent: 3.w, endIndent: 3.w),
+                      Divider(color: ColorManager.textGreyColor, indent: 3.w, endIndent: 3.w),
                       ListTile(
                         //contentPadding: EdgeInsets.zero,
-                        title: Text("Çıkış Yap", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
-                        leading: IconManager.instance.customIcon(Icons.logout, sizeW: 8, color: ColorManager.TEXTGREYCOLOR),
-                        //trailing: IconManager.instance.customIcon(Icons.arrow_forward_ios, sizeW: 5, color: ColorManager.TEXTGREYCOLOR),
+                        title: Text("Çıkış Yap", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.textGreyColor)),
+                        leading: IconManager.instance.customIcon(Icons.logout, sizeW: 8, color: ColorManager.textGreyColor),
+                        //trailing: IconManager.instance.customIcon(Icons.arrow_forward_ios, sizeW: 5, color: ColorManager.textGreyColor),
                         onTap: () {
                           showDialog(
                             context: context,
                             builder: (context) => Dialog(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                              backgroundColor: ColorManager.WHITE,
+                              backgroundColor: ColorManager.white,
                               child: Container(
                                 height: 35.w,
                                 width: 100.w,
                                 padding: context.padding.low,
                                 decoration: const BoxDecoration(
-                                  color: ColorManager.WHITE,
+                                  color: ColorManager.white,
                                   borderRadius: BorderRadius.all(Radius.circular(20)),
                                 ),
                                 child: Column(
@@ -96,7 +96,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                                       children: [
                                         Expanded(
                                           child: AppElevetedButton(
-                                            buttonColor: ColorManager.BUTTONREDCOLOR,
+                                            buttonColor: ColorManager.buttonRedColor,
                                             buttonText: "Çıkış Yap",
                                             buttonwidth: 10,
                                             buttonHeight: 10,
@@ -109,11 +109,11 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                                         context.sized.emptySizedWidthBoxLow3x,
                                         Expanded(
                                           child: AppElevetedButton(
-                                            buttonColor: ColorManager.BUTTONGREYCOLOR,
+                                            buttonColor: ColorManager.buttonGreyColor,
                                             buttonText: "İptal",
                                             buttonwidth: 10,
                                             buttonHeight: 10,
-                                            textStyle: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.GREEN, fontWeight: FontWeight.bold, fontSize: 16.5.sp),
+                                            textStyle: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.green, fontWeight: FontWeight.bold, fontSize: 16.5.sp),
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
@@ -141,7 +141,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                     height: 30.w,
                     width: 90.w,
                     decoration: const BoxDecoration(
-                      color: ColorManager.WHITE,
+                      color: ColorManager.white,
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Row(
@@ -182,15 +182,33 @@ class _ProfileViewState extends ConsumerState<ProfileView> with ProfileMixin {
                     top: 19.w,
                     child: InkWell(
                       onTap: () {
-                        pickImage();
+                        pickImage(ref);
                       },
                       child: CircleAvatar(
                         radius: 4.w,
-                        backgroundColor: ColorManager.LIGHTGREEN2,
+                        backgroundColor: ColorManager.lightGreen2,
                         child: IconManager.instance.customIcon(
                           Icons.camera_alt_outlined,
                           sizeW: 4,
-                          color: ColorManager.WHITE,
+                          color: ColorManager.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 20.w,
+                    top: 3.w,
+                    child: InkWell(
+                      onTap: () {
+                        deleteImage(ref);
+                      },
+                      child: CircleAvatar(
+                        radius: 4.w,
+                        backgroundColor: ColorManager.lightGreen2,
+                        child: IconManager.instance.customIcon(
+                          Icons.delete_outline,
+                          sizeW: 4,
+                          color: ColorManager.white,
                         ),
                       ),
                     ),

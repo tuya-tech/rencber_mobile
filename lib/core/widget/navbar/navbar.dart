@@ -33,7 +33,7 @@ class _NavbarState extends ConsumerState<Navbar> {
     return Scaffold(
       body: PersistentTabView(
         context,
-        backgroundColor: ColorManager.WHITE,
+        backgroundColor: ColorManager.white,
         screens: NavbarModel.instance._usersItems,
         items: NavbarModel.instance.navBarsItems(),
         navBarStyle: NavBarStyle.style3,
@@ -53,11 +53,11 @@ class NavbarModel {
 
   List<PersistentBottomNavBarItem> navBarsItems() {
     return [
-      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.TEXTGREYCOLOR, activeColorSecondary: ColorManager.GREEN, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.menu), title: "Menü"),
-      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.TEXTGREYCOLOR, activeColorSecondary: ColorManager.GREEN, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.description_outlined), title: "Tavsiyeler"),
-      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.TEXTGREYCOLOR, activeColorSecondary: ColorManager.GREEN, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.home_outlined), title: "AnaSayfa"),
-      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.TEXTGREYCOLOR, activeColorSecondary: ColorManager.GREEN, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.newspaper), title: "Haberler"),
-      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.TEXTGREYCOLOR, activeColorSecondary: ColorManager.GREEN, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.person_2_outlined), title: "Hesabım"),
+      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.textGreyColor, activeColorSecondary: ColorManager.green, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.menu), title: "Menü"),
+      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.textGreyColor, activeColorSecondary: ColorManager.green, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.description_outlined), title: "Tavsiyeler"),
+      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.textGreyColor, activeColorSecondary: ColorManager.green, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.home_outlined), title: "AnaSayfa"),
+      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.textGreyColor, activeColorSecondary: ColorManager.green, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.newspaper), title: "Haberler"),
+      PersistentBottomNavBarItem(activeColorPrimary: Colors.transparent, inactiveColorPrimary: ColorManager.textGreyColor, activeColorSecondary: ColorManager.green, iconSize: 7.w, icon: IconManager.instance.customIcon(Icons.person_2_outlined), title: "Hesabım"),
     ];
   }
 }

@@ -21,7 +21,7 @@ class FieldCard extends StatelessWidget {
       height: 35.w,
       width: 85.w,
       child: Card(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         child: Padding(
           padding: context.padding.low,
           child: Row(
@@ -35,7 +35,7 @@ class FieldCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: 42.w, child: Text("${field?.name}", style: context.general.textTheme.titleSmall)),
-                  Text("${field?.bitkiName}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                  Text("${field?.bitkiName}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.textGreyColor)),
                   Row(
                     children: [
                       Container(
@@ -43,12 +43,12 @@ class FieldCard extends StatelessWidget {
                         width: 5.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: ColorManager.GREYCOLOR, width: 0.5),
+                          border: Border.all(color: ColorManager.greyColor, width: 0.5),
                         ),
-                        child: IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.PURBLE, sizeW: 3.5),
+                        child: IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.purple, sizeW: 3.5),
                       ),
                       context.sized.emptySizedWidthBoxLow,
-                      Text("Gün : ${field?.day}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                      Text("Gün : ${field?.day}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.textGreyColor)),
                     ],
                   ),
                   SizedBox(height: 1.w),
@@ -59,20 +59,27 @@ class FieldCard extends StatelessWidget {
                           width: 5.w,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: ColorManager.GREYCOLOR, width: 0.5),
+                            border: Border.all(color: ColorManager.greyColor, width: 0.5),
                           ),
                           child: Center(child: ImageManager.instance.evre)),
                       context.sized.emptySizedWidthBoxLow,
-                      Text("Evre : ${field?.buyumeTipi}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                      SizedBox(
+                        width: 35.w,
+                        child: Text(
+                          "Evre : ${field?.buyumeTipi}",
+                          style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.textGreyColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 1.w),
                   Container(
-                    decoration: BoxDecoration(color: ColorManager.CONTAINERGREY, borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(color: ColorManager.containerGrey, borderRadius: BorderRadius.circular(4)),
                     padding: context.padding.onlyLeftLow + context.padding.onlyRightLow,
                     child: Text(
                       "${field?.district?.name}, ${field?.city?.name}",
-                      style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR),
+                      style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.textGreyColor),
                     ),
                   ),
                 ],
@@ -94,7 +101,7 @@ class FieldMoreVert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      color: ColorManager.WHITE,
+      color: ColorManager.white,
       padding: EdgeInsets.zero,
       menuPadding: EdgeInsets.zero,
       offset: const Offset(0, 27),
@@ -114,7 +121,7 @@ class FieldMoreVert extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Tarla Bilgileri", style: context.general.textTheme.labelLarge),
-                      IconManager.instance.customIcon(Icons.chevron_right_rounded, color: ColorManager.BLACK, sizeW: 5),
+                      IconManager.instance.customIcon(Icons.chevron_right_rounded, color: ColorManager.black, sizeW: 5),
                     ],
                   ),
                 ),
@@ -124,7 +131,7 @@ class FieldMoreVert extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Tarla Düzenle", style: context.general.textTheme.labelLarge),
-                      IconManager.instance.customIcon(Icons.chevron_right_rounded, color: ColorManager.BLACK, sizeW: 5),
+                      IconManager.instance.customIcon(Icons.chevron_right_rounded, color: ColorManager.black, sizeW: 5),
                     ],
                   ),
                 ),
@@ -136,13 +143,13 @@ class FieldMoreVert extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Tarla Düzenle", style: context.general.textTheme.labelLarge),
-                      IconManager.instance.customIcon(Icons.chevron_right_rounded, color: ColorManager.BLACK, sizeW: 5),
+                      IconManager.instance.customIcon(Icons.chevron_right_rounded, color: ColorManager.black, sizeW: 5),
                     ],
                   ),
                 ),
               ];
       },
-      child: IconManager.instance.customIcon(Icons.more_horiz, color: ColorManager.BLACK, sizeW: 5),
+      child: IconManager.instance.customIcon(Icons.more_horiz, color: ColorManager.black, sizeW: 5),
     );
   }
 }

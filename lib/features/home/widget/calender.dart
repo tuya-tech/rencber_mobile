@@ -28,7 +28,7 @@ class HomeCalendar extends StatelessWidget {
         SizedBox(
           height: 45.w,
           child: Card(
-            color: ColorManager.WHITE,
+            color: ColorManager.white,
             child: Padding(
               padding: context.padding.onlyLeftLow + context.padding.onlyRightLow + context.padding.onlyTopLow,
               child: AppCalendar(fieldIslemData: fieldIslemData),

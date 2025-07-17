@@ -19,7 +19,7 @@ class NewsDetailsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var newsByIdProvider = ref.watch(newsIdFutureProvider(id));
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       appBar: const AppBarBackButton(),
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -63,14 +63,14 @@ class NewsDetailsView extends ConsumerWidget {
                   children: [
                     Text(
                       newsResponseModel.title ?? "",
-                      style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE),
+                      style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white),
                       maxLines: 2,
                     ),
                     Row(
                       children: [
-                        IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.WHITE),
+                        IconManager.instance.customIcon(Icons.calendar_month_outlined, color: ColorManager.white),
                         context.sized.emptySizedWidthBoxLow,
-                        Text(AppConstant.dateFormat(context, newsResponseModel.date) ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text(AppConstant.dateFormat(context, newsResponseModel.date) ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                       ],
                     ),
                   ],
@@ -83,11 +83,11 @@ class NewsDetailsView extends ConsumerWidget {
                   margin: EdgeInsets.only(top: 70.w),
                   padding: context.padding.horizontalLow,
                   decoration: BoxDecoration(
-                    color: ColorManager.WHITE,
+                    color: ColorManager.white,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: ColorManager.BLACK.withValues(alpha: 0.1),
+                        color: ColorManager.black.withValues(alpha: 0.1),
                         spreadRadius: 1,
                         blurRadius: 5,
                         offset: const Offset(0, 3),

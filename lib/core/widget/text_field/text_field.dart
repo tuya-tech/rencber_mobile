@@ -61,7 +61,7 @@ class _AppTextFieldState extends State<AppTextField> {
         prefix: widget.isPhoneNumber
             ? Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [ImageManager.instance.trFlag, context.sized.emptySizedWidthBoxLow, SizedBox(width: 2.w, height: 6.w, child: const VerticalDivider(color: ColorManager.GREEN)), const Text("+90 ")],
+                children: [ImageManager.instance.trFlag, context.sized.emptySizedWidthBoxLow, SizedBox(width: 2.w, height: 6.w, child: const VerticalDivider(color: ColorManager.green)), const Text("+90 ")],
               )
             : null,
         suffixIcon: widget.obscureText
@@ -77,23 +77,23 @@ class _AppTextFieldState extends State<AppTextField> {
         floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.GREEN),
+          borderSide: const BorderSide(color: ColorManager.green),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.GREEN),
+          borderSide: const BorderSide(color: ColorManager.green),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.GREEN),
+          borderSide: const BorderSide(color: ColorManager.green),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.RED),
+          borderSide: const BorderSide(color: ColorManager.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.RED),
+          borderSide: const BorderSide(color: ColorManager.red),
         ),
       ),
     );

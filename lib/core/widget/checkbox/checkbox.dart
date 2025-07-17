@@ -51,10 +51,10 @@ class _AppCheckBoxState extends State<AppCheckBox> {
                           width: 5.w,
                           height: 5.w,
                           decoration: BoxDecoration(
-                            color: selectedItem == item ? ColorManager.GREEN : ColorManager.BGCOLOR,
+                            color: selectedItem == item ? ColorManager.green : ColorManager.bgColor,
                             shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
                             borderRadius: widget.isCircular ? null : BorderRadius.circular(6),
-                            border: Border.all(color: ColorManager.GREYCOLOR, width: 0.5.w),
+                            border: Border.all(color: ColorManager.greyColor, width: 0.5.w),
                           ),
                         ),
                         context.sized.emptySizedWidthBoxLow,
@@ -94,15 +94,15 @@ class _AppCheckBoxState extends State<AppCheckBox> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: selectedItems.contains(item) ? ColorManager.GREEN : ColorManager.BGCOLOR,
+                            color: selectedItems.contains(item) ? ColorManager.green : ColorManager.bgColor,
                             shape: widget.isCircular ? BoxShape.circle : BoxShape.rectangle,
                             borderRadius: widget.isCircular ? null : BorderRadius.circular(6),
-                            border: Border.all(color: ColorManager.GREYCOLOR, width: 0.2.w),
+                            border: Border.all(color: ColorManager.greyColor, width: 0.2.w),
                           ),
-                          child: selectedItems.contains(item) ? SizedBox(width: 5.5.w, height: 5.5.w, child: IconManager.instance.customIcon(Icons.check, color: ColorManager.WHITE, sizeW: 5)) : SizedBox(width: 5.5.w, height: 5.5.w),
+                          child: selectedItems.contains(item) ? SizedBox(width: 5.5.w, height: 5.5.w, child: IconManager.instance.customIcon(Icons.check, color: ColorManager.white, sizeW: 5)) : SizedBox(width: 5.5.w, height: 5.5.w),
                         ),
                         context.sized.emptySizedWidthBoxLow3x,
-                        Expanded(child: Text(item, style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR))),
+                        Expanded(child: Text(item, style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.greyColor))),
                       ],
                     ),
                   ),

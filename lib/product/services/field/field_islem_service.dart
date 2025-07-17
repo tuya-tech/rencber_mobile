@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rencber_mobile/core/cache/secure_storage.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
@@ -34,8 +35,19 @@ class FieldIslemApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('FieldIslemApiService get: ${e.message}');
-      return DioManager.dioError<List<FieldIslemResponseModel>>(e);
+      debugPrint('FieldIslemApiService get: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Tarla işlem verileri alınamadı";
+      
+      return BaseResponseModel<List<FieldIslemResponseModel>>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -69,8 +81,19 @@ class FieldIslemApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('FieldIslemApiService get: ${e.message}');
-      return DioManager.dioError<FieldIslemResponseModel>(e);
+      debugPrint('FieldIslemApiService post: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Tarla işlemi eklenemedi";
+      
+      return BaseResponseModel<FieldIslemResponseModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 }

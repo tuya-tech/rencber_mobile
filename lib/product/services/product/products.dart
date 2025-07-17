@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
-import 'package:rencber_mobile/product/models/error_response.dart';
 import 'package:rencber_mobile/product/models/product/product_response.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_mixin.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/services_path.dart';
@@ -31,8 +31,19 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<List<ProductResponseModel>>(e);
+      debugPrint('ProductApiService get: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Ürün verileri alınamadı";
+      
+      return BaseResponseModel<List<ProductResponseModel>>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -57,8 +68,19 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<ProductResponseModel>(e);
+      debugPrint('ProductApiService getById: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Ürün bilgisi alınamadı";
+      
+      return BaseResponseModel<ProductResponseModel>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -84,8 +106,19 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('AdviceApiService get: ${e.message}');
-      return DioManager.dioError<bool>(e);
+      debugPrint('ProductApiService post: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Ürün eklenemedi";
+      
+      return BaseResponseModel<bool>(
+        data: false,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     }
   }
 
@@ -111,10 +144,18 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      return BaseResponseModel<ErrorResponseModel>(
-        data: ErrorResponseModel.fromJson(e.response!.data),
-        message: e.response!.statusMessage,
-        statusCode: e.response!.statusCode,
+      debugPrint('ProductApiService put: ${e.response?.data}');
+      
+      // Backend'den gelen hata kodunu işle
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null 
+          ? ExceptionHandler.handleException(errorCode)
+          : "Ürün güncellenemedi";
+      
+      return BaseResponseModel<bool>(
+        data: false,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
       );
     }
   }

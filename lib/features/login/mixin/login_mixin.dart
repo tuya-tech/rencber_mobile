@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
+import 'package:rencber_mobile/core/utils/validators.dart';
 import 'package:rencber_mobile/core/widget/loading/loading.dart';
 import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/features/login/view/login.dart';
@@ -24,36 +25,28 @@ mixin LoginMixin on State<LoginView> {
     phoneController.dispose();
   }
 
-  bool phoneNumberValidation(String value) {
-    value.replaceAll(RegExp(r'[()\s]'), '');
-    if (value.isEmpty) {
-      return false;
-    }
-    if (value.length < 10) {
-      return false;
-    }
-    return true;
-  }
-
-  String phoneNumberFormatter(String value) {
-    return value.replaceAll(RegExp(r'[()\s-]'), '');
-  }
-
   void onLogin() async {
-    debugPrint(phoneNumberFormatter(phoneController.text));
-    if (formKey.currentState!.validate() && phoneNumberValidation(phoneController.text)) {
+    debugPrint(AppValidators.formatPhoneNumber(phoneController.text));
+    if (formKey.currentState!.validate() && AppValidators.isValidPhoneNumber(phoneController.text)) {
       appLoading(context, true);
-      var response = await LoginApiService.instance.loginRequest(phoneNumberFormatter(phoneController.text));
+      var response = await LoginApiService.instance.loginRequest(AppValidators.formatPhoneNumber(phoneController.text));
       debugPrint(response.data.toString());
-      if (response.data != null) {
-        appLoading(context, false);
-        context.push(RouterManager.phoneCode, extra: phoneNumberFormatter(phoneController.text));
+      appLoading(context, false);
+      
+      if (response.statusCode == 200 && response.data == true) {
+        context.push(RouterManager.phoneCode, extra: AppValidators.formatPhoneNumber(phoneController.text));
       } else {
-        appLoading(context, false);
-        context.push(RouterManager.phoneCode, extra: phoneNumberFormatter(phoneController.text));
+        // CODE-1003 hatasını özel olarak handle et
+        if (response.message?.contains("CODE-1003") == true) {
+          // Kod geçerli, telefon kodu doğrulama ekranına yönlendir
+          context.push(RouterManager.phoneCode, extra: AppValidators.formatPhoneNumber(phoneController.text));
+        } else {
+          // Diğer hatalar için hata mesajı göster
+          Toastr.showError(response.message ?? "Giriş isteği gönderilemedi", context);
+        }
       }
     } else {
-      Toastr.showError("Lütfen geçerli bir cep telefonu numarası giriniz.", context);
+      Toastr.showError(AppValidators.getPhoneNumberError(), context);
     }
   }
 }

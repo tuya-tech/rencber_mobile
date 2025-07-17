@@ -25,18 +25,18 @@ class _AdviceDetailsViewState extends ConsumerState<AdviceDetailsView> {
   Widget build(BuildContext context) {
     var brandProvider = ref.watch(adviceIdFutureProvider(widget.adviceId));
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: brandProvider.when(
         data: (brandData) {
           var advice = brandData.data!;
           return SliverAppBarCustom(
             height: 5,
             leading: const AppBarBackButton(),
-            title: Text("Ürün Detayı", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text("Ürün Detayı", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             child: Container(
               margin: context.padding.normal,
               decoration: BoxDecoration(
-                color: ColorManager.CONTAINERGREY,
+                color: ColorManager.containerGrey,
                 borderRadius: BorderRadius.circular(39),
               ),
               child: Column(
@@ -47,7 +47,7 @@ class _AdviceDetailsViewState extends ConsumerState<AdviceDetailsView> {
                   Container(
                     height: 70.w,
                     decoration: BoxDecoration(
-                      color: ColorManager.WHITE,
+                      color: ColorManager.white,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: Html(data: advice.content ?? ""),
@@ -65,9 +65,9 @@ class _AdviceDetailsViewState extends ConsumerState<AdviceDetailsView> {
                   context.sized.emptySizedHeightBoxLow,
                   AppElevetedButton(
                     buttonText: "Haritaları Aç",
-                    buttonColor: ColorManager.BGCOLOR,
-                    borderColor: ColorManager.GREEN,
-                    textColor: ColorManager.GREEN,
+                    buttonColor: ColorManager.bgColor,
+                    borderColor: ColorManager.green,
+                    textColor: ColorManager.green,
                     rightIconData: Icons.arrow_outward_rounded,
                     onPressed: () async {
                       await launchUrl(Uri(scheme: "https", path: "www.google.com/maps/search/?api=1&query=${advice.latitude},${advice.longitude}"));

@@ -28,10 +28,10 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditView> with ProfileE
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 5,
-        title: Text("Hesap Ayarları", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("Hesap Ayarları", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         leading: const AppBarBackButton(),
         child: Padding(
           padding: context.padding.normal + context.padding.onlyBottomHigh,
@@ -123,7 +123,7 @@ class _UserSelectCityAndDistrictState extends ConsumerState<UserSelectCityAndDis
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: ColorManager.WHITE,
+      backgroundColor: ColorManager.white,
       elevation: 0,
       content: SizedBox(
         height: 50.w,

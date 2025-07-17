@@ -46,11 +46,11 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: ColorManager.BLACK.withValues(alpha: 0.1),
+            color: ColorManager.black.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -68,56 +68,71 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(widget.labelText, style: context.general.textTheme.titleMedium),
-                  InkWell(
-                      onTap: widget.buttonOnTap ??
-                          () {
-                            setState(() {
-                              isEdit = !isEdit;
-                              if (isEdit) {
-                                WidgetsBinding.instance.addPostFrameCallback((_) {
-                                  focusNode.requestFocus();
-                                });
-                              } else {
-                                focusNode.unfocus();
-                              }
-                            });
-                          },
-                      child: IconManager.instance.customIcon(!isEdit ? Icons.edit_outlined : Icons.check)),
+                  // InkWell(
+                  //     onTap: widget.buttonOnTap ??
+                  //         () {
+                  //           setState(() {
+                  //             isEdit = !isEdit;
+                  //             if (isEdit) {
+                  //               WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //                 focusNode.requestFocus();
+                  //               });
+                  //             } else {
+                  //               focusNode.unfocus();
+                  //             }
+                  //           });
+                  //         },
+                  //     child: IconManager.instance.customIcon(!isEdit ? Icons.edit_outlined : Icons.check)),
                 ],
               ),
             ),
-            FormBuilderTextField(
-              focusNode: focusNode,
-              autofocus: isEdit,
-              name: widget.fieldName,
-              enabled: isEdit,
-              controller: widget.controller,
-              inputFormatters: widget.isPhoneNumber ? [MaskTextInputFormatter(mask: '### ### ## ##')] : widget.inputFormatters,
-              keyboardType: widget.isPhoneNumber ? TextInputType.phone : widget.keyboardType,
-              style: context.general.textTheme.titleMedium,
-              textInputAction: TextInputAction.done,
-              obscureText: widget.obscureText,
-              maxLength: widget.maxLength,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Bu alan boş bırakılamaz";
-                }
-                if (widget.isPhoneNumber) {
-                  if (value.length < 14) {
-                    return "Geçerli bir telefon numarası giriniz";
+            InkWell(
+              onTap: widget.buttonOnTap ??
+                  () {
+                    setState(() {
+                      isEdit = !isEdit;
+                      if (isEdit) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          focusNode.requestFocus();
+                        });
+                      } else {
+                        focusNode.unfocus();
+                      }
+                    });
+                  },
+              child: FormBuilderTextField(
+                focusNode: focusNode,
+                autofocus: isEdit,
+                name: widget.fieldName,
+                enabled: isEdit,
+                controller: widget.controller,
+                inputFormatters: widget.isPhoneNumber ? [MaskTextInputFormatter(mask: '### ### ## ##')] : widget.inputFormatters,
+                keyboardType: widget.isPhoneNumber ? TextInputType.phone : widget.keyboardType,
+                style: context.general.textTheme.titleMedium,
+                textInputAction: TextInputAction.done,
+                obscureText: widget.obscureText,
+                maxLength: widget.maxLength,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Bu alan boş bırakılamaz";
                   }
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: widget.hintText,
-                contentPadding: EdgeInsets.only(left: 2.w),
-                disabledBorder: InputBorder.none,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                focusedErrorBorder: InputBorder.none,
+                  if (widget.isPhoneNumber) {
+                    if (value.length < 14) {
+                      return "Geçerli bir telefon numarası giriniz";
+                    }
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: widget.hintText,
+                  contentPadding: EdgeInsets.only(left: 2.w),
+                  disabledBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
+                ),
               ),
             ),
             widget.phoneApproved == true
@@ -127,7 +142,7 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
                       width: 25.w,
                       height: 6.w,
                       decoration: BoxDecoration(
-                        color: ColorManager.LIGHTGREEN,
+                        color: ColorManager.lightGreen,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Padding(
@@ -135,9 +150,9 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            IconManager.instance.customIcon(Icons.check, sizeW: 5, color: ColorManager.BLACK),
+                            IconManager.instance.customIcon(Icons.check, sizeW: 5, color: ColorManager.black),
                             context.sized.emptySizedWidthBoxLow,
-                            Text("Onaylanmış", style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.BLACK)),
+                            Text("Onaylanmış", style: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.black)),
                           ],
                         ),
                       ),

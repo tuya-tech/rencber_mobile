@@ -29,10 +29,10 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 5,
-        title: Text("Tarla Düzenle", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("Tarla Düzenle", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         leading: const AppBarBackButton(),
         child: Padding(
           padding: context.padding.normal + context.padding.onlyBottomHigh,
@@ -49,11 +49,11 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
               context.sized.emptySizedHeightBoxLow,
               Container(
                 decoration: BoxDecoration(
-                  color: ColorManager.WHITE,
+                  color: ColorManager.white,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: ColorManager.BLACK.withValues(alpha: 0.1),
+                      color: ColorManager.black.withValues(alpha: 0.1),
                       spreadRadius: 1,
                       blurRadius: 5,
                       offset: const Offset(0, 3),
@@ -130,11 +130,11 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
               context.sized.emptySizedHeightBoxLow,
               Container(
                 decoration: BoxDecoration(
-                  color: ColorManager.WHITE,
+                  color: ColorManager.white,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: ColorManager.BLACK.withValues(alpha: 0.1),
+                      color: ColorManager.black.withValues(alpha: 0.1),
                       spreadRadius: 1,
                       blurRadius: 5,
                       offset: const Offset(0, 3),
@@ -154,13 +154,13 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
                               context: context,
                               builder: (context) => Dialog(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                backgroundColor: ColorManager.WHITE,
+                                backgroundColor: ColorManager.white,
                                 child: Container(
                                   height: 40.w,
                                   width: 100.w,
                                   padding: context.padding.low,
                                   decoration: const BoxDecoration(
-                                    color: ColorManager.WHITE,
+                                    color: ColorManager.white,
                                     borderRadius: BorderRadius.all(Radius.circular(20)),
                                   ),
                                   child: Column(
@@ -178,7 +178,7 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
                                         children: [
                                           Expanded(
                                             child: AppElevetedButton(
-                                              buttonColor: ColorManager.BUTTONREDCOLOR,
+                                              buttonColor: ColorManager.buttonRedColor,
                                               buttonText: "Devam Et",
                                               buttonwidth: 10,
                                               buttonHeight: 10,
@@ -193,11 +193,11 @@ class _FieldEditViewState extends ConsumerState<FieldEditView> with FieldEditMix
                                           context.sized.emptySizedWidthBoxLow3x,
                                           Expanded(
                                             child: AppElevetedButton(
-                                              buttonColor: ColorManager.BUTTONGREYCOLOR,
+                                              buttonColor: ColorManager.buttonGreyColor,
                                               buttonText: "İptal",
                                               buttonwidth: 10,
                                               buttonHeight: 10,
-                                              textStyle: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.GREEN, fontWeight: FontWeight.bold, fontSize: 16.5.sp),
+                                              textStyle: context.general.textTheme.titleMedium!.copyWith(color: ColorManager.green, fontWeight: FontWeight.bold, fontSize: 16.5.sp),
                                               onPressed: () {
                                                 setState(() {
                                                   isActive = false;

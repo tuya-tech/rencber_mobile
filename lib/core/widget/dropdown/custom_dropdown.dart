@@ -21,12 +21,12 @@ class _AppCustomDropdownState extends State<AppCustomDropdown> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         borderRadius: BorderRadius.circular(10),
-        //border: Border.all(color: ColorManager.BLACK.withValues(alpha: 0.1)),
+        //border: Border.all(color: ColorManager.black.withValues(alpha: 0.1)),
         boxShadow: [
           BoxShadow(
-            color: ColorManager.BLACK.withValues(alpha: 0.1),
+            color: ColorManager.black.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -45,7 +45,7 @@ class _AppCustomDropdownState extends State<AppCustomDropdown> {
         items: widget.items,
         itemBuilder: (context, item) => Padding(padding: context.padding.low, child: Text(item, style: context.general.textTheme.titleMedium)),
         menuDecoration: BoxDecoration(
-          color: ColorManager.WHITE,
+          color: ColorManager.white,
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(color: Colors.grey.withValues(alpha: 0.5), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1)),
@@ -55,27 +55,27 @@ class _AppCustomDropdownState extends State<AppCustomDropdown> {
         textFormFieldDecoration: InputDecoration(
           hintText: widget.hintText,
           filled: true,
-          fillColor: ColorManager.WHITE,
+          fillColor: ColorManager.white,
           suffixIcon: IconManager.instance.customIcon(Icons.keyboard_arrow_down),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.GREEN),
+            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.green),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.GREEN),
+            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.green),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.GREEN),
+            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.green),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.GREEN),
+            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.green),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.GREEN),
+            borderSide: BorderSide(color: widget.borderColor ?? ColorManager.green),
           ),
         ),
         onSelected: widget.onSelected,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/features/notification/view/notification_view.dart';
 import 'package:rencber_mobile/product/provider/navbar/navbar_provider.dart';
 
@@ -32,7 +34,7 @@ mixin MenuMixin on ConsumerWidget {
         "title": "Tarlalarım",
         "icon": "tarla",
         "onTap": () {
-          ref.read(navbarSelectedProvider.notifier).notify(2);
+          context.push(RouterManager.fields);
         }
       },
       // {
@@ -44,7 +46,7 @@ mixin MenuMixin on ConsumerWidget {
         "title": "Takvim",
         "icon": "takvim",
         "onTap": () {
-          ref.read(navbarSelectedProvider.notifier).notify(2);
+          context.push(RouterManager.calendar);
         }
       },
       {

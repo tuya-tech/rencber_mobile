@@ -13,10 +13,10 @@ class MenuView extends ConsumerWidget with MenuMixin {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 15,
-        title: Text("Menü", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("Menü", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         child: GridView.builder(
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
@@ -31,14 +31,14 @@ class MenuView extends ConsumerWidget with MenuMixin {
                 onTap: () => menuList[index]["onTap"](),
                 child: Card(
                   elevation: 0.5,
-                  color: ColorManager.WHITE,
+                  color: ColorManager.white,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ImageManager.getMenuImage(menuList[index]["icon"]),
-                      //IconManager.instance.customIcon(menuList[index]["icon"], sizeW: 15, color: ColorManager.GREEN),
+                      //IconManager.instance.customIcon(menuList[index]["icon"], sizeW: 15, color: ColorManager.green),
                       context.sized.emptySizedHeightBoxLow,
-                      Text('${menuList[index]["title"]}', style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.GREEN)),
+                      Text('${menuList[index]["title"]}', style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.green)),
                     ],
                   ),
                 ),

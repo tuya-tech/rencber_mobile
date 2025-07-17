@@ -21,14 +21,14 @@ class _BrandDetailsViewState extends ConsumerState<BrandDetailsView> {
   Widget build(BuildContext context) {
     var brandProvider = ref.watch(adviceIdFutureProvider(widget.brandId));
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: brandProvider.when(
         data: (brandData) {
           var brand = brandData.data!;
           return SliverAppBarCustom(
             height: 5,
             leading: const AppBarBackButton(),
-            title: Text(brand.title ?? "", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text(brand.title ?? "", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             child: Html(data: brand.content ?? ""),
           );
         },

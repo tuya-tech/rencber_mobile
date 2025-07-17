@@ -41,7 +41,7 @@ class _AppCityDropdownState extends ConsumerState<AppCityDropdown> {
       items: cityList.map((e) => e.name as String).toList(),
       itemBuilder: (context, item) => Padding(padding: context.padding.low, child: Text(item, style: context.general.textTheme.titleMedium)),
       menuDecoration: BoxDecoration(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(color: Colors.grey.withValues(alpha: 0.5), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1)),
@@ -53,23 +53,23 @@ class _AppCityDropdownState extends ConsumerState<AppCityDropdown> {
         suffixIcon: IconManager.instance.customIcon(Icons.keyboard_arrow_down),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.GREEN),
+          borderSide: const BorderSide(color: ColorManager.green),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.GREEN),
+          borderSide: const BorderSide(color: ColorManager.green),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.GREEN),
+          borderSide: const BorderSide(color: ColorManager.green),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.RED),
+          borderSide: const BorderSide(color: ColorManager.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: ColorManager.RED),
+          borderSide: const BorderSide(color: ColorManager.red),
         ),
       ),
       onSelected: (value) {

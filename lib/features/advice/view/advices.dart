@@ -22,11 +22,11 @@ class _AdvicesViewState extends ConsumerState<AdvicesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 5,
         leading: const AppBarBackButton(),
-        title: Text("Size Özel", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("Size Özel", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         child: Padding(
           padding: context.padding.low,
           child: Column(
@@ -46,7 +46,7 @@ class _AdvicesViewState extends ConsumerState<AdvicesView> {
                   return SizedBox(
                     child: Card(
                       elevation: 0.5,
-                      color: ColorManager.WHITE,
+                      color: ColorManager.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -56,7 +56,7 @@ class _AdvicesViewState extends ConsumerState<AdvicesView> {
                               children: [
                                 AppNetworkImage.appNetworkImage(imageUrl: advice.image, height: 25, width: 100),
                                 context.sized.emptySizedHeightBoxLow,
-                                Text('${advice.title}', maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.GREYCOLOR)),
+                                Text('${advice.title}', maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.greyColor)),
                               ],
                             ),
                             context.sized.emptySizedHeightBoxLow,

@@ -15,10 +15,10 @@ class _AboutSettingViewState extends State<AboutSettingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: SliverAppBarCustom(
         height: 5,
-        title: Text("Rençber Hakkında", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+        title: Text("Rençber Hakkında", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
         leading: const AppBarBackButton(),
         child: Padding(
           padding: context.padding.normal + context.padding.onlyBottomHigh,

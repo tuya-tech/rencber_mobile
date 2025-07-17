@@ -4,13 +4,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/constants/dimensions/app_dimensions.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/card/blur_card.dart';
 import 'package:rencber_mobile/core/widget/icon/appbar_icon.dart';
+import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/features/home/widget/advice.dart';
 import 'package:rencber_mobile/features/home/widget/calender.dart';
 import 'package:rencber_mobile/features/home/widget/fields.dart';
@@ -20,7 +23,6 @@ import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:rencber_mobile/product/models/field/field_response.dart';
 import 'package:rencber_mobile/product/models/weather/weather_response.dart';
 import 'package:rencber_mobile/product/provider/home/home_provider.dart';
-import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeView extends ConsumerStatefulWidget {
@@ -32,7 +34,7 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   bool _hasShownDialog = false;
-  bool isField = false; //TODO unutma burayı
+  bool isField = false; // Flag to track if user has any fields
 
   void _showNoFieldDialog() {
     showDialog(
@@ -40,19 +42,19 @@ class _HomeViewState extends ConsumerState<HomeView> {
       barrierDismissible: false,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppDimensions.radiusMedium)),
           child: Container(
             height: 37.h,
             width: 80.w,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ColorManager.BGCOLOR),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(AppDimensions.radiusMedium), color: ColorManager.bgColor),
             child: Padding(
               padding: context.padding.normal,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 spacing: 4.h,
                 children: [
-                  IconManager.instance.customIcon(Icons.warning_amber_rounded, color: ColorManager.BUTTONREDCOLOR, sizeW: 20),
-                  Text("Henüz tarlanız bulunmamaktadır. İşlemlerinize devem etmek istiyorsanız tarla eklemelisiniz.", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.BLACK), textAlign: TextAlign.center),
+                  IconManager.instance.customIcon(Icons.warning_amber_rounded, color: ColorManager.buttonRedColor, sizeW: 20),
+                  Text("Henüz tarlanız bulunmamaktadır. İşlemlerinize devem etmek istiyorsanız tarla eklemelisiniz.", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.black), textAlign: TextAlign.center),
                   AppElevetedButton(
                     buttonText: "Tarla Ekle",
                     onPressed: () {
@@ -75,86 +77,125 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     var homeProvider = ref.watch(homeFutureProvider);
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: homeProvider.when(data: (homeData) {
-        if (homeData['field'] == null && !_hasShownDialog) {
-          setState(() {
-            isField = false;
-          });
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _showNoFieldDialog();
-          });
-        } else {
-          setState(() {
-            isField = true;
-          });
-        }
-
+        _handleFieldCheck(homeData);
         var weatherData = homeData['weather'] != null ? homeData['weather'] as WeatherResponseModel : WeatherResponseModel();
         var adviceData = homeData['advice'] != null ? homeData['advice'] as List<AdviceResponseModel> : List<AdviceResponseModel>.empty();
         var fieldData = homeData['field'] != null ? homeData['field'] as List<FieldResponseModel> : List<FieldResponseModel>.empty();
         var fieldIslemData = homeData['fieldIslem'] != null ? homeData['fieldIslem'] as List<FieldIslemResponseModel> : List<FieldIslemResponseModel>.empty();
         fieldData.sort((a, b) => a.outline == true ? -1 : 1);
+
+        // Hava durumu verisi yoksa toast göster
+        _handleWeatherError(homeData);
         return SliverAppBarCustom(
           height: 55,
           title: SizedBox(width: 40.w, child: ImageManager.instance.logo),
-          //leading: Transform.translate(offset: const Offset(10, 0), child: AppbarIcon(child: IconManager.instance.customIcon(Icons.calendar_today_outlined, color: ColorManager.WHITE, sizeW: 5))),
+          //leading: Transform.translate(offset: const Offset(10, 0), child: AppbarIcon(child: IconManager.instance.customIcon(Icons.calendar_today_outlined, color: ColorManager.white, sizeW: 5))),
           actions: [
-            Transform.translate(
-              offset: const Offset(-10, 0),
-              child: AppbarIcon(
-                onTap: () {
-                  PersistentNavBarNavigator.pushNewScreen(context, screen: const NotificationView());
-                },
-                child: IconManager.instance.customIcon(Icons.notifications_none_outlined, color: ColorManager.WHITE, sizeW: 5),
-              ),
-            ),
+            _buildAppBarActions(context),
           ],
-          appbarChild: isField
-              ? Padding(
-                  padding: context.padding.onlyBottomLow + context.padding.onlyTopLow,
-                  child: BlurCard(
-                    height: 45,
-                    width: 93,
-                    child: Padding(
-                      padding: context.padding.low,
-                      child: InkWell(
-                          onTap: () {
-                            context.push(RouterManager.weather);
-                          },
-                          child: HomeWeather(weatherData: weatherData)),
-                    ),
-                  ),
-                )
-              : null,
+          appbarChild: _buildAppBarChild(context, weatherData),
           child: isField
-              ? Padding(
-                  padding: context.padding.low,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          HomeCalendar(fieldIslemData: fieldIslemData),
-                          context.sized.emptySizedHeightBoxLow,
-                          HomeFieldList(fieldData: fieldData),
-                          context.sized.emptySizedHeightBoxLow,
-                          HomeAdviceList(adviceData: adviceData),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              : null,
+              ? _buildMainContent(context, fieldIslemData, fieldData, adviceData)
+              : _buildEmptyState(),
         );
       }, error: (error, stackTrace) {
-        debugPrint("Error: $error");
-        return DioErrorManager.dioError(error);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          String errorMessage = "Veriler yüklenirken bir hata oluştu";
+          if (error is String) {
+            errorMessage = ExceptionHandler.handleException(error);
+          } else if (error.toString().contains('DioException')) {
+            errorMessage = "Bağlantı hatası oluştu";
+          }
+
+          Toastr.showError(errorMessage, context);
+        });
+        return null;
       }, loading: () {
         return const Center(child: CircularProgressIndicator());
       }),
     );
+  }
+
+  // Extracted widget methods
+  Widget _buildAppBarActions(BuildContext context) {
+    return Transform.translate(
+      offset: const Offset(-10, 0),
+      child: AppbarIcon(
+        onTap: () {
+          PersistentNavBarNavigator.pushNewScreen(context, screen: const NotificationView());
+        },
+        child: IconManager.instance.customIcon(Icons.notifications_none_outlined, color: ColorManager.white, sizeW: 5),
+      ),
+    );
+  }
+
+  Widget? _buildAppBarChild(BuildContext context, WeatherResponseModel? weatherData) {
+    if (!isField) return null;
+
+    return Padding(
+      padding: context.padding.onlyBottomLow + context.padding.onlyTopLow,
+      child: BlurCard(
+        height: 45,
+        width: 93,
+        child: Padding(
+          padding: context.padding.low,
+          child: InkWell(
+            onTap: () => context.push(RouterManager.weather),
+            child: HomeWeather(weatherData: weatherData),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMainContent(
+    BuildContext context,
+    List<FieldIslemResponseModel> fieldIslemData,
+    List<FieldResponseModel> fieldData,
+    List<AdviceResponseModel> adviceData,
+  ) {
+    return Padding(
+      padding: context.padding.low,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          HomeCalendar(fieldIslemData: fieldIslemData),
+          context.sized.emptySizedHeightBoxLow,
+          HomeFieldList(fieldData: fieldData),
+          context.sized.emptySizedHeightBoxLow,
+          HomeAdviceList(adviceData: adviceData),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return const SizedBox();
+  }
+
+  void _handleFieldCheck(Map<String, dynamic> homeData) {
+    if (homeData['field'] == null && !_hasShownDialog) {
+      setState(() {
+        isField = false;
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showNoFieldDialog();
+      });
+    } else {
+      setState(() {
+        isField = true;
+      });
+    }
+  }
+
+  void _handleWeatherError(Map<String, dynamic> homeData) {
+    if (homeData['weather'] == null && isField) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Toastr.showError("Hava durumu bilgisi alınamadı", context);
+      });
+    }
   }
 }
 
@@ -211,12 +252,12 @@ class _HomeWeatherState extends State<HomeWeather> {
                 children: [
                   Row(
                     children: [
-                      IconManager.instance.customIcon(Icons.near_me, color: ColorManager.BUTTONBGGREEN, sizeW: 5),
+                      IconManager.instance.customIcon(Icons.near_me, color: ColorManager.buttonBgGreen, sizeW: 5),
                       context.sized.emptySizedWidthBoxLow,
-                      Text("${widget.weatherData?.city?.name ?? ""}, ${widget.weatherData?.district?.name ?? ""}", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.WHITE)),
+                      Text("${widget.weatherData?.city?.name ?? ""}, ${widget.weatherData?.district?.name ?? ""}", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.white)),
                     ],
                   ),
-                  //Text(AppConstant.dateFormat(context, weatherData?.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                  //Text(AppConstant.dateFormat(context, weatherData?.date), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                 ],
               ),
               context.sized.emptySizedHeightBoxLow,
@@ -229,18 +270,18 @@ class _HomeWeatherState extends State<HomeWeather> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${widget.weatherData?.tempDay ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("${widget.weatherData?.tempDay ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.white)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text(weatherTypeLanguage(widget.weatherData?.weatherMain?.ext.toCapitalized()), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text(weatherTypeLanguage(widget.weatherData?.weatherMain?.ext.toCapitalized()), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                       ],
                     ),
                     context.sized.emptySizedWidthBoxLow3x,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("En yüksek: ${(widget.weatherData?.tempMax?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En yüksek: ${(widget.weatherData?.tempMax?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text("En düşük: ${(widget.weatherData?.tempMin?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
+                        Text("En düşük: ${(widget.weatherData?.tempMin?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                       ],
                     )
                   ],
@@ -260,8 +301,8 @@ class _HomeWeatherState extends State<HomeWeather> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Yağış Miktarı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            Text("${widget.weatherData?.rain ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                            Text("Yağış Miktarı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
+                            Text("${widget.weatherData?.rain ?? ""} mm", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.textGreyColor)),
                           ],
                         ),
                       ],
@@ -274,8 +315,8 @@ class _HomeWeatherState extends State<HomeWeather> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Rüzgar", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            Text("${widget.weatherData?.windSpeed ?? ""} km/h", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                            Text("Rüzgar", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
+                            Text("${widget.weatherData?.windSpeed ?? ""} km/h", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.textGreyColor)),
                           ],
                         ),
                       ],
@@ -288,8 +329,8 @@ class _HomeWeatherState extends State<HomeWeather> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Nem Oranı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)),
-                            Text("%${widget.weatherData?.humidity ?? ""}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.TEXTGREYCOLOR)),
+                            Text("Nem Oranı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
+                            Text("%${widget.weatherData?.humidity ?? ""}", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.textGreyColor)),
                           ],
                         ),
                       ],
@@ -299,6 +340,6 @@ class _HomeWeatherState extends State<HomeWeather> {
               )
             ],
           )
-        : Center(child: Text("Hava Durumu Bulunamadı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.WHITE)));
+        : Center(child: Text("Hava Durumu Bulunamadı", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)));
   }
 }

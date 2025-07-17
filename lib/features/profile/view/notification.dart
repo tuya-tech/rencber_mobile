@@ -23,14 +23,14 @@ class _NotificationSettingViewState extends ConsumerState<NotificationSettingVie
   Widget build(BuildContext context) {
     var notificationProvider = ref.watch(notificationFutureProvider);
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: notificationProvider.when(
         data: (notificationData) {
           notificationId = notificationData.data?.first.id;
           debugPrint("Notification Data: ${notificationData.data?.first.toJson()}");
           return SliverAppBarCustom(
             height: 5,
-            title: Text("Bildirim Tercihleri", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text("Bildirim Tercihleri", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             leading: const AppBarBackButton(),
             child: Padding(
               padding: context.padding.normal + context.padding.onlyBottomHigh,
@@ -91,11 +91,11 @@ class NotificationSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ColorManager.WHITE,
+        color: ColorManager.white,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: ColorManager.BLACK.withValues(alpha: 0.1),
+            color: ColorManager.black.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -110,10 +110,10 @@ class NotificationSwitch extends StatelessWidget {
               name: "notificationSettings",
               title: Text(title, style: context.general.textTheme.labelLarge),
               subtitle: Padding(padding: context.padding.onlyTopLow, child: Text(subtitle, style: context.general.textTheme.titleMedium)),
-              activeColor: ColorManager.GREEN,
-              activeTrackColor: ColorManager.GREEN.withValues(alpha: 0.5),
-              inactiveTrackColor: ColorManager.TEXTGREYCOLOR.withValues(alpha: 0.5),
-              inactiveThumbColor: ColorManager.GREYCOLOR.withValues(alpha: 0.5),
+              activeColor: ColorManager.green,
+              activeTrackColor: ColorManager.green.withValues(alpha: 0.5),
+              inactiveTrackColor: ColorManager.textGreyColor.withValues(alpha: 0.5),
+              inactiveThumbColor: ColorManager.greyColor.withValues(alpha: 0.5),
               onChanged: onChanged,
               initialValue: initialValue,
               decoration: const InputDecoration(

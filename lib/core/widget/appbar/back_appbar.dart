@@ -44,7 +44,7 @@ class _AppBarBackButtonState extends State<AppBarBackButton> {
             ),
             child: Padding(
               padding: EdgeInsets.only(left: 1.5.w),
-              child: IconManager.instance.customIcon(Icons.arrow_back_ios, color: widget.color ?? ColorManager.WHITE),
+              child: IconManager.instance.customIcon(Icons.arrow_back_ios, color: widget.color ?? ColorManager.white),
             ),
           ),
         ),

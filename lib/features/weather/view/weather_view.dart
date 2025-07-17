@@ -4,10 +4,11 @@ import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
+import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
+import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/product/provider/weather/weather_provider.dart';
-import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:sizer/sizer.dart';
 
 class WeatherView extends ConsumerStatefulWidget {
@@ -125,7 +126,7 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
   Widget build(BuildContext context) {
     var weatherFuture = ref.watch(weatherFutureProvider);
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       body: weatherFuture.when(
         data: (weatherData) {
           var weather = weatherData.data ?? [];
@@ -136,7 +137,7 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
           return SliverAppBarCustom(
             leading: const AppBarBackButton(),
             height: 60,
-            title: Text("Hava Durumu", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+            title: Text("Hava Durumu", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
             appbarChild: Padding(
               padding: context.padding.onlyBottomNormal,
               child: Column(
@@ -146,19 +147,19 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 2.w,
                     children: [
-                      Text(todayWeather!.date.toString(), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
-                      Text(getDayName(todayWeather.date.toString()), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
+                      Text(todayWeather!.date.toString(), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
+                      Text(getDayName(todayWeather.date.toString()), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
                     ],
                   ),
-                  Text(todayWeather.city!.name.toString(), style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
-                  Text("${todayWeather.tempDay?.round().toString()}°", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
-                  Text(todayWeather.weatherDescription.ext.toCapitalized(), style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+                  Text(todayWeather.city!.name.toString(), style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
+                  Text("${todayWeather.tempDay?.round().toString()}°", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
+                  Text(todayWeather.weatherDescription.ext.toCapitalized(), style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 2.w,
                     children: [
-                      Text("Y: ${todayWeather.tempMax?.round().toString()}°", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
-                      Text("D: ${todayWeather.tempMin?.round().toString()}°", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
+                      Text("Y: ${todayWeather.tempMax?.round().toString()}°", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
+                      Text("D: ${todayWeather.tempMin?.round().toString()}°", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
                     ],
                   ),
                   Row(
@@ -173,18 +174,18 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             spacing: 2.w,
                             children: [
-                              IconManager.instance.customIcon(Icons.wb_sunny_outlined, sizeW: 5, color: ColorManager.WHITE),
-                              IconManager.instance.customIcon(Icons.arrow_upward_outlined, sizeW: 5, color: ColorManager.WHITE),
-                              Text(getTimeOnly(todayWeather.sunrise.toString()), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
+                              IconManager.instance.customIcon(Icons.wb_sunny_outlined, sizeW: 5, color: ColorManager.white),
+                              IconManager.instance.customIcon(Icons.arrow_upward_outlined, sizeW: 5, color: ColorManager.white),
+                              Text(getTimeOnly(todayWeather.sunrise.toString()), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             spacing: 2.w,
                             children: [
-                              IconManager.instance.customIcon(Icons.wb_sunny_outlined, sizeW: 5, color: ColorManager.WHITE),
-                              IconManager.instance.customIcon(Icons.arrow_downward_outlined, sizeW: 5, color: ColorManager.WHITE),
-                              Text(getTimeOnly(todayWeather.sunset.toString()), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
+                              IconManager.instance.customIcon(Icons.wb_sunny_outlined, sizeW: 5, color: ColorManager.white),
+                              IconManager.instance.customIcon(Icons.arrow_downward_outlined, sizeW: 5, color: ColorManager.white),
+                              Text(getTimeOnly(todayWeather.sunset.toString()), style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
                             ],
                           ),
                         ],
@@ -197,16 +198,16 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             spacing: 2.w,
                             children: [
-                              IconManager.instance.customIcon(Icons.download_sharp, sizeW: 5, color: ColorManager.WHITE),
-                              Text("${todayWeather.pressure?.round().toString()} hpa", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
+                              IconManager.instance.customIcon(Icons.download_sharp, sizeW: 5, color: ColorManager.white),
+                              Text("${todayWeather.pressure?.round().toString()} hpa", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             spacing: 2.w,
                             children: [
-                              IconManager.instance.customIcon(Icons.water_drop_outlined, sizeW: 5, color: ColorManager.WHITE),
-                              Text("${todayWeather.rain?.round().toString()}%", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.WHITE)),
+                              IconManager.instance.customIcon(Icons.water_drop_outlined, sizeW: 5, color: ColorManager.white),
+                              Text("${todayWeather.rain?.round().toString()}%", style: context.general.textTheme.titleMedium?.copyWith(color: ColorManager.white)),
                             ],
                           ),
                         ],
@@ -222,7 +223,7 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                 spacing: 2.h,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("${weather.length} Günlük Hava Durumu", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.BLACK)),
+                  Text("${weather.length} Günlük Hava Durumu", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.black)),
                   SizedBox(
                       height: 130.h,
                       child: weather.isNotEmpty
@@ -234,10 +235,10 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                                 return Container(
                                   height: 15.w,
                                   decoration: const BoxDecoration(
-                                    color: ColorManager.WHITE,
+                                    color: ColorManager.white,
                                     border: Border(
-                                      top: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
-                                      bottom: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
+                                      top: BorderSide(color: ColorManager.borderGray, width: 0.5),
+                                      bottom: BorderSide(color: ColorManager.borderGray, width: 0.5),
                                     ),
                                     //borderRadius: BorderRadius.circular(10),
                                   ),
@@ -261,7 +262,7 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                                         Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            IconManager.instance.customIcon(Icons.arrow_downward_outlined, sizeW: 5, color: ColorManager.GREYCOLOR),
+                                            IconManager.instance.customIcon(Icons.arrow_downward_outlined, sizeW: 5, color: ColorManager.greyColor),
                                             const SizedBox(height: 5),
                                             Text("${weather[index].tempMax?.round().toString()}°", style: context.general.textTheme.labelLarge),
                                           ],
@@ -269,7 +270,7 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                                         Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            IconManager.instance.customIcon(Icons.arrow_upward_outlined, sizeW: 5, color: ColorManager.TEXTGREYCOLOR),
+                                            IconManager.instance.customIcon(Icons.arrow_upward_outlined, sizeW: 5, color: ColorManager.textGreyColor),
                                             const SizedBox(height: 5),
                                             Text("${weather[index].tempMin?.round().toString()}°", style: context.general.textTheme.labelLarge),
                                           ],
@@ -308,7 +309,7 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
                                 );
                               },
                             )
-                          : const Center(child: Text("Bildirim Bulunamadı", style: TextStyle(color: ColorManager.BLACK)))),
+                          : const Center(child: Text("Bildirim Bulunamadı", style: TextStyle(color: ColorManager.black)))),
                 ],
               ),
             ),
@@ -316,7 +317,19 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
         },
         error: (error, stackTrace) {
           debugPrint("Error: $error");
-          return DioErrorManager.dioError(error);
+
+          // Hata mesajını toast olarak göster
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            String errorMessage = "Hava durumu verileri yüklenirken hata oluştu";
+
+            // Eğer hata string ise ve backend hata kodu içeriyorsa işle
+            if (error is String) {
+              errorMessage = ExceptionHandler.handleException(error);
+            }
+
+            Toastr.showError(errorMessage, context);
+          });
+          return null;
         },
         loading: () {
           return const Center(child: CircularProgressIndicator());
@@ -325,7 +338,7 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
       // body: SliverAppBarCustom(
       //   leading: const AppBarBackButton(),
       //   height: 5,
-      //   title: Text("Bildirimlerim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.WHITE)),
+      //   title: Text("Bildirimlerim", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
       //   child: Padding(
       //     padding: context.padding.verticalLow + context.padding.horizontalNormal,
       //     child: SizedBox(
@@ -337,16 +350,16 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
       //           return Container(
       //             height: 25.w,
       //             decoration: const BoxDecoration(
-      //               color: ColorManager.WHITE,
+      //               color: ColorManager.white,
       //               border: Border(
-      //                 top: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
-      //                 bottom: BorderSide(color: ColorManager.BORDERGRAY, width: 0.5),
+      //                 top: BorderSide(color: ColorManager.borderGray, width: 0.5),
+      //                 bottom: BorderSide(color: ColorManager.borderGray, width: 0.5),
       //               ),
       //               //borderRadius: BorderRadius.circular(10),
       //             ),
       //             child: ListTile(
-      //               splashColor: ColorManager.WHITE,
-      //               tileColor: ColorManager.WHITE,
+      //               splashColor: ColorManager.white,
+      //               tileColor: ColorManager.white,
       //               onTap: () {},
       //               title: Text("Bildirim Başlığı", style: context.general.textTheme.titleMedium),
       //               subtitle: Text("Bildirim Açıklaması", style: context.general.textTheme.bodyLarge),

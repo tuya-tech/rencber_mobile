@@ -24,9 +24,9 @@ class _RegisterViewState extends ConsumerState<RegisterView> with RegisterMixin 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.BGCOLOR,
+      backgroundColor: ColorManager.bgColor,
       appBar: const AppBarBackButton(
-        color: ColorManager.BLACK,
+        color: ColorManager.black,
       ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -35,7 +35,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> with RegisterMixin 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Hoşgeldiniz", style: context.general.textTheme.labelMedium),
+              Text("Hoş geldiniz", style: context.general.textTheme.labelMedium),
               context.sized.emptySizedHeightBoxLow,
               Text("Kayıt Olun", style: context.general.textTheme.headlineSmall),
               context.sized.emptySizedHeightBoxLow3x,
@@ -46,9 +46,9 @@ class _RegisterViewState extends ConsumerState<RegisterView> with RegisterMixin 
                   children: [
                     AppTextField(fieldName: "registerPhoneNumber", controller: phoneController, isPhoneNumber: true, labelText: "Cep Telefonu Numaranız"),
                     context.sized.emptySizedHeightBoxLow3x,
-                    AppTextField(fieldName: "registerName", controller: nameController, labelText: "Ad", hintText: "Adınız", inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]'))]),
+                    AppTextField(fieldName: "registerName", controller: nameController, labelText: "Ad", hintText: "Adınız", inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZçÇğĞıİöÖşŞüÜ ]'))]),
                     context.sized.emptySizedHeightBoxLow3x,
-                    AppTextField(fieldName: "registerSurname", controller: surnameController, labelText: "Soyad", hintText: "Soyadınız", inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]'))]),
+                    AppTextField(fieldName: "registerSurname", controller: surnameController, labelText: "Soyad", hintText: "Soyadınız", inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZçÇğĞıİöÖşŞüÜ ]'))]),
                     context.sized.emptySizedHeightBoxLow3x,
                     Row(children: [
                       Expanded(

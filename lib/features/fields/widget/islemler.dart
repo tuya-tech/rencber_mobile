@@ -18,7 +18,7 @@ class IslemlerWidget extends StatelessWidget {
         height: 25.w,
         width: 25.w,
         child: Card(
-          color: ColorManager.BGCOLOR,
+          color: ColorManager.bgColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(color: borderColor, width: 1.5),
