@@ -8,6 +8,7 @@ import 'package:rencber_mobile/core/constants/dimensions/app_dimensions.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
 import 'package:rencber_mobile/core/controller/exception.dart';
+import 'package:rencber_mobile/core/widget/upgrader/upgrader.dart';
 import 'package:rencber_mobile/core/router/go_router.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
@@ -76,9 +77,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     var homeProvider = ref.watch(homeFutureProvider);
-    return Scaffold(
-      backgroundColor: ColorManager.bgColor,
-      body: homeProvider.when(data: (homeData) {
+    return AppUpgrader(
+      child: Scaffold(
+        backgroundColor: ColorManager.bgColor,
+        body: homeProvider.when(data: (homeData) {
         _handleFieldCheck(homeData);
         var weatherData = homeData['weather'] != null ? homeData['weather'] as WeatherResponseModel : WeatherResponseModel();
         var adviceData = homeData['advice'] != null ? homeData['advice'] as List<AdviceResponseModel> : List<AdviceResponseModel>.empty();
@@ -115,6 +117,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       }, loading: () {
         return const Center(child: CircularProgressIndicator());
       }),
+      ),
     );
   }
 
