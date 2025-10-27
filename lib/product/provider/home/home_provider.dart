@@ -29,6 +29,11 @@ final homeFutureProvider = FutureProvider(
           if (value.statusCode == 200) {
             var outlineField = value.data?.where((element) => element.outline == true).toList();
             var outLineFieldNotList = outlineField?.firstOrNull;
+            // Eğer outlineField boşsa, value.data'dan ilk öğeyi al
+            if (outLineFieldNotList == null && value.data.ext.isNotNullOrEmpty) {
+              outLineFieldNotList = value.data?.first; // İlk öğeyi al
+            }
+
             await SecureStorage.instance.writeFieldModel("outLineField", outLineFieldNotList ?? FieldResponseModel());
             debugPrint("value.data: ${value.data}");
             if (value.data.ext.isNotNullOrEmpty) {

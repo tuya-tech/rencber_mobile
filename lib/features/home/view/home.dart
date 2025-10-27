@@ -36,8 +36,11 @@ class HomeView extends ConsumerStatefulWidget {
 class _HomeViewState extends ConsumerState<HomeView> {
   bool _hasShownDialog = false;
   bool isField = false; // Flag to track if user has any fields
+  BuildContext? _dialogContext; // dialog referansı
 
   void _showNoFieldDialog() {
+    _dialogContext = context; // dialog context’ini sakla
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -179,19 +182,35 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 
   void _handleFieldCheck(Map<String, dynamic> homeData) {
-    if (homeData['field'] == null && !_hasShownDialog) {
+    bool hasField = homeData['field'] != null &&
+        (homeData['field'] as List).isNotEmpty;
+
+    if (!hasField && !_hasShownDialog) {
       setState(() {
         isField = false;
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showNoFieldDialog();
       });
+    } else if (hasField && _hasShownDialog) {
+      // Tarla eklendiyse dialog açıksa kapat
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_dialogContext != null) {
+          Navigator.of(_dialogContext!, rootNavigator: true).pop();
+          _dialogContext = null;
+        }
+        setState(() {
+          isField = true;
+          _hasShownDialog = false;
+        });
+      });
     } else {
       setState(() {
-        isField = true;
+        isField = hasField;
       });
     }
   }
+
 
   void _handleWeatherError(Map<String, dynamic> homeData) {
     if (homeData['weather'] == null && isField) {
@@ -273,7 +292,7 @@ class _HomeWeatherState extends State<HomeWeather> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${widget.weatherData?.tempDay ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.white)),
+                        Text("${widget.weatherData?.tempDay?.toInt() ?? ""}°C", style: context.general.textTheme.headlineLarge?.copyWith(color: ColorManager.white)),
                         context.sized.emptySizedHeightBoxLow,
                         Text(weatherTypeLanguage(widget.weatherData?.weatherMain?.ext.toCapitalized()), style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                       ],
@@ -282,9 +301,9 @@ class _HomeWeatherState extends State<HomeWeather> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("En yüksek: ${(widget.weatherData?.tempMax?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
+                        Text("En yüksek: ${(widget.weatherData?.tempMax?.toInt()) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                         context.sized.emptySizedHeightBoxLow,
-                        Text("En düşük: ${(widget.weatherData?.tempMin?.toStringAsFixed(1)) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
+                        Text("En düşük: ${(widget.weatherData?.tempMin?.toInt()) ?? ""}°C", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.white)),
                       ],
                     )
                   ],

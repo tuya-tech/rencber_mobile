@@ -8,6 +8,7 @@ import 'package:rencber_mobile/core/widget/loading/loading.dart';
 import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/features/fields/view/add_field.dart';
 import 'package:rencber_mobile/product/models/field/field_request.dart';
+import 'package:rencber_mobile/product/provider/field/field.dart';
 import 'package:rencber_mobile/product/provider/home/home_provider.dart';
 import 'package:rencber_mobile/product/services/field/field.dart';
 
@@ -53,7 +54,7 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
   void onSaved() async {
     debugPrint("productController: ${productIdController.text}");
     if (fieldNameController.text.ext.isNotNullOrNoEmpty &&
-        productController.text.ext.isNotNullOrNoEmpty &&
+        productIdController .text.ext.isNotNullOrNoEmpty &&
         dateTimeController.text.ext.isNotNullOrNoEmpty &&
         cityDistrictController.text.ext.isNotNullOrNoEmpty &&
         cityController.text.ext.isNotNullOrNoEmpty &&
@@ -75,6 +76,7 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
       if (response.statusCode == 201 || response.statusCode == 200) {
         appLoading(context, false);
         Toastr.showSuccess("Tarlanız başarıyla eklendi.", context);
+        ref.invalidate(fieldsProvider);
         ref.refresh(homeFutureProvider);
         Navigator.pop(context);
       } else {
@@ -85,7 +87,7 @@ mixin FieldAddMixin on ConsumerState<FieldAddView> {
       if (fieldNameController.text.ext.isNullOrEmpty) {
         Toastr.showError("Tarla İsmi Boş Bırakılamaz", context);
       }
-      if (productController.text.ext.isNullOrEmpty) {
+      if (productIdController.text.ext.isNullOrEmpty) {
         Toastr.showError("Mahsül Bilgisi Boş Bırakılamaz", context);
       }
       if (dateTimeController.text.ext.isNullOrEmpty) {

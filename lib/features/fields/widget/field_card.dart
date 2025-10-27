@@ -28,7 +28,8 @@ class FieldCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ImageManager.instance.tarla,
+              // ImageManager.instance.tarla,
+              ImageManager.instance.getTarlaResimByBitki(field?.bitkiName),
               context.sized.emptySizedWidthBoxLow,
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

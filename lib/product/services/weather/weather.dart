@@ -16,7 +16,7 @@ class WeatherApiService {
       var fieldData = await SecureStorage.instance.readFieldModel('outLineField');
       var fieldId = fieldData?.id;
       final response = await DioManager.dio.get(
-        "${ServicesPath.instance.weather}/field/$fieldId",
+        "${ServicesPath.instance.weather}/field/$fieldId/live",
         options: await DioManager.getOptions(),
       );
       if (response.statusCode == 200) {

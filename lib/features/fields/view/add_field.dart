@@ -8,8 +8,8 @@ import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/checkbox/checkbox.dart';
 import 'package:rencber_mobile/core/widget/date_picker/date_picker.dart';
-import 'package:rencber_mobile/core/widget/dropdown/gubre_dropdown.dart';
-import 'package:rencber_mobile/core/widget/dropdown/product_dropdown.dart';
+import 'package:rencber_mobile/core/widget/dropdown/gubre_cupertino.dart';
+import 'package:rencber_mobile/core/widget/dropdown/product_cupertino.dart';
 import 'package:rencber_mobile/core/widget/switch/switch.dart';
 import 'package:rencber_mobile/core/widget/text_field/custom_text_field.dart';
 import 'package:rencber_mobile/features/fields/mixin/add_mixin.dart';
@@ -41,7 +41,13 @@ class _FieldAddViewState extends ConsumerState<FieldAddView> with FieldAddMixin 
               context.sized.emptySizedHeightBoxLow,
               AppCustomTextField(fieldName: "fieldName", controller: fieldNameController, hintText: "Tarla İsmi Giriniz", labelText: "Tarla İsmi*"),
               context.sized.emptySizedHeightBoxLow,
-              AppProducts(productController: productController, labelText: "Mahsül Bilgisi*", productIdController: productIdController),
+              AppProductsCupertino(
+              productController: productController,
+              productIdController: productIdController,
+              labelText: "Mahsül",
+            ),  
+
+              //AppProducts(productController: productController, labelText: "Mahsül Bilgisi*", productIdController: productIdController),
               context.sized.emptySizedHeightBoxLow,
               AppDatePicker(controller: dateTimeController, name: "dateTime", hintText: "--,--,----", labelText: "Ekim Yapılma Tarihi*", initialValue: AppConstant.dateFormat(context, dateTimeController.text)),
               context.sized.emptySizedHeightBoxLow,
@@ -77,7 +83,8 @@ class _FieldAddViewState extends ConsumerState<FieldAddView> with FieldAddMixin 
                 ),
               ),
               context.sized.emptySizedHeightBoxLow,
-              AppGubre(gubreController: gubreController, labelText: "Gübre Tercihi*"),
+              //AppGubre(gubreController: gubreController, labelText: "Gübre Tercihi*"),
+              AppGubreCupertino(gubreController: gubreController, labelText: "Gübre Tercihi*"),
               context.sized.emptySizedHeightBoxLow,
               AppCustomTextField(
                 fieldName: "city/district",
@@ -94,9 +101,11 @@ class _FieldAddViewState extends ConsumerState<FieldAddView> with FieldAddMixin 
                         cityDistrictController: cityDistrictController,
                         initialCityId: 0,
                         selectedCityId: 1,
+                        selectedDistrictId: 0,
                         onCitySelected: (val, value) {
                           setState(() {
                             districtController.text = "";
+                            selectedDistrictId = 0;
                             cityController.text = val;
                             selectedCityId = value;
                             ref.read(selectedCityIdProvider.notifier).notify(value);

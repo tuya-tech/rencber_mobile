@@ -61,6 +61,26 @@ class ImageManager {
         return Image.asset("assets/weather/Clear.png", height: 12.w, width: 12.w);
     }
   }
+
+  Widget getTarlaResimByBitki(String? bitkiName) {
+    // bitkiName küçük harfe çevrilir
+    final plant = bitkiName?.toLowerCase() ?? '';
+
+    // assets klasöründe plant adlarına göre resimleri bulur
+    switch (plant) {
+      case 'domates':
+        return Image.asset('assets/bitki/domates.png', height: 25.w, width: 25.w, fit: BoxFit.cover);
+      case 'biber':
+        return Image.asset('assets/bitki/biber.png', height: 25.w, width: 25.w, fit: BoxFit.cover);
+      case 'patlıcan':
+        return Image.asset('assets/bitki/patlican.png', height: 25.w, width: 25.w, fit: BoxFit.cover);
+        case 'patates':
+        return Image.asset('assets/bitki/patates.png', height: 25.w, width: 25.w, fit: BoxFit.cover);
+      default:
+        // varsayılan tarla görseli
+        return Image.asset('assets/tarla.png', height: 25.w, width: 25.w, fit: BoxFit.cover);
+    }
+  }
 }
 
 extension ImageManagerExtension on ImageManager {
