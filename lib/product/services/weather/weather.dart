@@ -55,7 +55,7 @@ class WeatherApiService {
       var fieldId = fieldData?.id ?? 0;
       final response = await DioManager.dio.get(
         //"${ServicesPath.instance.weather}/field/55/all",
-        "${ServicesPath.instance.weather}/field/$fieldId/all",
+        "${ServicesPath.instance.weather}/field/$fieldId/all/live",
         options: await DioManager.getOptions(),
       );
 
