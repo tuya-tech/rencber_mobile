@@ -20,6 +20,7 @@ import 'package:rencber_mobile/features/fields/widget/islemler.dart';
 import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:rencber_mobile/product/models/field/field_response.dart';
 import 'package:rencber_mobile/product/provider/field/field.dart';
+import 'package:rencber_mobile/product/provider/home/home_provider.dart';
 import 'package:rencber_mobile/product/services/_dio_manager/dio_error.dart';
 import 'package:rencber_mobile/product/services/field/field_islem_service.dart';
 import 'package:sizer/sizer.dart';
@@ -238,6 +239,8 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
                 );
                 if (response.statusCode == 201 && context.mounted) {
                   ref.invalidate(fieldIdFutureProvider(widget.fieldId));
+                  ref.invalidate(homeFutureProvider);
+
                   Toastr.showSuccess("İşleminiz başarıyla eklendi.", context);
                   Navigator.pop(context);
                   appLoading(context, false);

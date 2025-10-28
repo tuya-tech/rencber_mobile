@@ -8,9 +8,11 @@ import 'package:rencber_mobile/product/services/field/field.dart';
 import 'package:rencber_mobile/product/services/field/field_islem_service.dart';
 import 'package:rencber_mobile/product/services/weather/weather.dart';
 
-final homeFutureProvider = FutureProvider(
-  (ref) async {
+final homeFutureProvider = FutureProvider.autoDispose<Map<String, dynamic>>((ref) async {
+    
     try {
+      ref.keepAlive();
+
       final weather = WeatherApiService.instance;
       final advice = AdviceApiService.instance;
       final field = FieldApiService.instance;
