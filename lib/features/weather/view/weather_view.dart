@@ -131,8 +131,51 @@ class _WeatherViewState extends ConsumerState<WeatherView> {
         data: (weatherData) {
           var weather = weatherData.data ?? [];
           var todayWeather = weatherData.data?.first;
-          if (weather.isEmpty) {
-            return const Center(child: Text("Hava durumu verisi bulunamadı"));
+          if (weather.isEmpty || todayWeather == null) {
+            return SliverAppBarCustom(
+              leading: const AppBarBackButton(),
+              height: 60,
+              title: Text(
+                "Hava Durumu",
+                style: context.general.textTheme.headlineMedium
+                    ?.copyWith(color: ColorManager.white),
+              ),
+              appbarChild: const SizedBox.shrink(), // Üst kısmı boş bırak
+              child: Center(
+                child: Padding(
+                  padding: context.padding.horizontalNormal,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.cloud_off,
+                          color: ColorManager.greyColor, size: 40.sp),
+                      SizedBox(height: 2.h),
+                      Text(
+                        "Hava durumu verisi bulunamadı",
+                        style: context.general.textTheme.titleMedium
+                            ?.copyWith(color: ColorManager.textGreyColor),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 4.h),
+                      ElevatedButton.icon(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text("Geri Dön"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorManager.bgColor,
+                          foregroundColor: ColorManager.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           }
           return SliverAppBarCustom(
             leading: const AppBarBackButton(),
