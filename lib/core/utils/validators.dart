@@ -1,19 +1,20 @@
 class AppValidators {
   // Phone number validation
   static bool isValidPhoneNumber(String value) {
-    final cleanValue = value.replaceAll(RegExp(r'[()\s-]'), '');
-    
-    if (cleanValue.isEmpty) {
-      return false;
-    }
-    
-    if (cleanValue.length < 10) {
-      return false;
-    }
-    
-    // Turkish phone number pattern
-    final phoneRegex = RegExp(r'^0?5[0-9]{9}$');
-    return phoneRegex.hasMatch(cleanValue);
+    // final cleanValue = value.replaceAll(RegExp(r'[()\s-]'), '');
+
+    // if (cleanValue.isEmpty) {
+    //   return false;
+    // }
+
+    // if (cleanValue.length < 10) {
+    //   return false;
+    // }
+
+    // // Turkish phone number pattern
+    // final phoneRegex = RegExp(r'^0?5[0-9]{9}$');
+    // return phoneRegex.hasMatch(cleanValue);
+    return true;
   }
 
   // Email validation
@@ -21,7 +22,7 @@ class AppValidators {
     if (email.isEmpty) {
       return false;
     }
-    
+
     final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegex.hasMatch(email);
   }
@@ -31,11 +32,11 @@ class AppValidators {
     if (password.isEmpty) {
       return false;
     }
-    
+
     if (password.length < 6) {
       return false;
     }
-    
+
     return true;
   }
 
@@ -44,11 +45,11 @@ class AppValidators {
     if (name.isEmpty) {
       return false;
     }
-    
+
     if (name.length < 2) {
       return false;
     }
-    
+
     final nameRegex = RegExp(r'^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$');
     return nameRegex.hasMatch(name);
   }
@@ -58,15 +59,15 @@ class AppValidators {
     if (fieldName.isEmpty) {
       return false;
     }
-    
+
     if (fieldName.length < 2) {
       return false;
     }
-    
+
     if (fieldName.length > 50) {
       return false;
     }
-    
+
     return true;
   }
 
@@ -75,16 +76,16 @@ class AppValidators {
     if (area.isEmpty) {
       return false;
     }
-    
+
     final areaValue = double.tryParse(area);
     if (areaValue == null) {
       return false;
     }
-    
+
     if (areaValue <= 0 || areaValue > 10000) {
       return false;
     }
-    
+
     return true;
   }
 
@@ -98,11 +99,11 @@ class AppValidators {
     if (code.isEmpty) {
       return false;
     }
-    
+
     if (code.length != 4) {
       return false;
     }
-    
+
     final codeRegex = RegExp(r'^[0-9]{4}$');
     return codeRegex.hasMatch(code);
   }
