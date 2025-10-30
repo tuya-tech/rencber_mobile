@@ -14,6 +14,8 @@ import 'package:rencber_mobile/core/widget/text_field/custom_text_field.dart';
 import 'package:rencber_mobile/features/profile/mixin/profile_edit.dart';
 import 'package:rencber_mobile/product/models/user/user_response.dart';
 import 'package:rencber_mobile/product/provider/location/location_provider.dart';
+import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
+
 import 'package:sizer/sizer.dart';
 
 class ProfileEditView extends ConsumerStatefulWidget {
@@ -106,7 +108,7 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditView> with ProfileE
 }
 
 class UserSelectCityAndDistrict extends ConsumerStatefulWidget {
-  const UserSelectCityAndDistrict({super.key, required this.cityController, required this.districtController, required this.cityDistrictController, this.onCitySelected, this.onDistrictSelected, this.initialCityId = 0, this.selectedCityId = 0});
+  const UserSelectCityAndDistrict({super.key, required this.cityController, required this.districtController, required this.cityDistrictController, this.onCitySelected, this.onDistrictSelected, this.initialCityId = 0, this.selectedCityId = 0, this.selectedDistrictId = 0});
   final TextEditingController cityController;
   final TextEditingController districtController;
   final TextEditingController cityDistrictController;
@@ -114,12 +116,23 @@ class UserSelectCityAndDistrict extends ConsumerStatefulWidget {
   final void Function(String, int)? onDistrictSelected;
   final int initialCityId;
   final int selectedCityId;
+  final int selectedDistrictId;
 
   @override
   ConsumerState<UserSelectCityAndDistrict> createState() => _UserSelectCityAndDistrictState();
 }
 
 class _UserSelectCityAndDistrictState extends ConsumerState<UserSelectCityAndDistrict> {
+  late int selectedCityIdLocal;
+  late int selectedDistrictIdLocal;
+
+@override
+  void initState() {
+    super.initState();
+    selectedCityIdLocal = widget.selectedCityId;
+    selectedDistrictIdLocal = widget.selectedDistrictId;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -134,14 +147,28 @@ class _UserSelectCityAndDistrictState extends ConsumerState<UserSelectCityAndDis
             AppCityDropdown(
               hintText: "İl Seçiniz",
               controller: widget.cityController,
-              onSelected: widget.onCitySelected,
+              // onSelected: widget.onCitySelected,
+              onSelected: (val, value) {
+                setState(() {
+                  selectedDistrictIdLocal = 0; // İl değişince ilçe sıfırlanır
+                  selectedCityIdLocal = value;
+                });
+
+                widget.onCitySelected?.call(val, value);
+              },
             ),
             context.sized.emptySizedHeightBoxLow,
             AppDistrictDropdown(
               hintText: "İlçe Seçiniz",
               controller: widget.districtController,
               selectedCityId: widget.cityController.text.ext.isNotNullOrNoEmpty ? widget.selectedCityId : widget.initialCityId,
-              onSelected: widget.onDistrictSelected,
+              // onSelected: widget.onDistrictSelected,
+              onSelected: (val, value) {
+                setState(() {
+                  selectedDistrictIdLocal = value;
+                });
+                widget.onDistrictSelected?.call(val, value);
+              },
             ),
             context.sized.emptySizedHeightBoxLow,
             Row(
@@ -159,9 +186,14 @@ class _UserSelectCityAndDistrictState extends ConsumerState<UserSelectCityAndDis
                   buttonHeight: 10,
                   buttonText: "Tamam",
                   onPressed: () {
-                    if (widget.cityController.text.ext.isNullOrEmpty || widget.districtController.text.ext.isNullOrEmpty) {
-                      return;
-                    }
+                    if (widget.cityController.text.ext.isNullOrEmpty ||
+        widget.districtController.text.ext.isNullOrEmpty ||
+        selectedCityIdLocal == 0 ||
+        selectedCityIdLocal == 0) {
+      // Uyarı ver
+      Toastr.showError("Lütfen geçerli il ve ilçe seçiniz.", context);
+      return;
+    }
                     widget.cityDistrictController.text = "${widget.cityController.text} / ${widget.districtController.text}";
                     Navigator.pop(context);
                   },

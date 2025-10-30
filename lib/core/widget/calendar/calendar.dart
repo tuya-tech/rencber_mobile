@@ -22,7 +22,7 @@ class AppCalendar extends StatefulWidget {
 
 class _AppCalendarState extends State<AppCalendar> {
   DateTime _selectedDay = DateTime.now();
-  late final Map<String, List> _events;
+  Map<String, List> _events = {};
 
   Color markerColors(List selectedDay) {
     if (selectedDay.contains('SULAMA')) {
@@ -45,6 +45,7 @@ class _AppCalendarState extends State<AppCalendar> {
   }
 
   void setEvent() {
+    _events.clear();
     widget.fieldIslemData?.forEach((element) {
       var date = element.startDate;
       if (_events[date] == null) {
@@ -61,6 +62,16 @@ class _AppCalendarState extends State<AppCalendar> {
     super.initState();
     _events = {};
     setEvent();
+  }
+
+@override
+  void didUpdateWidget(covariant AppCalendar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.fieldIslemData != oldWidget.fieldIslemData) {
+      _events = {};
+      setEvent();
+      setState(() {});
+    }
   }
 
   @override

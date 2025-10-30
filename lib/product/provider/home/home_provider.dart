@@ -8,9 +8,11 @@ import 'package:rencber_mobile/product/services/field/field.dart';
 import 'package:rencber_mobile/product/services/field/field_islem_service.dart';
 import 'package:rencber_mobile/product/services/weather/weather.dart';
 
-final homeFutureProvider = FutureProvider(
-  (ref) async {
+final homeFutureProvider = FutureProvider.autoDispose<Map<String, dynamic>>((ref) async {
+    
     try {
+      ref.keepAlive();
+
       final weather = WeatherApiService.instance;
       final advice = AdviceApiService.instance;
       final field = FieldApiService.instance;
@@ -29,6 +31,11 @@ final homeFutureProvider = FutureProvider(
           if (value.statusCode == 200) {
             var outlineField = value.data?.where((element) => element.outline == true).toList();
             var outLineFieldNotList = outlineField?.firstOrNull;
+            // Eğer outlineField boşsa, value.data'dan ilk öğeyi al
+            if (outLineFieldNotList == null && value.data.ext.isNotNullOrEmpty) {
+              outLineFieldNotList = value.data?.first; // İlk öğeyi al
+            }
+
             await SecureStorage.instance.writeFieldModel("outLineField", outLineFieldNotList ?? FieldResponseModel());
             debugPrint("value.data: ${value.data}");
             if (value.data.ext.isNotNullOrEmpty) {
