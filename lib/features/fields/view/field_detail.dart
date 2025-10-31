@@ -7,10 +7,10 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/constant/constant.dart';
 import 'package:rencber_mobile/core/constants/icon/icon.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
+import 'package:rencber_mobile/core/utils/IslemUtils.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
-import 'package:rencber_mobile/core/widget/button/right_icon_button.dart';
 import 'package:rencber_mobile/core/widget/date_picker/date_picker.dart';
 import 'package:rencber_mobile/core/widget/dropdown/custom_dropdown.dart';
 import 'package:rencber_mobile/core/widget/loading/loading.dart';
@@ -34,19 +34,10 @@ class FieldDetailView extends ConsumerStatefulWidget {
 }
 
 class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
-  Color markerColors(String selectedDay) {
-    if (selectedDay == 'SULAMA') {
-      return ColorManager.blue;
-    } else if (selectedDay == 'GUBRELEME') {
-      return ColorManager.brown;
-    } else if (selectedDay == 'CAPALAMA') {
-      return ColorManager.orange;
-    }
-    return ColorManager.white;
-  }
 
   @override
   Widget build(BuildContext context) {
+    
     var fieldProvider = ref.watch(fieldIdFutureProvider(widget.fieldId));
     return Scaffold(
       backgroundColor: ColorManager.bgColor,
@@ -107,7 +98,7 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                           showDialog(
                             context: context,
                             builder: (contexy) {
-                              return IslemlerEkleme(image: ImageManager.instance.gubreleme, islemTipi: "GUBRELEME", fieldId: widget.fieldId);
+                              return IslemlerEkleme(image: ImageManager.instance.gubreleme, islemTipi: "GUBRELEME", fieldId: widget.fieldId, islemField: true);
                             },
                           );
                         },
@@ -119,9 +110,7 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Yapılacak İşlemlerim", style: context.general.textTheme.headlineMedium),
-                      AppRightIconButton(
-                        onPressed: () {},
-                      ),
+                      // R
                     ],
                   ),
                   context.sized.emptySizedHeightBoxLow3x,
@@ -134,7 +123,7 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: context.padding.onlyRightNormal,
-                          child: IslermlerCardWidget(color: markerColors(fieldIslemData[index].islemTipi ?? ""), fieldIslemData: fieldIslemData[index]),
+                          child: IslermlerCardWidget(color: IslemUtils.getIslemColor(fieldIslemData[index].islemTipi ?? ""), fieldIslemData: fieldIslemData[index]),
                         );
                       },
                     ),
@@ -169,20 +158,10 @@ class IslemlerEkleme extends ConsumerStatefulWidget {
 
 class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
   late final TextEditingController _controller;
-  final List<String> items = ["Sulama", "Çapalama", "Gübreleme"];
+  final List<String> items = ["Sulama", "Çapalama", "Katı Gübreleme", "Sıvı Gübreleme", "İlaçlama"];
+  final List<String> itemsGubreleme = ["Katı Gübreleme", "Sıvı Gübreleme", "İlaçlama"];
   late final TextEditingController _dropdownController;
-
-  String islemTipiConvert(String islemTipi) {
-    if (islemTipi == "Sulama") {
-      return "SULAMA";
-    } else if (islemTipi == "Çapalama") {
-      return "CAPALAMA";
-    } else if (islemTipi == "Gübreleme") {
-      return "GUBRELEME";
-    }
-    return "";
-  }
-
+  
   @override
   void initState() {
     super.initState();
@@ -198,24 +177,38 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> dropdownItems = [];
+    bool showDropdown = false;
+    if (widget.islemTipi != null) {
+      if (widget.islemTipi == "GUBRELEME") {
+        dropdownItems = itemsGubreleme;
+        showDropdown = true;
+      } else {
+        showDropdown = false;
+      }
+    } else {
+      dropdownItems = items;
+      showDropdown = true;
+    }
     return AlertDialog(
       backgroundColor: ColorManager.bgColor,
       content: SizedBox(
-        height: widget.islemField ? 72.w : 70.w,
+        height: widget.islemField ? 86.w : 70.w,
         width: 100.w,
         child: Column(
           spacing: 2.w,
           children: [
-            if (widget.image != null) widget.image!,
+            if ( widget.image != null) widget.image!,
             const Text("Lütfen işlem tarihini seçiniz"),
-            if (widget.islemField)
+            if (showDropdown)
               AppCustomDropdown(
                 controller: _dropdownController,
-                items: items,
+                items: dropdownItems,
                 hintText: "İşlem Tipi",
                 borderColor: ColorManager.white,
                 onSelected: (p0) {
-                  _dropdownController.text = islemTipiConvert(p0);
+                  _dropdownController.text = IslemUtils.toCode(p0);
+                  _dropdownController.value = TextEditingValue(text: IslemUtils.toCode(p0));
                 },
               ),
             AppDatePicker(
@@ -229,10 +222,18 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
               buttonHeight: 10,
               buttonText: "Kaydet",
               onPressed: () async {
-                debugPrint("islemTipi: ${widget.islemTipi == null ? _dropdownController.text : widget.islemTipi!}");
                 appLoading(context, true);
+                String islemTipiToSend;
+                if (widget.islemTipi == null) {
+                  islemTipiToSend = _dropdownController.text;
+                } else if (widget.islemTipi == 'GUBRELEME') {
+                  islemTipiToSend = _dropdownController.text;
+                } else {
+                  islemTipiToSend = widget.islemTipi!;
+                }
+                debugPrint("islemTipiToSend: $islemTipiToSend");
                 var response = await FieldIslemApiService.instance.post(
-                  widget.islemTipi == null ? _dropdownController.text : widget.islemTipi!,
+                  islemTipiToSend,
                   true,
                   widget.fieldId,
                   AppConstant.setDateTimeFormat(context, "yyyy-MM-dd", _controller.text.ext.isNotNullOrNoEmpty ? _controller.text : DateTime.now().toString()),
@@ -268,7 +269,7 @@ class IslermlerCardWidget extends StatelessWidget {
   const IslermlerCardWidget({super.key, required this.color, this.fieldIslemData});
   final Color color;
   final FieldIslemResponseModel? fieldIslemData;
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -296,16 +297,16 @@ class IslermlerCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text((fieldIslemData?.islemTipi ?? "").ext.toCapitalized(), style: context.general.textTheme.labelMedium?.copyWith(color: color)),
+                Text(IslemUtils.toDisplayName(fieldIslemData?.islemTipi,isCapital: true), style: context.general.textTheme.labelMedium?.copyWith(color: color)),
                 context.sized.emptySizedHeightBoxLow,
                 if (fieldIslemData?.startDate == AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null))
                   Text(
-                    "Bugün ${(fieldIslemData?.islemTipi ?? "").ext.toCapitalized()} işlemi yapılacak.",
+                    "Bugün ${IslemUtils.toDisplayName(fieldIslemData?.islemTipi).ext.toCapitalized()} işlemi yapılacak.",
                     style: context.general.textTheme.labelLarge?.copyWith(color: color, fontSize: 14.sp),
                   ),
                 if (fieldIslemData?.startDate != AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null))
                   Text(
-                    "${(fieldIslemData?.islemTipi ?? "").ext.toCapitalized()} işlemi yapıldı.",
+                    "${IslemUtils.toDisplayName(fieldIslemData?.islemTipi).ext.toCapitalized()} işlemi yapıldı.",
                     style: context.general.textTheme.labelLarge?.copyWith(color: color, fontSize: 14.sp),
                   ),
                 //Text("Bugün ${(fieldIslemData?.islemTipi ?? "").ext.toCapitalized()} işlemi yapılacak", style: context.general.textTheme.labelLarge?.copyWith(color: color, fontSize: 14.sp)),

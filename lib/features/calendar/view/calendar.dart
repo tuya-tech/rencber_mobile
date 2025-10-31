@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/cache/secure_storage.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
+import 'package:rencber_mobile/core/utils/IslemUtils.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
@@ -22,17 +23,6 @@ class CalendarView extends ConsumerStatefulWidget {
 
 class _CalendarViewState extends ConsumerState<CalendarView> {
   int fieldId = 0;
-
-  Color markerColors(String selectedDay) {
-    if (selectedDay == 'SULAMA') {
-      return ColorManager.blue;
-    } else if (selectedDay == 'GUBRELEME') {
-      return ColorManager.brown;
-    } else if (selectedDay == 'CAPALAMA') {
-      return ColorManager.orange;
-    }
-    return ColorManager.white;
-  }
 
   void getFieldIdByCache() async {
     var fieldData = await SecureStorage.instance.readFieldModel('outLineField');
@@ -107,7 +97,7 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
                   return Padding(
                     padding: context.padding.onlyTopLow,
                     child: IslermlerCardWidget(
-                      color: markerColors(widget.fieldIslemData?[index].islemTipi ?? ""),
+                      color: IslemUtils.getIslemColor(widget.fieldIslemData?[index].islemTipi),
                       fieldIslemData: widget.fieldIslemData?[index],
                     ),
                   );

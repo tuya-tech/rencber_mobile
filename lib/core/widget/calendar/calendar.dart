@@ -4,6 +4,7 @@ import 'package:kartal/kartal.dart';
 import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/constant/constant.dart';
 import 'package:rencber_mobile/core/constants/image/image.dart';
+import 'package:rencber_mobile/core/utils/IslemUtils.dart';
 import 'package:rencber_mobile/product/models/field/field_islem_response.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -24,15 +25,9 @@ class _AppCalendarState extends State<AppCalendar> {
   DateTime _selectedDay = DateTime.now();
   Map<String, List> _events = {};
 
-  Color markerColors(List selectedDay) {
-    if (selectedDay.contains('SULAMA')) {
-      return ColorManager.blue;
-    } else if (selectedDay.contains('GUBRELEME')) {
-      return ColorManager.brown;
-    } else if (selectedDay.contains('CAPALAMA')) {
-      return ColorManager.orange;
-    }
-    return ColorManager.white;
+  String _truncateText(String text, {int maxLength = 50}) {
+    if (text.length <= maxLength) return text;
+    return '${text.substring(0, maxLength)}...';
   }
 
   String selectedMarkerText(DateTime selectedDay) {
@@ -118,7 +113,7 @@ class _AppCalendarState extends State<AppCalendar> {
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
-                  color: markerColors(events),
+                  color: IslemUtils.getMarkerColors(events),
                   shape: BoxShape.circle,
                 ),
                 width: 2.w,
@@ -186,8 +181,9 @@ class _AppCalendarState extends State<AppCalendar> {
                     if (selectedMarkerText(_selectedDay) == "CAPALAMA") SizedBox(width: 5.w, height: 5.w, child: ImageManager.instance.capalama),
                     selectedMarkerText(_selectedDay).ext.isNotNullOrNoEmpty
                         ? Text(
-                            AppConstant.dateFormat(context, _selectedDay.toString()) == AppConstant.dateFormat(context, DateTime.now().toString()) ? "Bugün ${selectedMarkerText(_selectedDay).toLowerCase()} işlemi yapılacak" : "${selectedMarkerText(_selectedDay).ext.toCapitalized()} işlemi yapıldı",
-                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.black),
+                          _truncateText(
+                            AppConstant.dateFormat(context, _selectedDay.toString()) == AppConstant.dateFormat(context, DateTime.now().toString()) ? "Bugün ${selectedMarkerText(_selectedDay).toLowerCase()} işlemi yapılacak" : "${selectedMarkerText(_selectedDay).ext.toCapitalized()} işlemi yapıldı"),
+                            style: context.general.textTheme.bodySmall!.copyWith(color: ColorManager.black)
                           )
                         : Text(
                             "Bugün için işlem bulunmamaktadır",
