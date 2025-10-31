@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:rencber_mobile/core/controller/exception.dart';
 import 'package:rencber_mobile/product/models/base_response.dart';
 import 'package:rencber_mobile/product/models/news/news_response.dart';
@@ -31,7 +30,6 @@ class NewsApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('NewsApiService get: ${e.response?.data}');
       
       // Backend'den gelen hata kodunu işle
       String? errorCode = e.response?.data?['code'];
@@ -67,9 +65,7 @@ class NewsApiService {
         message: response.statusMessage,
         statusCode: response.statusCode,
       );
-    } on DioException catch (e) {
-      debugPrint('NewsApiService getById: ${e.response?.data}');
-      
+    } on DioException catch (e) {      
       // Backend'den gelen hata kodunu işle
       String? errorCode = e.response?.data?['code'];
       String errorMessage = errorCode != null 
