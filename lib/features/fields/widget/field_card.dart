@@ -65,7 +65,7 @@ class FieldCard extends StatelessWidget {
                           child: Center(child: ImageManager.instance.evre)),
                       context.sized.emptySizedWidthBoxLow,
                       SizedBox(
-                        width: 35.w,
+                        width: 42.w,
                         child: Text(
                           "Evre : ${field?.buyumeTipi}",
                           style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.textGreyColor),
