@@ -146,7 +146,7 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
                         final isQuestion = item.tip == 'SORU';
 
                         return Opacity(
-                          opacity: isProcessed
+                          opacity: isProcessed || !isUnread
                               ? 0.3
                               : 1.0, // İşlenmiş olanlar soluk görünsün
                           child: Container(
