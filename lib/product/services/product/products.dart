@@ -31,7 +31,7 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('ProductApiService get: ${e.response?.data}');
+      // debugPrint('ProductApiService get: ${e.response?.data}');
       
       // Backend'den gelen hata kodunu işle
       String? errorCode = e.response?.data?['code'];
@@ -68,7 +68,7 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('ProductApiService getById: ${e.response?.data}');
+      // debugPrint('ProductApiService getById: ${e.response?.data}');
       
       // Backend'den gelen hata kodunu işle
       String? errorCode = e.response?.data?['code'];
@@ -106,7 +106,7 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('ProductApiService post: ${e.response?.data}');
+      // debugPrint('ProductApiService post: ${e.response?.data}');
       
       // Backend'den gelen hata kodunu işle
       String? errorCode = e.response?.data?['code'];
@@ -144,7 +144,7 @@ class ProductApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('ProductApiService put: ${e.response?.data}');
+      // debugPrint('ProductApiService put: ${e.response?.data}');
       
       // Backend'den gelen hata kodunu işle
       String? errorCode = e.response?.data?['code'];
