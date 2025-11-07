@@ -5,12 +5,16 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 class IslemUtils {
   IslemUtils._();
 
+  // 🔹 Renk eşleştirmeleri
   static const Map<String, Color> _colorMap = {
     'SULAMA': ColorManager.blue,
     'SIVI_GUBRELEME': ColorManager.brown,
     'KATI_GUBRELEME': ColorManager.brown,
     'CAPALAMA': ColorManager.orange,
     'ILACLAMA': ColorManager.toastrColor,
+    'OTLANMA': ColorManager.green,
+    'BUYUME_GELISME': ColorManager.purple,
+    'DIGER': ColorManager.borderGray,
   };
 
 static Color getMarkerColors(List selectedDay) {
@@ -20,7 +24,10 @@ static Color getMarkerColors(List selectedDay) {
     if (selectedDay.any((day) => day.contains('GUBRELEME'))) return _colorMap['KATI_GUBRELEME']!;
     if (selectedDay.contains('CAPALAMA')) return _colorMap['CAPALAMA']!;
     if (selectedDay.contains('ILACLAMA')) return _colorMap['ILACLAMA']!;
-    
+    if (selectedDay.contains('OTLANMA')) return _colorMap['OTLANMA']!;
+    if (selectedDay.contains('BUYUME_GELISME')) return _colorMap['BUYUME_GELISME']!;
+    if (selectedDay.contains('DIGER')) return _colorMap['DIGER']!;
+
     return ColorManager.white;
   }
 
@@ -35,6 +42,9 @@ static Color getMarkerColors(List selectedDay) {
     'Sıvı Gübreleme': 'SIVI_GUBRELEME',
     'Katı Gübreleme': 'KATI_GUBRELEME',
     'İlaçlama': 'ILACLAMA',
+    'Otlanma': 'OTLANMA',
+    'Büyüme Gelişme': 'BUYUME_GELISME',
+    'Diğer': 'DIGER',
   };
 
   static const Map<String, String> _codeToDisplay = {
@@ -43,6 +53,9 @@ static Color getMarkerColors(List selectedDay) {
     'SIVI_GUBRELEME': 'Sıvı Gübreleme',
     'KATI_GUBRELEME': 'Katı Gübreleme',
     'ILACLAMA': 'İlaçlama',
+    'OTLANMA': 'Otlanma',
+    'BUYUME_GELISME': 'Büyüme Gelişme',
+    'DIGER': 'Diğer',
   };
 
   static String toCode(String display) => _displayToCode[display] ?? '';
@@ -62,9 +75,15 @@ static String toDisplayName(String? islemTipi, {bool isCapital = false}) {
       case "SIVI_GUBRELEME":
         return isCapital ? "Gübreleme" : "sıvı gübreleme";
       case "KATI_GUBRELEME":
-        return isCapital ? "Gübreleme" : "Katı gübreleme";
+        return isCapital ? "Gübreleme" : "katı gübreleme";
       case "ILACLAMA":
         return "İlaçlama";
+      case "OTLANMA":
+        return "Otlanma";
+      case "BUYUME_GELISME":
+        return "Büyüme Gelişme";
+      case "DIGER":
+        return "Diğer";
       default:
         return "";
     }

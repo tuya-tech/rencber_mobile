@@ -34,74 +34,122 @@ class FieldDetailView extends ConsumerStatefulWidget {
 }
 
 class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
-
   @override
   Widget build(BuildContext context) {
-    
     var fieldProvider = ref.watch(fieldIdFutureProvider(widget.fieldId));
     return Scaffold(
       backgroundColor: ColorManager.bgColor,
       body: fieldProvider.when(
         data: (fieldData) {
           //var field = fieldData.data;
-          var field = fieldData['fieldById'] != null ? fieldData['fieldById'] as FieldResponseModel : FieldResponseModel();
-          var fieldIslemData = fieldData['fieldIslem'] != null ? fieldData['fieldIslem'] as List<FieldIslemResponseModel> : List<FieldIslemResponseModel>.empty();
+          var field = fieldData['fieldById'] != null
+              ? fieldData['fieldById'] as FieldResponseModel
+              : FieldResponseModel();
+          var fieldIslemData = fieldData['fieldIslem'] != null
+              ? fieldData['fieldIslem'] as List<FieldIslemResponseModel>
+              : List<FieldIslemResponseModel>.empty();
           return SliverAppBarCustom(
             height: 5,
-            title: Text(field.name ?? "", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
+            title: Text(field.name ?? "",
+                style: context.general.textTheme.headlineMedium
+                    ?.copyWith(color: ColorManager.white)),
             leading: const AppBarBackButton(),
             child: Padding(
               padding: context.padding.low,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Tarla Bilgileri", style: context.general.textTheme.headlineMedium),
+                  Text("111Tarla Bilgileri",
+                      style: context.general.textTheme.headlineMedium),
                   context.sized.emptySizedHeightBoxLow,
                   FieldCard(field: field, isDetail: true),
                   context.sized.emptySizedHeightBoxLow3x,
-                  Text("İşlemler", style: context.general.textTheme.headlineMedium),
+                  Text("İşlemler",
+                      style: context.general.textTheme.headlineMedium),
                   context.sized.emptySizedHeightBoxLow,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IslemlerWidget(
-                        borderColor: ColorManager.blue,
-                        image: ImageManager.instance.sulama,
-                        title: "Sulama",
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (contexy) {
-                              return IslemlerEkleme(image: ImageManager.instance.sulama, islemTipi: "SULAMA", fieldId: widget.fieldId);
-                            },
-                          );
-                        },
+                      Expanded(
+                        child: IslemlerWidget(
+                          borderColor: ColorManager.blue,
+                          image: ImageManager.instance.sulama,
+                          title: "Sulama",
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (contexy) {
+                                return IslemlerEkleme(
+                                  image: ImageManager.instance.sulama,
+                                  islemTipi: "SULAMA",
+                                  fieldId: widget.fieldId,
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
-                      IslemlerWidget(
-                        borderColor: ColorManager.orange,
-                        image: ImageManager.instance.capalama,
-                        title: "Çapalama",
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (contexy) {
-                              return IslemlerEkleme(image: ImageManager.instance.capalama, islemTipi: "CAPALAMA", fieldId: widget.fieldId);
-                            },
-                          );
-                        },
+                      SizedBox(width: 2.w),
+                      Expanded(
+                        child: IslemlerWidget(
+                          borderColor: ColorManager.orange,
+                          image: ImageManager.instance.capalama,
+                          title: "Çapalama",
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (contexy) {
+                                return IslemlerEkleme(
+                                  image: ImageManager.instance.capalama,
+                                  islemTipi: "CAPALAMA",
+                                  fieldId: widget.fieldId,
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
-                      IslemlerWidget(
-                        borderColor: ColorManager.brown,
-                        image: ImageManager.instance.gubreleme,
-                        title: "Gübreleme",
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (contexy) {
-                              return IslemlerEkleme(image: ImageManager.instance.gubreleme, islemTipi: "GUBRELEME", fieldId: widget.fieldId, islemField: true);
-                            },
-                          );
-                        },
+                      SizedBox(width: 2.w),
+                      Expanded(
+                        child: IslemlerWidget(
+                          borderColor: ColorManager.brown,
+                          image: ImageManager.instance.gubreleme,
+                          title: "Gübreleme",
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (contexy) {
+                                return IslemlerEkleme(
+                                  image: ImageManager.instance.gubreleme,
+                                  islemTipi: "GUBRELEME",
+                                  fieldId: widget.fieldId,
+                                  islemField: true,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 2.w),
+                      Expanded(
+                        child: IslemlerWidget(
+                          borderColor: ColorManager.green,
+                          image: ImageManager.instance.digerIslem,
+                          title: "Diğer",
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (contexy) {
+                                return IslemlerEkleme(
+                                  image: ImageManager.instance.digerIslem,
+                                  islemTipi: "DIGER",
+                                  fieldId: widget.fieldId,
+                                  islemField: true,
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -109,7 +157,8 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Yapılacak İşlemlerim", style: context.general.textTheme.headlineMedium),
+                      Text("Yapılacak İşlemlerim",
+                          style: context.general.textTheme.headlineMedium),
                       // R
                     ],
                   ),
@@ -123,7 +172,10 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: context.padding.onlyRightNormal,
-                          child: IslermlerCardWidget(color: IslemUtils.getIslemColor(fieldIslemData[index].islemTipi ?? ""), fieldIslemData: fieldIslemData[index]),
+                          child: IslermlerCardWidget(
+                              color: IslemUtils.getIslemColor(
+                                  fieldIslemData[index].islemTipi ?? ""),
+                              fieldIslemData: fieldIslemData[index]),
                         );
                       },
                     ),
@@ -146,7 +198,12 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
 }
 
 class IslemlerEkleme extends ConsumerStatefulWidget {
-  const IslemlerEkleme({super.key, this.image, this.islemTipi, required this.fieldId, this.islemField = false});
+  const IslemlerEkleme(
+      {super.key,
+      this.image,
+      this.islemTipi,
+      required this.fieldId,
+      this.islemField = false});
   final Widget? image;
   final String? islemTipi;
   final int fieldId;
@@ -158,10 +215,22 @@ class IslemlerEkleme extends ConsumerStatefulWidget {
 
 class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
   late final TextEditingController _controller;
-  final List<String> items = ["Sulama", "Çapalama", "Katı Gübreleme", "Sıvı Gübreleme", "İlaçlama"];
-  final List<String> itemsGubreleme = ["Katı Gübreleme", "Sıvı Gübreleme", "İlaçlama"];
+  final List<String> items = [
+    "Sulama",
+    "Çapalama",
+    "Katı Gübreleme",
+    "Sıvı Gübreleme",
+    "İlaçlama",
+    "Otlanma",
+    "Büyüme Gelişme",
+  ];
+  final List<String> itemsGubreleme = [
+    "Katı Gübreleme",
+    "Sıvı Gübreleme",
+  ];
+  final List<String> itemsDiger = ["Otlanma", "Büyüme Gelişme", "İlaçlama"];
   late final TextEditingController _dropdownController;
-  
+
   @override
   void initState() {
     super.initState();
@@ -183,6 +252,9 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
       if (widget.islemTipi == "GUBRELEME") {
         dropdownItems = itemsGubreleme;
         showDropdown = true;
+      } else if (widget.islemTipi == "DIGER") {
+        dropdownItems = itemsDiger;
+        showDropdown = true;
       } else {
         showDropdown = false;
       }
@@ -193,13 +265,14 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
     return AlertDialog(
       backgroundColor: ColorManager.bgColor,
       content: SizedBox(
-        height: widget.islemField ? 86.w : 70.w,
+        height: widget.islemField ? 90.w : 74.w,
         width: 100.w,
         child: Column(
           spacing: 2.w,
           children: [
-            if ( widget.image != null) widget.image!,
-            const Text("Lütfen işlem tarihini seçiniz"),
+            if (widget.image != null) widget.image!,
+            Text(widget.islemField ? "Lütfen işlem tipini ve tarihini seçiniz": "Lütfen işlem tarihini seçiniz"),
+            
             if (showDropdown)
               AppCustomDropdown(
                 controller: _dropdownController,
@@ -208,14 +281,16 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
                 borderColor: ColorManager.white,
                 onSelected: (p0) {
                   _dropdownController.text = IslemUtils.toCode(p0);
-                  _dropdownController.value = TextEditingValue(text: IslemUtils.toCode(p0));
+                  _dropdownController.value =
+                      TextEditingValue(text: IslemUtils.toCode(p0));
                 },
               ),
             AppDatePicker(
               isBorder: true,
               name: "islemAdd",
               controller: _controller,
-              initialValue: AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null),
+              initialValue:
+                  AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null),
             ),
             context.sized.emptySizedHeightBoxLow,
             AppElevetedButton(
@@ -226,7 +301,7 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
                 String islemTipiToSend;
                 if (widget.islemTipi == null) {
                   islemTipiToSend = _dropdownController.text;
-                } else if (widget.islemTipi == 'GUBRELEME') {
+                } else if (widget.islemTipi == 'GUBRELEME' || widget.islemTipi == 'DIGER') {
                   islemTipiToSend = _dropdownController.text;
                 } else {
                   islemTipiToSend = widget.islemTipi!;
@@ -236,7 +311,12 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
                   islemTipiToSend,
                   true,
                   widget.fieldId,
-                  AppConstant.setDateTimeFormat(context, "yyyy-MM-dd", _controller.text.ext.isNotNullOrNoEmpty ? _controller.text : DateTime.now().toString()),
+                  AppConstant.setDateTimeFormat(
+                      context,
+                      "yyyy-MM-dd",
+                      _controller.text.ext.isNotNullOrNoEmpty
+                          ? _controller.text
+                          : DateTime.now().toString()),
                 );
                 if (response.statusCode == 201 && context.mounted) {
                   ref.invalidate(fieldIdFutureProvider(widget.fieldId));
@@ -256,7 +336,9 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
                 Navigator.pop(context);
               },
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              child: Text("İptal", style: context.general.textTheme.bodyMedium?.copyWith(color: ColorManager.buttonRedColor)),
+              child: Text("İptal",
+                  style: context.general.textTheme.bodyMedium
+                      ?.copyWith(color: ColorManager.buttonRedColor)),
             ),
           ],
         ),
@@ -266,10 +348,11 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
 }
 
 class IslermlerCardWidget extends StatelessWidget {
-  const IslermlerCardWidget({super.key, required this.color, this.fieldIslemData});
+  const IslermlerCardWidget(
+      {super.key, required this.color, this.fieldIslemData});
   final Color color;
   final FieldIslemResponseModel? fieldIslemData;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -287,7 +370,8 @@ class IslermlerCardWidget extends StatelessWidget {
             height: 4.w,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12), topRight: Radius.circular(12)),
               border: Border.all(color: color, width: 1.5),
             ),
           ),
@@ -297,25 +381,36 @@ class IslermlerCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(IslemUtils.toDisplayName(fieldIslemData?.islemTipi,isCapital: true), style: context.general.textTheme.labelMedium?.copyWith(color: color)),
+                Text(
+                    IslemUtils.toDisplayName(fieldIslemData?.islemTipi,
+                        isCapital: true),
+                    style: context.general.textTheme.labelMedium
+                        ?.copyWith(color: color)),
                 context.sized.emptySizedHeightBoxLow,
-                if (fieldIslemData?.startDate == AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null))
+                if (fieldIslemData?.startDate ==
+                    AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null))
                   Text(
                     "Bugün ${IslemUtils.toDisplayName(fieldIslemData?.islemTipi).ext.toCapitalized()} işlemi yapılacak.",
-                    style: context.general.textTheme.labelLarge?.copyWith(color: color, fontSize: 14.sp),
+                    style: context.general.textTheme.labelLarge
+                        ?.copyWith(color: color, fontSize: 14.sp),
                   ),
-                if (fieldIslemData?.startDate != AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null))
+                if (fieldIslemData?.startDate !=
+                    AppConstant.setDateTimeFormat(context, "dd.MM.yyyy", null))
                   Text(
                     "${IslemUtils.toDisplayName(fieldIslemData?.islemTipi).ext.toCapitalized()} işlemi yapıldı.",
-                    style: context.general.textTheme.labelLarge?.copyWith(color: color, fontSize: 14.sp),
+                    style: context.general.textTheme.labelLarge
+                        ?.copyWith(color: color, fontSize: 14.sp),
                   ),
                 //Text("Bugün ${(fieldIslemData?.islemTipi ?? "").ext.toCapitalized()} işlemi yapılacak", style: context.general.textTheme.labelLarge?.copyWith(color: color, fontSize: 14.sp)),
                 context.sized.emptySizedHeightBoxLow,
                 Row(
                   children: [
-                    IconManager.instance.customIcon(Icons.calendar_month, color: color, sizeW: 6),
+                    IconManager.instance.customIcon(Icons.calendar_month,
+                        color: color, sizeW: 6),
                     context.sized.emptySizedWidthBoxLow,
-                    Text(fieldIslemData?.startDate ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: color)),
+                    Text(fieldIslemData?.startDate ?? "",
+                        style: context.general.textTheme.labelLarge
+                            ?.copyWith(color: color)),
                   ],
                 ),
               ],

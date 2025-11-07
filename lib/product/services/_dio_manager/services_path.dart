@@ -13,6 +13,8 @@ class ServicesPath {
   final String fieldIslem = 'api/field-islem/field/';
   final String fieldIslemManuel = 'api/field-islem/manuel';
   final String fieldIslemOtlanma = 'api/field-islem/otlanma/field/';
+  final String fieldIslemBuyume = 'api/field-islem/otlanma/field/';
+  final String fieldIslemHastalik = 'api/field-islem/otlanma/field/';
   
   final String notificationSettings = 'api/notification-settings';
   final String notificationBildirim = 'api/notification';
