@@ -5,7 +5,6 @@ import 'package:rencber_mobile/core/constants/color/color.dart';
 import 'package:rencber_mobile/core/constants/constant/constant.dart';
 import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
-import 'package:rencber_mobile/core/widget/loading/loading.dart';
 import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/product/provider/field/field.dart';
 import 'package:rencber_mobile/product/provider/home/home_provider.dart';
@@ -27,17 +26,39 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
     debugPrint("Bildirim seçildi -> ID: ${item.id}, Başlık: ${item.title}");
 
     final notifier = ref.read(notificationUpdateProvider.notifier);
-    bool updateRead = true;
     if (item.tip == 'SORU') {
       final response = await _showQuestionDialog(item.title, item.message);
 
-      debugPrint("User Response: $response");
+      if (response == null) {
+        await notifier.updateNotification(id: item.id, read: true);
+        ref.invalidate(notificationBildirimFutureProvider);
+        return; // kullanıcı iptal ettiyse devam etme
+      }
 
-      if (item.kategori == 'OTLANMA') {
-        Toastr.showSuccess(
-            "Cevabınız için teşekkürler! Otlanma işlemi kaydediliyor.",
-            context);
-        return;
+      if (item.kategori == 'OTLANMA' || item.kategori == 'BUYUME') {
+        final apiResponse =
+            await FieldIslemApiService.instance.updateFieldIslemBySelection(
+          fieldId: item.referenceId,
+          islemTipi: item.kategori,
+          value: response,
+        );
+
+        if (apiResponse.statusCode == 200 && context.mounted) {
+          // ref.invalidate(fieldIdFutureProvider(item.referenceId));
+          // ref.invalidate(homeFutureProvider);
+          Toastr.showSuccess(
+            apiResponse.message ??
+                item.kategori + " işlemi başarıyla güncellendi.",
+            context,
+          );
+        } else {
+          Toastr.showError(
+            apiResponse.message ??
+                item.kategori +
+                    " işlemi kaydedilemedi (${apiResponse.statusCode})",
+            context,
+          );
+        }
       } else if (item.kategori == 'SULAMA' ||
           item.kategori == 'KATI_GUBRELEME' ||
           item.kategori == 'SIVI_GUBRELEME' ||
@@ -62,13 +83,7 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
             Toastr.showError(
                 item.kategori + " için cevabınız kaydedilemedi!", context);
           }
-        } else {
-          await notifier.updateNotification(id: item.id, read: true);
         }
-      } else if (item.kategori == 'BUYUME') {
-        Toastr.showSuccess(
-            "Büyüme işlemi için lütfen uygulama üzerinden manuel olarak işlem ekleyiniz.",
-            context);
       }
     } else if (item.kategori == 'HABER' || item.kategori == 'URUN') {
       if (item.referenceId != null) {
@@ -80,14 +95,7 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
       }
     }
 
-// await notifier.updateNotification(
-    //   id: item.id,
-    //   read: true,
-    //   processed: true,
-    //   response: "evet",
-    // );
-
-   await notifier.updateNotification(id: item.id, read: true);
+    await notifier.updateNotification(id: item.id, read: true);
     ref.invalidate(notificationBildirimFutureProvider);
   }
 
@@ -169,8 +177,12 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
                               child: ListTile(
                                 leading: Icon(
                                   isUnread
-                                      ? isQuestion ? Icons.question_mark : Icons.notifications_active_outlined
-                                      : isQuestion ? Icons.question_mark_outlined : Icons.notifications_none_outlined,
+                                      ? isQuestion
+                                          ? Icons.question_mark
+                                          : Icons.notifications_active_outlined
+                                      : isQuestion
+                                          ? Icons.question_mark_outlined
+                                          : Icons.notifications_none_outlined,
                                   color: isUnread
                                       ? ColorManager.buttonBgGreen
                                       : ColorManager.greyColor,

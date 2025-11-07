@@ -113,8 +113,9 @@ class FieldIslemApiService {
           queryParams = {'otlanma': value};
           break;
         case 'BUYUME_GELISME':
+        case 'BUYUME':
           endpoint = '${ServicesPath.instance.fieldIslemBuyume}$fieldId';
-          queryParams = {'hastalikDurumu': value}; // backend böyle bekliyor
+          queryParams = {'buyumeDurumu': value};
           break;
         case 'HASTALIK':
           endpoint = '${ServicesPath.instance.fieldIslemHastalik}$fieldId';
