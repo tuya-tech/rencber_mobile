@@ -96,4 +96,71 @@ class FieldIslemApiService {
       );
     }
   }
+
+  /// Yeni: PUT işlemleri (dropdown seçimine göre)
+  Future<BaseResponseModel<void>> updateFieldIslemBySelection({
+    required int fieldId,
+    required String islemTipi,
+    bool value = true,
+  }) async {
+    try {
+      String endpoint = '';
+      Map<String, dynamic> queryParams = {};
+
+      switch (islemTipi) {
+        case 'OTLANMA':
+          endpoint = '${ServicesPath.instance.fieldIslemOtlanma}$fieldId';
+          queryParams = {'otlanma': value};
+          break;
+        case 'BUYUME_GELISME':
+          endpoint = '${ServicesPath.instance.fieldIslemBuyume}$fieldId';
+          queryParams = {'hastalikDurumu': value}; // backend böyle bekliyor
+          break;
+        case 'HASTALIK':
+          endpoint = '${ServicesPath.instance.fieldIslemHastalik}$fieldId';
+          queryParams = {'hastalikDurumu': value};
+          break;
+        default:
+          return BaseResponseModel<void>(
+            data: null,
+            message:
+                "Seçilen işlem tipi için uygun API endpoint bulunamadı: $islemTipi",
+            statusCode: 400,
+          );
+      }
+
+      debugPrint('PUT isteği gönderiliyor: $endpoint, params: $queryParams');
+
+      final response = await DioManager.dio.put(
+        endpoint,
+        queryParameters: queryParams,
+        options: await DioManager.getOptions(),
+      );
+
+      if (response.statusCode != 200) {
+        return BaseResponseModel<void>(
+          data: null,
+          message: response.statusMessage ?? 'İşlem başarısız',
+          statusCode: response.statusCode,
+        );
+      }
+
+      return BaseResponseModel<void>(
+        data: null,
+        message: "İşlem başarıyla güncellendi",
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      debugPrint('FieldIslemApiService PUT error: ${e.response?.data}');
+      String? errorCode = e.response?.data?['code'];
+      String errorMessage = errorCode != null
+          ? ExceptionHandler.handleException(errorCode)
+          : "Tarla işlemi güncellenemedi";
+      return BaseResponseModel<void>(
+        data: null,
+        message: errorMessage,
+        statusCode: e.response?.statusCode ?? 500,
+      );
+    }
+  }
 }

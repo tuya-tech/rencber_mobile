@@ -14,18 +14,24 @@ class IslemUtils {
     'ILACLAMA': ColorManager.toastrColor,
     'OTLANMA': ColorManager.green,
     'BUYUME_GELISME': ColorManager.purple,
+    'HASTALIK': ColorManager.red,
     'DIGER': ColorManager.borderGray,
   };
 
-static Color getMarkerColors(List selectedDay) {
+  static Color getMarkerColors(List selectedDay) {
     if (selectedDay.isEmpty) return ColorManager.white;
-    
+
     if (selectedDay.contains('SULAMA')) return _colorMap['SULAMA']!;
-    if (selectedDay.any((day) => day.contains('GUBRELEME'))) return _colorMap['KATI_GUBRELEME']!;
+    if (selectedDay.any((day) => day.contains('GUBRELEME'))) {
+      return _colorMap['KATI_GUBRELEME']!;
+    }
     if (selectedDay.contains('CAPALAMA')) return _colorMap['CAPALAMA']!;
     if (selectedDay.contains('ILACLAMA')) return _colorMap['ILACLAMA']!;
     if (selectedDay.contains('OTLANMA')) return _colorMap['OTLANMA']!;
-    if (selectedDay.contains('BUYUME_GELISME')) return _colorMap['BUYUME_GELISME']!;
+    if (selectedDay.contains('BUYUME_GELISME')) {
+      return _colorMap['BUYUME_GELISME']!;
+    }
+    if (selectedDay.contains('HASTALIK')) return _colorMap['HASTALIK']!;
     if (selectedDay.contains('DIGER')) return _colorMap['DIGER']!;
 
     return ColorManager.white;
@@ -35,7 +41,7 @@ static Color getMarkerColors(List selectedDay) {
     if (code == null) return ColorManager.white;
     return _colorMap[code] ?? ColorManager.white;
   }
-  
+
   static const Map<String, String> _displayToCode = {
     'Sulama': 'SULAMA',
     'Çapalama': 'CAPALAMA',
@@ -44,6 +50,7 @@ static Color getMarkerColors(List selectedDay) {
     'İlaçlama': 'ILACLAMA',
     'Otlanma': 'OTLANMA',
     'Büyüme Gelişme': 'BUYUME_GELISME',
+    'Hastalık': 'HASTALIK',
     'Diğer': 'DIGER',
   };
 
@@ -55,6 +62,7 @@ static Color getMarkerColors(List selectedDay) {
     'ILACLAMA': 'İlaçlama',
     'OTLANMA': 'Otlanma',
     'BUYUME_GELISME': 'Büyüme Gelişme',
+    "HASTALIK": 'Hastalık',
     'DIGER': 'Diğer',
   };
 
@@ -65,7 +73,7 @@ static Color getMarkerColors(List selectedDay) {
     return capitalized ? val.ext.toCapitalized() : val;
   }
 
-static String toDisplayName(String? islemTipi, {bool isCapital = false}) {
+  static String toDisplayName(String? islemTipi, {bool isCapital = false}) {
     if (islemTipi == null) return "";
     switch (islemTipi) {
       case "SULAMA":
@@ -82,6 +90,8 @@ static String toDisplayName(String? islemTipi, {bool isCapital = false}) {
         return "Otlanma";
       case "BUYUME_GELISME":
         return "Büyüme Gelişme";
+      case "HASTALIK":
+        return "Hastalık";
       case "DIGER":
         return "Diğer";
       default:

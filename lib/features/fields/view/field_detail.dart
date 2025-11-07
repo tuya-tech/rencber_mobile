@@ -12,7 +12,7 @@ import 'package:rencber_mobile/core/widget/appbar/back_appbar.dart';
 import 'package:rencber_mobile/core/widget/appbar/sliver_appbar.dart';
 import 'package:rencber_mobile/core/widget/button/eleveted_button.dart';
 import 'package:rencber_mobile/core/widget/date_picker/date_picker.dart';
-import 'package:rencber_mobile/core/widget/dropdown/custom_dropdown.dart';
+import 'package:rencber_mobile/core/widget/dropdown/app_dropdown.dart';
 import 'package:rencber_mobile/core/widget/loading/loading.dart';
 import 'package:rencber_mobile/core/widget/toastr/toastr.dart';
 import 'package:rencber_mobile/features/fields/widget/field_card.dart';
@@ -198,12 +198,14 @@ class _FieldDetailViewState extends ConsumerState<FieldDetailView> {
 }
 
 class IslemlerEkleme extends ConsumerStatefulWidget {
-  const IslemlerEkleme(
-      {super.key,
-      this.image,
-      this.islemTipi,
-      required this.fieldId,
-      this.islemField = false});
+  const IslemlerEkleme({
+    super.key,
+    this.image,
+    this.islemTipi,
+    required this.fieldId,
+    this.islemField = false,
+  });
+
   final Widget? image;
   final String? islemTipi;
   final int fieldId;
@@ -215,46 +217,58 @@ class IslemlerEkleme extends ConsumerStatefulWidget {
 
 class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
   late final TextEditingController _controller;
-  final List<String> items = [
-    "Sulama",
-    "Çapalama",
-    "Katı Gübreleme",
-    "Sıvı Gübreleme",
-    "İlaçlama",
-    "Otlanma",
-    "Büyüme Gelişme",
-  ];
-  final List<String> itemsGubreleme = [
-    "Katı Gübreleme",
-    "Sıvı Gübreleme",
-  ];
-  final List<String> itemsDiger = ["Otlanma", "Büyüme Gelişme", "İlaçlama"];
-  late final TextEditingController _dropdownController;
+  String? _selectedKey;
+
+  // İşlem tipleri
+  final Map<String, String> items = {
+    "SULAMA": "Sulama",
+    "CAPALAMA": "Çapalama",
+    "KATI_GUBRELEME": "Katı Gübreleme",
+    "SIVI_GUBRELEME": "Sıvı Gübreleme",
+    "ILACLAMA": "İlaçlama",
+    "OTLANMA": "Otlanma",
+    "BUYUME_GELISME": "Büyüme Gelişme",
+    "HASTALIK": "Hastalık",
+  };
+
+  final Map<String, String> itemsGubreleme = {
+    "KATI_GUBRELEME": "Katı Gübreleme",
+    "SIVI_GUBRELEME": "Sıvı Gübreleme",
+  };
+
+  final Map<String, String> itemsDiger = {
+    "OTLANMA": "Otlanma",
+    "BUYUME_GELISME": "Büyüme Gelişme",
+    "ILACLAMA": "İlaçlama",
+    "HASTALIK": "Hastalık",
+  };
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    _dropdownController = TextEditingController();
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> dropdownItems = [];
+    Map<String, String> dropdownItems = {};
     bool showDropdown = false;
+    double dialogHeight = 72.w;
     if (widget.islemTipi != null) {
       if (widget.islemTipi == "GUBRELEME") {
         dropdownItems = itemsGubreleme;
         showDropdown = true;
+        dialogHeight = 88.w;
       } else if (widget.islemTipi == "DIGER") {
         dropdownItems = itemsDiger;
         showDropdown = true;
+        dialogHeight = 88.w;
       } else {
         showDropdown = false;
       }
@@ -265,24 +279,27 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
     return AlertDialog(
       backgroundColor: ColorManager.bgColor,
       content: SizedBox(
-        height: widget.islemField ? 90.w : 74.w,
+        height: dialogHeight,
         width: 100.w,
         child: Column(
           spacing: 2.w,
           children: [
             if (widget.image != null) widget.image!,
-            Text(widget.islemField ? "Lütfen işlem tipini ve tarihini seçiniz": "Lütfen işlem tarihini seçiniz"),
-            
+            Text(
+              widget.islemField
+                  ? "Lütfen işlem tipini ve tarihini seçiniz"
+                  : "Lütfen işlem tarihini seçiniz",
+            ),
             if (showDropdown)
-              AppCustomDropdown(
-                controller: _dropdownController,
+              AppDropdown(
                 items: dropdownItems,
-                hintText: "İşlem Tipi",
-                borderColor: ColorManager.white,
-                onSelected: (p0) {
-                  _dropdownController.text = IslemUtils.toCode(p0);
-                  _dropdownController.value =
-                      TextEditingValue(text: IslemUtils.toCode(p0));
+                hintText: "İşlem Tipi Seçiniz",
+                labelText: "İşlem Tipi",
+                borderColor: ColorManager.green,
+                onChanged: (key, value) {
+                  setState(() => _selectedKey = key);
+                  debugPrint("Seçilen key: $key");
+                  debugPrint("Seçilen value: $value");
                 },
               ),
             AppDatePicker(
@@ -297,37 +314,69 @@ class _IslemlerEklemeState extends ConsumerState<IslemlerEkleme> {
               buttonHeight: 10,
               buttonText: "Kaydet",
               onPressed: () async {
+                if (showDropdown && _selectedKey == null) {
+                  Toastr.showError("Lütfen işlem tipi seçiniz", context);
+                  return;
+                }
+
                 appLoading(context, true);
                 String islemTipiToSend;
                 if (widget.islemTipi == null) {
-                  islemTipiToSend = _dropdownController.text;
-                } else if (widget.islemTipi == 'GUBRELEME' || widget.islemTipi == 'DIGER') {
-                  islemTipiToSend = _dropdownController.text;
+                  islemTipiToSend = _selectedKey!;
+                } else if (widget.islemTipi == 'GUBRELEME' ||
+                    widget.islemTipi == 'DIGER') {
+                  islemTipiToSend = _selectedKey!;
                 } else {
                   islemTipiToSend = widget.islemTipi!;
                 }
                 debugPrint("islemTipiToSend: $islemTipiToSend");
-                var response = await FieldIslemApiService.instance.post(
-                  islemTipiToSend,
-                  true,
-                  widget.fieldId,
-                  AppConstant.setDateTimeFormat(
-                      context,
-                      "yyyy-MM-dd",
-                      _controller.text.ext.isNotNullOrNoEmpty
-                          ? _controller.text
-                          : DateTime.now().toString()),
-                );
-                if (response.statusCode == 201 && context.mounted) {
-                  ref.invalidate(fieldIdFutureProvider(widget.fieldId));
-                  ref.invalidate(homeFutureProvider);
+                if (islemTipiToSend == 'BUYUME_GELISME' ||
+                    islemTipiToSend == 'HASTALIK' ||
+                    islemTipiToSend == 'OTLANMA') {
+                  var response = await FieldIslemApiService.instance.updateFieldIslemBySelection(
+                    fieldId: widget.fieldId,
+                    islemTipi: islemTipiToSend.toUpperCase(),
+                    value: true,
+                  );
 
-                  Toastr.showSuccess("İşleminiz başarıyla eklendi.", context);
-                  Navigator.pop(context);
-                  appLoading(context, false);
+                  if (response.statusCode == 200 && context.mounted) {
+                    ref.invalidate(fieldIdFutureProvider(widget.fieldId));
+                    ref.invalidate(homeFutureProvider);
+
+                    Toastr.showSuccess(
+                      response.message ?? "Durum başarıyla güncellendi.",
+                      context,
+                    );
+                    Navigator.pop(context);
+                    appLoading(context, false);
+                  } else {
+                    appLoading(context, false);
+                    Toastr.showError(response.message.toString(), context);
+                  }
+
                 } else {
-                  appLoading(context, false);
-                  Toastr.showError(response.message.toString(), context);
+                  var response = await FieldIslemApiService.instance.post(
+                    islemTipiToSend,
+                    true,
+                    widget.fieldId,
+                    AppConstant.setDateTimeFormat(
+                        context,
+                        "yyyy-MM-dd",
+                        _controller.text.ext.isNotNullOrNoEmpty
+                            ? _controller.text
+                            : DateTime.now().toString()),
+                  );
+                  if (response.statusCode == 201 && context.mounted) {
+                    ref.invalidate(fieldIdFutureProvider(widget.fieldId));
+                    ref.invalidate(homeFutureProvider);
+
+                    Toastr.showSuccess("İşleminiz başarıyla eklendi.", context);
+                    Navigator.pop(context);
+                    appLoading(context, false);
+                  } else {
+                    appLoading(context, false);
+                    Toastr.showError(response.message.toString(), context);
+                  }
                 }
               },
             ),
