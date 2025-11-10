@@ -30,10 +30,15 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
       backgroundColor: ColorManager.bgColor,
       body: adviceProvider.when(
         data: (adviceData) {
-          var (outLineData, normalData) = outLineAndNormalData(adviceData.data ?? []);
+          var (outLineData, normalData) =
+              outLineAndNormalData(adviceData.data ?? []);
           return SliverAppBarCustom(
             height: 15,
-            title: Text("Tavsiyeler", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
+            title: Text(
+              "Tavsiyeler",
+              style: context.general.textTheme.headlineMedium
+                  ?.copyWith(color: ColorManager.white),
+            ),
             child: Padding(
               padding: context.padding.low,
               child: Column(
@@ -42,9 +47,11 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Aydınlı Biyoteknoloji A.Ş", style: context.general.textTheme.titleSmall),
+                      Text("Aydınlı Biyoteknoloji A.Ş",
+                          style: context.general.textTheme.titleSmall),
                       AppRightIconButton(
-                        onPressed: () => context.push(RouterManager.brandList, extra: outLineData),
+                        onPressed: () => context.push(RouterManager.brandList,
+                            extra: outLineData),
                       )
                     ],
                   ),
@@ -54,43 +61,79 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                     child: ListView.builder(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
-                      //padding: context.padding.onlyLeftNormal + context.padding.onlyBottomNormal,
-                      itemCount: outLineData.length,
                       scrollDirection: Axis.horizontal,
+                      itemCount: outLineData.length,
                       itemBuilder: (context, index) {
+                        final item = outLineData[index];
                         return SizedBox(
                           height: 45.w,
                           width: 75.w,
-                          child: Card(
-                            color: ColorManager.white,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 2.w, right: 1.w, top: 2.w, bottom: 2.w),
-                              child: Row(
-                                children: [
-                                  AppNetworkImage.appNetworkImage(imageUrl: outLineData[index].image, height: 33, width: 33),
-                                  context.sized.emptySizedWidthBoxLow3x,
-                                  Expanded(
-                                    child: Padding(
-                                      padding: context.padding.verticalLow,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(child: Text(outLineData[index].title ?? "", maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.titleSmall)),
-                                          Expanded(child: Text(outLineData[index].summary ?? "", maxLines: 3, overflow: TextOverflow.ellipsis, style: context.general.textTheme.bodySmall?.copyWith(color: ColorManager.black.withValues(alpha: 0.7)))),
-                                          context.sized.emptySizedHeightBoxLow,
-                                          AppElevetedButton(
-                                            buttonText: "İncele",
-                                            buttonwidth: 22,
-                                            buttonHeight: 7,
-                                            textStyle: context.general.textTheme.bodyLarge?.copyWith(color: ColorManager.white, fontSize: 13.sp),
-                                            onPressed: () => context.push(RouterManager.brandDetails, extra: outLineData[index].id),
-                                          )
-                                        ],
+                          child: InkWell(
+                            onTap: () => context.push(
+                                RouterManager.brandDetails,
+                                extra: item.id),
+                            borderRadius: BorderRadius.circular(12),
+                            child: Card(
+                              color: ColorManager.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 2.w, vertical: 2.w),
+                                child: Row(
+                                  children: [
+                                    AppNetworkImage.appNetworkImage(
+                                      imageUrl: item.image,
+                                      height: 33,
+                                      width: 33,
+                                    ),
+                                    context.sized.emptySizedWidthBoxLow3x,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: context.padding.verticalLow,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              item.title ?? "",
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: context
+                                                  .general.textTheme.titleSmall,
+                                            ),
+                                            Text(
+                                              item.summary ?? "",
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: context
+                                                  .general.textTheme.bodySmall
+                                                  ?.copyWith(
+                                                      color: ColorManager.black
+                                                          .withValues(
+                                                              alpha: 0.7)),
+                                            ),
+                                            context
+                                                .sized.emptySizedHeightBoxLow,
+                                            AppElevetedButton(
+                                              buttonText: "İncele",
+                                              buttonwidth: 22,
+                                              buttonHeight: 7,
+                                              textStyle: context
+                                                  .general.textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                      color: ColorManager.white,
+                                                      fontSize: 13.sp),
+                                              onPressed: () => context.push(
+                                                  RouterManager.brandDetails,
+                                                  extra: item.id),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -103,9 +146,11 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Size Özel Öneriler", style: context.general.textTheme.titleSmall),
+                        Text("Size Özel Öneriler",
+                            style: context.general.textTheme.titleSmall),
                         AppRightIconButton(
-                          onPressed: () => context.push(RouterManager.advices, extra: normalData),
+                          onPressed: () => context.push(RouterManager.advices,
+                              extra: normalData),
                         )
                       ],
                     ),
@@ -116,35 +161,52 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
                     child: ListView.builder(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
-                      //padding: context.padding.onlyLeftNormal + context.padding.onlyBottomNormal,
-                      itemCount: normalData.length,
                       scrollDirection: Axis.horizontal,
+                      itemCount: normalData.length,
                       itemBuilder: (context, index) {
+                        final item = normalData[index];
                         return SizedBox(
                           height: 60.w,
                           width: 40.w,
-                          child: Card(
-                            color: ColorManager.white,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                AppNetworkImage.appNetworkImage(imageUrl: normalData[index].image, height: 25, width: 25),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding: context.padding.horizontalNormal,
-                                    child: Text(normalData[index].title ?? "", style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.greyColor)),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(12),
+                            onTap: () => context.push(
+                                RouterManager.adviceDetails,
+                                extra: item.id),
+                            child: Card(
+                              color: ColorManager.white,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  AppNetworkImage.appNetworkImage(
+                                    imageUrl: item.image,
+                                    height: 25,
+                                    width: 25,
                                   ),
-                                ),
-                                InkWell(
-                                  onTap: () => context.push(RouterManager.adviceDetails, extra: normalData[index].id),
-                                  child: Padding(
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: context.padding.horizontalNormal,
+                                      child: Text(
+                                        item.title ?? "",
+                                        style: context
+                                            .general.textTheme.labelLarge
+                                            ?.copyWith(
+                                                color: ColorManager.greyColor),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
                                     padding: context.padding.onlyRightNormal,
-                                    child: Align(alignment: Alignment.bottomRight, child: ImageManager.instance.rightArrow),
+                                    child: Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: ImageManager.instance.rightArrow,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -159,22 +221,16 @@ class _AdviceViewState extends ConsumerState<AdviceView> with AdviceMixin {
         error: (error, stackTrace) {
           debugPrint("Error: $error");
 
-          // Hata mesajını toast olarak göster
           WidgetsBinding.instance.addPostFrameCallback((_) {
             String errorMessage = "Tavsiye verileri yüklenirken hata oluştu";
-
-            // Eğer hata string ise ve backend hata kodu içeriyorsa işle
             if (error is String) {
               errorMessage = ExceptionHandler.handleException(error);
             }
-
             Toastr.showError(errorMessage, context);
           });
           return null;
         },
-        loading: () {
-          return const Center(child: CircularProgressIndicator());
-        },
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

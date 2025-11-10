@@ -11,7 +11,7 @@ import 'package:sizer/sizer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseInit.initFcm();
+  await FirebaseInit.initFcm();
   EasyLocalization.logger.enableBuildModes = [];
   await EasyLocalization.ensureInitialized();
   runApp(
