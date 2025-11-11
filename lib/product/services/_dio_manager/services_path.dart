@@ -1,6 +1,7 @@
 class ServicesPath {
   ServicesPath._();
   static final instance = ServicesPath._();
+  // final String baseUrl = "http://localhost:8080/";
   final String baseUrl = "http://51.20.156.95:8080/";
 
   final String login = 'auth/login';
@@ -12,13 +13,14 @@ class ServicesPath {
   final String field = 'api/field';
   final String fieldIslem = 'api/field-islem/field/';
   final String fieldIslemManuel = 'api/field-islem/manuel';
-  
-  final String notification = 'api/notification-settings';
+  final String fieldIslemOtlanma = 'api/field-islem/otlanma/field/';
+  final String fieldIslemBuyume = 'api/field-islem/evre/field/';
+  final String fieldIslemHastalik = 'api/field-islem/hastalik/field/';
+
+  final String notificationSettings = 'api/notification-settings';
   final String notificationBildirim = 'api/notification';
 
   final String products = 'api/bitki';
-
-
 
   final String news = 'api/news';
   final String advice = 'api/product';

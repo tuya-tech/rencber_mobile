@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -22,6 +23,7 @@ mixin SplashMixin on ConsumerState<SplashView> {
     var refreshToken = await SecureStorage.instance.readSecureData("refreshToken");
     var phone = await SecureStorage.instance.readSecureData("phone");
     ref.read(profileImageProvider.notifier).init();
+    debugPrint("checkUsers accessToken: $accessToken and refreshToken: $refreshToken and phone: $phone");
     if (accessToken.ext.isNullOrEmpty && refreshToken.ext.isNullOrEmpty && phone.ext.isNullOrEmpty) {
       context.go(RouterManager.login);
     } else {

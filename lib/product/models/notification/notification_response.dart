@@ -4,23 +4,33 @@ part '../_generated/notification/notification_response.g.dart';
 @JsonSerializable(includeIfNull: false)
 class NotificationResponseModel {
   final int? id;
+  final String? title;
+  final String? message;
+  final String? tip;
+  final String? kategori;
+  final int? count;
+  final bool? read;
+  final int? referenceId;
+  final String? response;
+  final bool? processed;
   final bool? deleted;
   final String? createdBy;
   final String? lastUpdatedBy;
-  final String? islemTipi;
-  final int? count;
-  final FieldModel? field;
-  final bool? read;
 
   NotificationResponseModel({
     this.id,
+    this.title,
+    this.message,
+    this.tip,
+    this.kategori,
+    this.count,
+    this.read,
+    this.referenceId,
+    this.response,
+    this.processed,
     this.deleted,
     this.createdBy,
     this.lastUpdatedBy,
-    this.islemTipi,
-    this.count,
-    this.field,
-    this.read,
   });
 
   factory NotificationResponseModel.fromJson(Map<String, dynamic> json) =>

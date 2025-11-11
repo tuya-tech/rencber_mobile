@@ -26,45 +26,84 @@ class _AdvicesViewState extends ConsumerState<AdvicesView> {
       body: SliverAppBarCustom(
         height: 5,
         leading: const AppBarBackButton(),
-        title: Text("Size Özel", style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white)),
+        title: Text(
+          "Size Özel",
+          style: context.general.textTheme.headlineMedium?.copyWith(color: ColorManager.white),
+        ),
         child: Padding(
           padding: context.padding.low,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("Size Özel Önerileri Keşfedin", style: context.general.textTheme.titleSmall),
+              Text(
+                "Size Özel Önerileri Keşfedin",
+                style: context.general.textTheme.titleSmall,
+              ),
               context.sized.emptySizedHeightBoxLow,
               GridView.builder(
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: widget.adviceList.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: .65),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // 🔹 2 sütun
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.8,
+                ),
                 itemBuilder: (context, index) {
-                  var advice = widget.adviceList[index];
-                  return SizedBox(
-                    child: Card(
-                      elevation: 0.5,
-                      color: ColorManager.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Column(
-                              children: [
-                                AppNetworkImage.appNetworkImage(imageUrl: advice.image, height: 25, width: 100),
-                                context.sized.emptySizedHeightBoxLow,
-                                Text('${advice.title}', maxLines: 2, overflow: TextOverflow.ellipsis, style: context.general.textTheme.labelLarge?.copyWith(color: ColorManager.greyColor)),
-                              ],
+                  final advice = widget.adviceList[index];
+
+                  return Card(
+                    elevation: 0.8,
+                    color: ColorManager.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 6,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: AppNetworkImage.appNetworkImage(
+                                  imageUrl: advice.image,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                              ),
                             ),
-                            context.sized.emptySizedHeightBoxLow,
-                            AppReview(
-                              onTap: () => context.push(RouterManager.adviceDetails, extra: advice.id),
-                            )
-                          ],
-                        ),
+                          ),
+                          context.sized.emptySizedHeightBoxLow,
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              advice.title ?? "",
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.general.textTheme.labelLarge?.copyWith(
+                                color: ColorManager.greyColor,
+                              ),
+                            ),
+                          ),
+                          context.sized.emptySizedHeightBoxLow,
+                          Expanded(
+                            flex: 2,
+                            child: AppReview(
+                              onTap: () => context.push(
+                                RouterManager.adviceDetails,
+                                extra: advice.id,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );

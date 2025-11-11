@@ -5,35 +5,42 @@ part of '../../notification/notification_response.dart';
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-
 NotificationResponseModel _$NotificationResponseModelFromJson(
         Map<String, dynamic> json) =>
     NotificationResponseModel(
       id: (json['id'] as num?)?.toInt(),
+      title: json['title'] as String?,
+      message: json['message'] as String?,
+      tip: json['tip'] as String?,
+      kategori: json['kategori'] as String?,
+      count: (json['count'] as num?)?.toInt(),
+      read: json['read'] as bool?,
+      referenceId: (json['referenceId'] as num?)?.toInt(),
+      response: json['response'] as String?,
+      processed: json['processed'] as bool?,
       deleted: json['deleted'] as bool?,
       createdBy: json['createdBy'] as String?,
       lastUpdatedBy: json['lastUpdatedBy'] as String?,
-      islemTipi: json['islemTipi'] as String?,
-      count: (json['count'] as num?)?.toInt(),
-      field: json['field'] == null
-          ? null
-          : FieldModel.fromJson(json['field'] as Map<String, dynamic>),
-      read: json['read'] as bool?,
     );
 
 Map<String, dynamic> _$NotificationResponseModelToJson(
         NotificationResponseModel instance) =>
     <String, dynamic>{
       if (instance.id case final value?) 'id': value,
+      if (instance.title case final value?) 'title': value,
+      if (instance.message case final value?) 'message': value,
+      if (instance.tip case final value?) 'tip': value,
+      if (instance.kategori case final value?) 'kategori': value,
+      if (instance.count case final value?) 'count': value,
+      if (instance.read case final value?) 'read': value,
+      if (instance.referenceId case final value?) 'referenceId': value,
+      if (instance.response case final value?) 'response': value,
+      if (instance.processed case final value?) 'processed': value,
       if (instance.deleted case final value?) 'deleted': value,
       if (instance.createdBy case final value?) 'createdBy': value,
       if (instance.lastUpdatedBy case final value?) 'lastUpdatedBy': value,
-      if (instance.islemTipi case final value?) 'islemTipi': value,
-      if (instance.count case final value?) 'count': value,
-      if (instance.field case final value?) 'field': value,
-      if (instance.read case final value?) 'read': value,
     };
-
+    
 FieldModel _$FieldModelFromJson(Map<String, dynamic> json) => FieldModel(
       id: (json['id'] as num?)?.toInt(),
       deleted: json['deleted'] as bool?,

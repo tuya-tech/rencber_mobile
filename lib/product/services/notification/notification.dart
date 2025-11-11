@@ -11,10 +11,10 @@ class NotificationApiService {
   NotificationApiService._();
   static final instance = NotificationApiService._();
 
-  Future<BaseResponseModel<List<NotificationRequestModel>>> get() async {
+  Future<BaseResponseModel<List<NotificationRequestModel>>> getNotificationSettingsList() async {
     try {
       final response = await DioManager.dio.get(
-        ServicesPath.instance.notification,
+        ServicesPath.instance.notificationSettings,
         options: await DioManager.getOptions(),
       );
 
@@ -51,7 +51,7 @@ class NotificationApiService {
   Future<BaseResponseModel<NotificationRequestModel>> getById(int id) async {
     try {
       final response = await DioManager.dio.get(
-        "${ServicesPath.instance.notification}/$id",
+        "${ServicesPath.instance.notificationSettings}/$id",
         options: await DioManager.getOptions(),
       );
 
@@ -88,7 +88,7 @@ class NotificationApiService {
   Future<BaseResponseModel<bool>> post(NotificationRequestModel data) async {
     try {
       final response = await DioManager.dio.post(
-        ServicesPath.instance.notification,
+        ServicesPath.instance.notificationSettings,
         data: data,
         options: await DioManager.getOptions(),
       );
@@ -126,7 +126,7 @@ class NotificationApiService {
   Future<BaseResponseModel<dynamic>> put(NotificationRequestModel data) async {
     try {
       final response = await DioManager.dio.put(
-        ServicesPath.instance.notification,
+        ServicesPath.instance.notificationSettings,
         data: data,
         options: await DioManager.getOptions(),
       );
@@ -161,7 +161,7 @@ class NotificationApiService {
     }
   }
 
-  Future<BaseResponseModel<List<NotificationResponseModel>>> getNotification() async {
+  Future<BaseResponseModel<List<NotificationResponseModel>>> getNotificationList() async {
     try {
       final response = await DioManager.dio.get(
         ServicesPath.instance.notificationBildirim,
@@ -182,7 +182,7 @@ class NotificationApiService {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      debugPrint('NotificationApiService getNotification: ${e.response?.data}');
+      debugPrint('NotificationApiService getNotificationList: ${e.response?.data}');
       
       // Backend'den gelen hata kodunu işle
       String? errorCode = e.response?.data?['code'];
@@ -197,4 +197,45 @@ class NotificationApiService {
       );
     }
   }
+
+  Future<BaseResponseModel<NotificationResponseModel>> updateNotification({
+  required int id,
+  bool? read,
+  bool? processed,
+  String? userResponse,
+}) async {
+  try {
+    final body = {
+      if (read != null) 'read': read,
+      if (processed != null) 'processed': processed,
+      if (userResponse != null) 'response': userResponse,
+    };
+
+    final response = await DioManager.dio.put(
+      "${ServicesPath.instance.notificationBildirim}/$id",
+      data: body,
+      options: await DioManager.getOptions(),
+    );
+
+    return BaseResponseModel<NotificationResponseModel>(
+      data: NotificationResponseModel.fromJson(response.data),
+      message: response.statusMessage,
+      statusCode: response.statusCode,
+    );
+  } on DioException catch (e) {
+    debugPrint('NotificationApiService updateNotification: ${e.response?.data}');
+
+    String? errorCode = e.response?.data?['code'];
+    String errorMessage = errorCode != null
+        ? ExceptionHandler.handleException(errorCode)
+        : "Bildirim güncellenemedi";
+
+    return BaseResponseModel<NotificationResponseModel>(
+      data: null,
+      message: errorMessage,
+      statusCode: e.response?.statusCode ?? 500,
+    );
+  }
+}
+
 }

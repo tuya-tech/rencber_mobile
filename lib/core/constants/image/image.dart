@@ -22,6 +22,7 @@ class ImageManager {
   static const String _sulama = "assets/islemler/sulama.png";
   static const String _capalama = "assets/islemler/capalama.png";
   static const String _gubreleme = "assets/islemler/gubreleme.png";
+  static const String _diger = "assets/navigation/tarla.png";
   static const String _men = "assets/men.png";
 
   static const String _miniRain = "assets/weather/miniRain.png";
@@ -100,6 +101,7 @@ extension ImageManagerExtension on ImageManager {
   Widget get sulama => Image.asset(ImageManager._sulama, height: 12.w, width: 12.w);
   Widget get capalama => Image.asset(ImageManager._capalama, height: 12.w, width: 12.w);
   Widget get gubreleme => Image.asset(ImageManager._gubreleme, height: 12.w, width: 12.w);
+  Widget get digerIslem => Image.asset(ImageManager._diger, height: 12.w, width: 12.w);
 
   Widget get miniRain => Image.asset(ImageManager._miniRain, height: 5.w, width: 5.w);
   Widget get miniSun => Image.asset(ImageManager._miniSun, height: 5.w, width: 5.w);
